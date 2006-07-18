@@ -82,10 +82,12 @@ sub script_compiles_ok {
 	my $message = shift || "Script $unix compiles";
 	my $path    = path( $unix );
 	my $cmd     = [ $^X, '-c', $path ];
-	my $rv      = IPC::Run3::run3( $cmd, undef, undef, undef );
-	my $ok      = $rv == 0;
+	my $ok      = IPC::Run3::run3( $cmd, \undef, \undef, \undef );
 	Test::More::ok( $ok, $message );
-	Test::More::diag( "Call '$cmd' returned an error" ) unless $ok;
+	unless ( $ok ) {
+		my $cmdstr = join( ' ', @$cmd );
+		Test::More::diag( "Call '$cmdstr' returned an error" );
+	}
 	return $ok;
 }
 
