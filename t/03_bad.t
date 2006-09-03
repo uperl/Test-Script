@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# Test a true return from Test::Script
+# Test a false return from Test::Script
 
 use strict;
 BEGIN {
@@ -25,19 +25,21 @@ $ENV{HARNESS_ACTIVE} ||= 0;
 # Main Testing
 
 SCOPE: {
-	# Run a test for a known-good program
-	test_out("ok 1 - Script t/bin/good.pl compiles");
-	my $rv = script_compiles_ok('t/bin/good.pl');
+	# Run a test for a known-bad program
+	test_out("not ok 1 - Script t/bin/bad.pl compiles");
+	test_fail(+1);
+	my $rv = script_compiles_ok('t/bin/bad.pl');
 	test_test('Bad script returns false');
-	is( $rv, 1, 'script_compiles_ok returns true as a convenience' );
+	is( $rv, '', 'script_compiles_ok returns false as a convenience' );
 }
 
-SCOPE: {	
+SCOPE: {
 	# Repeat with a custom message
-	test_out("ok 1 - It worked");
-	my $rv = script_compiles_ok('t/bin/good.pl', 'It worked');
+	test_out("not ok 1 - It worked");
+	test_fail(+1);
+	my $rv = script_compiles_ok('t/bin/bad.pl', 'It worked');
 	test_test('Bad script returns false');
-	is( $rv, 1, 'script_compiles_ok returns true as a convenience' );
+	is( $rv, '', 'script_compiles_ok returns false as a convenience' );
 }
 
 exit(0);

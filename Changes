@@ -1,4 +1,10 @@
 Revision history for Perl extension Test-Script
 
+1.00 Sun  3 Sep 2006
+	- Converted the test scripts to full blown Test::Builder::Tester tests
+	- Made the tests more comprehensive
+	- The 0.01 version was returning false positive test results
+	- Force warnings on in test scripts
+
 0.01 Tue 18 Jul 2006
 	- Created the initial implementation

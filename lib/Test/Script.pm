@@ -4,15 +4,9 @@ package Test::Script;
 
 =head1 NAME
 
-Test::Script - Highly cross-platform basic tests for script
+Test::Script - Cross-platform basic tests for scripts
 
 =head1 DESCRIPTION
-
-B<This module is experimental and may not perform as advertised... yet>
-
-B<API may change in future without notice>
-
-B<YOU HAVE BEEN WARNED>
 
 The intent of this module is to provide a series of basic tests for
 scripts in the F<bin> directory of your Perl distribution.
@@ -37,17 +31,27 @@ platform safety, this module will err on the side of platform safety.
 use 5.005;
 use strict;
 use Carp             ();
-use Exporter         ();
 use File::Spec       ();
 use File::Spec::Unix ();
 use IPC::Run3        ();
-use Test::More       ();
+use Test::Builder    ();
 
 use vars qw{$VERSION @ISA @EXPORT};
 BEGIN {
-	$VERSION = '0.01';
+	$VERSION = '1.00';
+	require Exporter;
 	@ISA     = qw( Exporter );
 	@EXPORT  = qw( script_compiles_ok );
+}
+
+my $Test = Test::Builder->new;
+
+sub import {
+	my $self = shift;
+	my $pack = caller;
+	$Test->exported_to($pack);
+	$Test->plan(@_);
+	$self->export_to_level(1, $self, 'script_compiles_ok');
 }
 
 
@@ -78,16 +82,14 @@ on failure.
 =cut
 
 sub script_compiles_ok {
-	my $unix    = shift;
-	my $message = shift || "Script $unix compiles";
-	my $path    = path( $unix );
-	my $cmd     = [ $^X, '-c', $path ];
-	my $ok      = IPC::Run3::run3( $cmd, \undef, \undef, \undef );
-	Test::More::ok( $ok, $message );
-	unless ( $ok ) {
-		my $cmdstr = join( ' ', @$cmd );
-		Test::More::diag( "Call '$cmdstr' returned an error" );
-	}
+	my $unix   = shift;
+	my $name   = shift || "Script $unix compiles";
+	my $path   = path( $unix );
+	my $cmd    = [ $^X, '-c', $path ];
+	my $stderr = '';
+	my $rv     = IPC::Run3::run3( $cmd, \undef, \undef, \$stderr );
+	my $ok     = !! ( $rv and $stderr =~ /syntax OK\s+$/si );
+	$Test->ok( $ok, $name );
 	return $ok;
 }
 
@@ -105,14 +107,6 @@ sub path ($) {
 1;
 
 =pod
-
-=head1 TO DO
-
-- Make this work properly
-
-- This module does not itself have tests
-
-- Test on as many platforms as possible
 
 =head1 SUPPORT
 
@@ -132,7 +126,7 @@ L<prove>, L<http://ali.as/>
 
 =head1 COPYRIGHT
 
-Copyright 2006 Adam Kennedy. All rights reserved.
+Copyright 2006 Adam Kennedy.
 
 This program is free software; you can redistribute
 it and/or modify it under the same terms as Perl itself.
