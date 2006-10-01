@@ -38,7 +38,7 @@ use Test::Builder    ();
 
 use vars qw{$VERSION @ISA @EXPORT};
 BEGIN {
-	$VERSION = '1.00';
+	$VERSION = '1.01';
 	require Exporter;
 	@ISA     = qw( Exporter );
 	@EXPORT  = qw( script_compiles_ok );
