@@ -1,5 +1,8 @@
 Revision history for Perl extension Test-Script
 
+1.02 Sun 15 Oct 2006
+	- Adding diagnostics to failing cases
+
 1.01 Sun  1 Oct 2006
 	- Making the Makefile.PL NOT executable
 

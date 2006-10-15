@@ -38,7 +38,7 @@ use Test::Builder    ();
 
 use vars qw{$VERSION @ISA @EXPORT};
 BEGIN {
-	$VERSION = '1.01';
+	$VERSION = '1.02';
 	require Exporter;
 	@ISA     = qw( Exporter );
 	@EXPORT  = qw( script_compiles_ok );
@@ -90,6 +90,7 @@ sub script_compiles_ok {
 	my $rv     = IPC::Run3::run3( $cmd, \undef, \undef, \$stderr );
 	my $ok     = !! ( $rv and $stderr =~ /syntax OK\s+$/si );
 	$Test->ok( $ok, $name );
+	$Test->diag( $stderr ) unless $ok;
 	return $ok;
 }
 
