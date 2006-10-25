@@ -85,12 +85,13 @@ sub script_compiles_ok {
 	my $unix   = shift;
 	my $name   = shift || "Script $unix compiles";
 	my $path   = path( $unix );
-	my $cmd    = [ $^X, '-c', $path ];
+	my $cmd    = [ $^X, '-c', '-Mblib', $path ];
 	my $stderr = '';
 	my $rv     = IPC::Run3::run3( $cmd, \undef, \undef, \$stderr );
 	my $ok     = !! ( $rv and $stderr =~ /syntax OK\s+$/si );
 	$Test->ok( $ok, $name );
-	$Test->diag( $stderr ) unless $ok;
+	# Add this once I can make the tests work ok
+	# $Test->diag( $stderr ) unless $ok;
 	return $ok;
 }
 
