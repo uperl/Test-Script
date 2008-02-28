@@ -1,5 +1,9 @@
 Revision history for Perl extension Test-Script
 
+1.03 Fri 29 Feb 2008
+	- Incremental release to get updated author tests
+	- Updated to Module::Install 0.68
+
 1.02 Sun 15 Oct 2006
 	- Adding diagnostics to failing cases
 	- Add -Mblib to the call to perl

@@ -38,7 +38,7 @@ use Test::Builder    ();
 
 use vars qw{$VERSION @ISA @EXPORT};
 BEGIN {
-	$VERSION = '1.02';
+	$VERSION = '1.03';
 	require Exporter;
 	@ISA     = qw( Exporter );
 	@EXPORT  = qw( script_compiles_ok );
@@ -128,7 +128,7 @@ L<prove>, L<http://ali.as/>
 
 =head1 COPYRIGHT
 
-Copyright 2006 Adam Kennedy.
+Copyright 2006 - 2008 Adam Kennedy.
 
 This program is free software; you can redistribute
 it and/or modify it under the same terms as Perl itself.
