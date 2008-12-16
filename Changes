@@ -1,8 +1,13 @@
 Revision history for Perl extension Test-Script
 
+1.04_01 Tue 16 Dec 2008
+	- Updated to Module::Install 0.77
+	- Adding dependency on Probe::Perl
+	- Full fidelity failure testing
+
 1.03 Fri 29 Feb 2008
-	- Incremental release to get updated author tests
 	- Updated to Module::Install 0.68
+	- Incremental release to get updated author tests
 
 1.02 Sun 15 Oct 2006
 	- Adding diagnostics to failing cases
