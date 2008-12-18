@@ -32,7 +32,7 @@ SCOPE: {
 	# Run a test for a known-bad program
 	test_out("not ok 1 - Script t/bin/bad.pl compiles");
 	test_fail(+4);
-	test_err("/# Using .*?") if $] < 5.008;
+	test_err("/# Using.*?/") if $] < 5.008;
 	test_err("# Bad at $bad line 4.");
 	test_err("# BEGIN failed--compilation aborted at $bad line 5.");
 	my $rv = script_compiles_ok('t/bin/bad.pl');
@@ -44,7 +44,7 @@ SCOPE: {
 	# Repeat with a custom message
 	test_out("not ok 1 - It worked");
 	test_fail(+4);
-	test_err("/# Using .*?\n/") if $] < 5.008;
+	test_err("/# Using.*?/") if $] < 5.008;
 	test_err("# Bad at $bad line 4.");
 	test_err("# BEGIN failed--compilation aborted at $bad line 5.");
 	my $rv = script_compiles_ok('t/bin/bad.pl', 'It worked');
