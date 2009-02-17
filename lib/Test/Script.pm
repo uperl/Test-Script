@@ -108,7 +108,7 @@ sub script_compiles_ok {
 	my $stderr = '';
 	my $rv     = IPC::Run3::run3( $cmd, \undef, \undef, \$stderr );
 	my $exit   = $? ? ($? >> 8) : 0;
-	my $ok     = !! ( $rv and $exit == 0 and $stderr =~ /syntax OK\s+$/si );
+	my $ok     = !! ( $rv and $exit == 0 and $stderr =~ /syntax OK\s+\z/si );
 	$Test->ok( $ok, $name );
 	$Test->diag( $stderr ) unless $ok;
 	return $ok;
