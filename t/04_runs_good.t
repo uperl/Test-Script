@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# Test a true return from Test::Script
+# Run a working test script
 
 use strict;
 BEGIN {
@@ -25,8 +25,8 @@ $ENV{HARNESS_ACTIVE} ||= 0;
 
 SCOPE: {
 	# Run a test for a known-good program
-	test_out("ok 1 - Script t/bin/good.pl compiles");
-	my $rv = script_compiles('t/bin/good.pl');
+	test_out("ok 1 - Script t/bin/good.pl runs");
+	my $rv = script_runs('t/bin/good.pl');
 	test_test('Good script returns true');
 	is( $rv, 1, 'script_compiles_ok returns true as a convenience' );
 }
@@ -34,7 +34,7 @@ SCOPE: {
 SCOPE: {	
 	# Repeat with a custom message
 	test_out("ok 1 - It worked");
-	my $rv = script_compiles('t/bin/good.pl', 'It worked');
+	my $rv = script_runs('t/bin/good.pl', 'It worked');
 	test_test('Good script returns true');
 	is( $rv, 1, 'script_compiles_ok returns true as a convenience' );
 }

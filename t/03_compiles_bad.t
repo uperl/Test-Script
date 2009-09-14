@@ -8,7 +8,6 @@ BEGIN {
 	$^W = 1;
 }
 
-# Set up
 use Test::Builder::Tester tests => 5;
 use Test::More;
 use Test::Script;
@@ -33,9 +32,9 @@ SCOPE: {
 	test_out("not ok 1 - Script t/bin/bad.pl compiles");
 	test_fail(+4);
 	test_err("/# Using.*?/") if $] < 5.008;
-	test_err("# Bad at $bad line 4.");
+	test_err("# 9 - Bad at $bad line 4.");
 	test_err("# BEGIN failed--compilation aborted at $bad line 5.");
-	my $rv = script_compiles_ok('t/bin/bad.pl');
+	my $rv = script_compiles('t/bin/bad.pl');
 	test_test('Bad script returns false');
 	is( $rv, '', 'script_compiles_ok returns false as a convenience' );
 }
@@ -45,9 +44,9 @@ SCOPE: {
 	test_out("not ok 1 - It worked");
 	test_fail(+4);
 	test_err("/# Using.*?/") if $] < 5.008;
-	test_err("# Bad at $bad line 4.");
+	test_err("# 9 - Bad at $bad line 4.");
 	test_err("# BEGIN failed--compilation aborted at $bad line 5.");
-	my $rv = script_compiles_ok('t/bin/bad.pl', 'It worked');
+	my $rv = script_compiles('t/bin/bad.pl', 'It worked');
 	test_test('Bad script returns false');
 	is( $rv, '', 'script_compiles_ok returns false as a convenience' );
 }

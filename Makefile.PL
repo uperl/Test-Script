@@ -1,4 +1,4 @@
-use inc::Module::Install::DSL 0.91
+use inc::Module::Install::DSL 0.91;
 
 all_from      lib/Test/Script.pm
 requires      blib                  0

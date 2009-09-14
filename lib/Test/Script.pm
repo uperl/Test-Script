@@ -42,7 +42,7 @@ use Test::Builder    ();
 
 use vars qw{$VERSION @ISA @EXPORT};
 BEGIN {
-	$VERSION = '1.04_03';
+	$VERSION = '1.05';
 	@ISA     = 'Exporter';
 	@EXPORT  = qw{
 		script_compiles
@@ -57,7 +57,9 @@ sub import {
 	my $test = Test::Builder->new;
 	$test->exported_to($pack);
 	$test->plan(@_);
-	$self->export_to_level(1, $self, 'script_compiles_ok');
+	foreach ( @EXPORT ) {
+		$self->export_to_level(1, $self, $_);
+	}
 }
 
 my $perl = undef;
@@ -122,7 +124,7 @@ sub script_compiles {
 	);
 
 	my $test = Test::Builder->new;
-	$test->ok( $ok, shift || "Script $unix compiles" );
+	$test->ok( $ok, $_[0] || "Script $unix compiles" );
 	$test->diag( "$exit - $stderr" ) unless $ok;
 
 	return $ok;
@@ -160,8 +162,8 @@ sub script_runs {
 	my $ok     = !! ( $rv and $exit == 0 );
 
 	my $test = Test::Builder->new;
-	$test->ok( $ok, shift || "Script $unix runs without error" );
-	$test->diag( "$exit - $stderr" ) unless $ok
+	$test->ok( $ok, $_[0] || "Script $unix runs" );
+	$test->diag( "$exit - $stderr" ) unless $ok;
 
 	return $ok;
 }
