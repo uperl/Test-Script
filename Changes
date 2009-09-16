@@ -1,5 +1,9 @@
 Revision history for Perl extension Test-Script
 
+1.06 Wed 16 Sep 2009
+	- Update test to allow different die() return values
+	- Move Test::More to runtime dependency
+
 1.05 Mon 14 Sep 2009
 	- Changed script_compiles_ok to script_compiles
 	- Added script_runs
