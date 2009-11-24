@@ -1,5 +1,8 @@
 Revision history for Perl extension Test-Script
 
+1.07 Tue 24 Nov 2009
+	- Second attempt at fixing the "Using" bug
+
 1.06 Wed 16 Sep 2009
 	- Update test to allow different die() return values
 	- Move Test::More to runtime dependency

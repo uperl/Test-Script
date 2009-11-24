@@ -27,7 +27,7 @@ SCOPE: {
 	# Run a test for a known-good program
 	test_out('not ok 1 - Script t/bin/four.pl runs');
 	test_fail(+2);
-	test_err('# 4 - Standard Error');
+	test_err('/^# 4 - (?:Using.*\n# )?Standard Error$/');
 	my $rv = script_runs('t/bin/four.pl');
 	test_test('Bad script returns false');
 	is( $rv, '', 'script_compiles_ok returns true as a convenience' );
@@ -37,7 +37,7 @@ SCOPE: {
 	# Repeat with a custom message
 	test_out('not ok 1 - It worked');
 	test_fail(+2);
-	test_err('# 4 - Standard Error');
+	test_err('/^# 4 - (?:Using.*\n# )?Standard Error$/');
 	my $rv = script_runs('t/bin/four.pl', 'It worked');
 	test_test('Bad script returns false');
 	is( $rv, '', 'script_compiles_ok returns true as a convenience' );

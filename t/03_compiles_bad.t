@@ -30,9 +30,8 @@ ok( -f $bad, 'Found bad script' );
 SCOPE: {
 	# Run a test for a known-bad program
 	test_out("not ok 1 - Script t/bin/bad.pl compiles");
-	test_fail(+4);
-	test_err("/# Using.*?/") if $] < 5.008;
-	test_err("/# \\d+ - Bad at " . quotemeta($bad) . " line 4./");
+	test_fail(+3);
+	test_err("/# \\d+ - (?:Using.*\\n# )?Bad at " . quotemeta($bad) . " line 4./");
 	test_err("# BEGIN failed--compilation aborted at $bad line 5.");
 	my $rv = script_compiles('t/bin/bad.pl');
 	test_test('Bad script returns false');
@@ -42,9 +41,8 @@ SCOPE: {
 SCOPE: {
 	# Repeat with a custom message
 	test_out("not ok 1 - It worked");
-	test_fail(+4);
-	test_err("/# Using.*?/") if $] < 5.008;
-	test_err("/# \\d+ - Bad at " . quotemeta($bad) . " line 4./");
+	test_fail(+3);
+	test_err("/# \\d+ - (?:Using.*\\n# )?Bad at " . quotemeta($bad) . " line 4./");
 	test_err("# BEGIN failed--compilation aborted at $bad line 5.");
 	my $rv = script_compiles('t/bin/bad.pl', 'It worked');
 	test_test('Bad script returns false');
