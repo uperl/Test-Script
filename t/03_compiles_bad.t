@@ -18,6 +18,7 @@ use File::Spec::Functions ':ALL';
 $ENV{HARNESS_ACTIVE} ||= 0;
 
 my $bad = catfile('t', 'bin', 'bad.pl');
+my $qbad = quotemeta($bad);
 ok( -f $bad, 'Found bad script' );
 
 
@@ -31,7 +32,7 @@ SCOPE: {
 	# Run a test for a known-bad program
 	test_out("not ok 1 - Script t/bin/bad.pl compiles");
 	test_fail(+3);
-	test_err("/# \\d+ - (?:Using.*\\n# )?Bad at " . quotemeta($bad) . " line 4./");
+	test_err(qr{# \d+ - (?:Using.*\n# )?Bad at $qbad line 4\.\n});
 	test_err("# BEGIN failed--compilation aborted at $bad line 5.");
 	my $rv = script_compiles('t/bin/bad.pl');
 	test_test('Bad script returns false');
@@ -42,7 +43,7 @@ SCOPE: {
 	# Repeat with a custom message
 	test_out("not ok 1 - It worked");
 	test_fail(+3);
-	test_err("/# \\d+ - (?:Using.*\\n# )?Bad at " . quotemeta($bad) . " line 4./");
+	test_err(qr{# \d+ - (?:Using.*\n# )?Bad at $qbad line 4.\n});
 	test_err("# BEGIN failed--compilation aborted at $bad line 5.");
 	my $rv = script_compiles('t/bin/bad.pl', 'It worked');
 	test_test('Bad script returns false');
