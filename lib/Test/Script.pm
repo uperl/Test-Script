@@ -113,7 +113,8 @@ sub script_compiles {
 	my $args   = _script(shift);
 	my $unix   = shift @$args;
 	my $path   = path( $unix );
-	my $cmd    = [ perl, '-Mblib', '-c', $path, @$args ];
+	my @libs   = map { "-I$_" } grep {!ref($_)} @INC;
+	my $cmd    = [ perl, @libs, '-c', $path, @$args ];
 	my $stdin  = '';
 	my $stdout = '';
 	my $stderr = '';
@@ -153,7 +154,8 @@ sub script_runs {
 	my $args   = _script(shift);
 	my $unix   = shift @$args;
 	my $path   = path( $unix );
-	my $cmd    = [ perl, '-Mblib', $path, @$args ];
+	my @libs   = map { "-I$_" } grep {!ref($_)} @INC;
+	my $cmd    = [ perl, @libs, $path, @$args ];
 	my $stdin  = '';
 	my $stdout = '';
 	my $stderr = '';
