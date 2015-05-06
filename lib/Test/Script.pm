@@ -203,6 +203,6 @@ BEGIN {
 
 =head1 SEE ALSO
 
-L<prove>, L<http://ali.as/>
+L<Test::Script::Run>, L<Test::More>
 
 =cut

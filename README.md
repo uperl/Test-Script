@@ -64,7 +64,7 @@ in the diagnostic output on failure.
 
 # SEE ALSO
 
-[prove](https://metacpan.org/pod/prove), [http://ali.as/](http://ali.as/)
+[Test::Script::Run](https://metacpan.org/pod/Test::Script::Run), [Test::More](https://metacpan.org/pod/Test::More)
 
 # AUTHOR
 
