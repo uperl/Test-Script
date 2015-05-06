@@ -1,6 +1,8 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
+
+1.08      2015-05-06 05:09:13 -0400
   - Now works with or without blib (rt81222, rt102743)
   - Compatability with older versions of Test::Builder::Tester (rt81335)
   - Requires Perl 5.6.0
