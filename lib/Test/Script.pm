@@ -3,8 +3,6 @@ package Test::Script;
 # ABSTRACT: Basic cross-platform tests for scripts
 # VERSION
 
-=pod
-
 =head1 DESCRIPTION
 
 The intent of this module is to provide a series of basic tests for 80%
@@ -31,6 +29,7 @@ platform safety, this module will err on the side of platform safety.
 
 use 5.006;
 use strict;
+use warnings;
 use Carp             ();
 use Exporter         ();
 use File::Spec       ();
@@ -39,15 +38,12 @@ use Probe::Perl      ();
 use IPC::Run3        ();
 use Test::Builder    ();
 
-use vars qw{@ISA @EXPORT};
-BEGIN {
-  @ISA     = 'Exporter';
-  @EXPORT  = qw{
-    script_compiles
-    script_compiles_ok
-    script_runs
-  };
-}
+our @ISA     = 'Exporter';
+our @EXPORT  = qw{
+  script_compiles
+  script_compiles_ok
+  script_runs
+};
 
 sub import {
   my $self = shift;
@@ -81,14 +77,8 @@ sub path ($) {
   );
 }
 
-
-
-
-
 #####################################################################
 # Test Functions
-
-=pod
 
 =head2 script_compiles
 
@@ -129,8 +119,6 @@ sub script_compiles {
   return $ok;
 }
 
-=pod
-
 =head2 script_runs
 
     script_runs( 'script/foo.pl', 'Main script runs' );
@@ -167,10 +155,6 @@ sub script_runs {
 
   return $ok;
 }
-
-
-
-
 
 ######################################################################
 # Support Functions

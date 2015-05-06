@@ -1,13 +1,5 @@
-#!/usr/bin/perl
-
-# Run a working test script
-
 use strict;
-BEGIN {
-  $|  = 1;
-  $^W = 1;
-}
-
+use warnings;
 use Test::Builder::Tester tests => 4;
 use Test::More;
 use Test::Script;
