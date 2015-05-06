@@ -41,44 +41,44 @@ use Test::Builder    ();
 
 use vars qw{@ISA @EXPORT};
 BEGIN {
-	@ISA     = 'Exporter';
-	@EXPORT  = qw{
-		script_compiles
-		script_compiles_ok
-		script_runs
-	};
+  @ISA     = 'Exporter';
+  @EXPORT  = qw{
+    script_compiles
+    script_compiles_ok
+    script_runs
+  };
 }
 
 sub import {
-	my $self = shift;
-	my $pack = caller;
-	my $test = Test::Builder->new;
-	$test->exported_to($pack);
-	$test->plan(@_);
-	foreach ( @EXPORT ) {
-		$self->export_to_level(1, $self, $_);
-	}
+  my $self = shift;
+  my $pack = caller;
+  my $test = Test::Builder->new;
+  $test->exported_to($pack);
+  $test->plan(@_);
+  foreach ( @EXPORT ) {
+    $self->export_to_level(1, $self, $_);
+  }
 }
 
 my $perl = undef;
 
 sub perl () {
-	$perl or
-	$perl = Probe::Perl->find_perl_interpreter;
+  $perl or
+  $perl = Probe::Perl->find_perl_interpreter;
 }
 
 sub path ($) {
-	my $path = shift;
-	unless ( defined $path ) {
-		Carp::croak("Did not provide a script name");
-	}
-	if ( File::Spec::Unix->file_name_is_absolute($path) ) {
-		Carp::croak("Script name must be relative");
-	}
-	File::Spec->catfile(
-		File::Spec->curdir,
-		split /\//, $path
-	);
+  my $path = shift;
+  unless ( defined $path ) {
+    Carp::croak("Did not provide a script name");
+  }
+  if ( File::Spec::Unix->file_name_is_absolute($path) ) {
+    Carp::croak("Script name must be relative");
+  }
+  File::Spec->catfile(
+    File::Spec->curdir,
+    split /\//, $path
+  );
 }
 
 
@@ -108,25 +108,25 @@ will also be shown in the diagnostic output on failure.
 =cut
 
 sub script_compiles {
-	my $args   = _script(shift);
-	my $unix   = shift @$args;
-	my $path   = path( $unix );
-	my @libs   = map { "-I$_" } grep {!ref($_)} @INC;
-	my $cmd    = [ perl, @libs, '-c', $path, @$args ];
-	my $stdin  = '';
-	my $stdout = '';
-	my $stderr = '';
-	my $rv     = IPC::Run3::run3( $cmd, \$stdin, \$stdout, \$stderr );
-	my $exit   = $? ? ($? >> 8) : 0;
-	my $ok     = !! (
-		$rv and $exit == 0 and $stderr =~ /syntax OK\s+\z/si
-	);
+  my $args   = _script(shift);
+  my $unix   = shift @$args;
+  my $path   = path( $unix );
+  my @libs   = map { "-I$_" } grep {!ref($_)} @INC;
+  my $cmd    = [ perl, @libs, '-c', $path, @$args ];
+  my $stdin  = '';
+  my $stdout = '';
+  my $stderr = '';
+  my $rv     = IPC::Run3::run3( $cmd, \$stdin, \$stdout, \$stderr );
+  my $exit   = $? ? ($? >> 8) : 0;
+  my $ok     = !! (
+    $rv and $exit == 0 and $stderr =~ /syntax OK\s+\z/si
+  );
 
-	my $test = Test::Builder->new;
-	$test->ok( $ok, $_[0] || "Script $unix compiles" );
-	$test->diag( "$exit - $stderr" ) unless $ok;
+  my $test = Test::Builder->new;
+  $test->ok( $ok, $_[0] || "Script $unix compiles" );
+  $test->diag( "$exit - $stderr" ) unless $ok;
 
-	return $ok;
+  return $ok;
 }
 
 =pod
@@ -149,23 +149,23 @@ in the diagnostic output on failure.
 =cut
 
 sub script_runs {
-	my $args   = _script(shift);
-	my $unix   = shift @$args;
-	my $path   = path( $unix );
-	my @libs   = map { "-I$_" } grep {!ref($_)} @INC;
-	my $cmd    = [ perl, @libs, $path, @$args ];
-	my $stdin  = '';
-	my $stdout = '';
-	my $stderr = '';
-	my $rv     = IPC::Run3::run3( $cmd, \$stdin, \$stdout, \$stderr );
-	my $exit   = $? ? ($? >> 8) : 0;
-	my $ok     = !! ( $rv and $exit == 0 );
+  my $args   = _script(shift);
+  my $unix   = shift @$args;
+  my $path   = path( $unix );
+  my @libs   = map { "-I$_" } grep {!ref($_)} @INC;
+  my $cmd    = [ perl, @libs, $path, @$args ];
+  my $stdin  = '';
+  my $stdout = '';
+  my $stderr = '';
+  my $rv     = IPC::Run3::run3( $cmd, \$stdin, \$stdout, \$stderr );
+  my $exit   = $? ? ($? >> 8) : 0;
+  my $ok     = !! ( $rv and $exit == 0 );
 
-	my $test = Test::Builder->new;
-	$test->ok( $ok, $_[0] || "Script $unix runs" );
-	$test->diag( "$exit - $stderr" ) unless $ok;
+  my $test = Test::Builder->new;
+  $test->ok( $ok, $_[0] || "Script $unix runs" );
+  $test->diag( "$exit - $stderr" ) unless $ok;
 
-	return $ok;
+  return $ok;
 }
 
 
@@ -178,31 +178,31 @@ sub script_runs {
 # Script params must be either a simple non-null string with the script
 # name, or an array reference with one or more non-null strings.
 sub _script {
-	my $in = shift;
-	if ( defined _STRING($in) ) {
-		return [ $in ];
-	}
-	if ( _ARRAY($in) ) {
-		unless ( scalar grep { not defined _STRING($_) } @$in ) {
-			return $in;			
-		}
-	}
-	Carp::croak("Invalid command parameter");
+  my $in = shift;
+  if ( defined _STRING($in) ) {
+    return [ $in ];
+  }
+  if ( _ARRAY($in) ) {
+    unless ( scalar grep { not defined _STRING($_) } @$in ) {
+      return $in;     
+    }
+  }
+  Carp::croak("Invalid command parameter");
 }
 
 # Inline some basic Params::Util functions
 
 sub _ARRAY ($) {
-	(ref $_[0] eq 'ARRAY' and @{$_[0]}) ? $_[0] : undef;
+  (ref $_[0] eq 'ARRAY' and @{$_[0]}) ? $_[0] : undef;
 }
 
 sub _STRING ($) {
-	(defined $_[0] and ! ref $_[0] and length($_[0])) ? $_[0] : undef;
+  (defined $_[0] and ! ref $_[0] and length($_[0])) ? $_[0] : undef;
 }
 
 BEGIN {
-	# Alias to old name
-	*script_compiles_ok = *script_compiles;
+  # Alias to old name
+  *script_compiles_ok = *script_compiles;
 }
 
 1;

@@ -1,5 +1,5 @@
 #!perl
 
 BEGIN {
-	die "Bad";
+  die "Bad";
 }

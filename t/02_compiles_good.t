@@ -4,8 +4,8 @@
 
 use strict;
 BEGIN {
-	$|  = 1;
-	$^W = 1;
+  $|  = 1;
+  $^W = 1;
 }
 
 use Test::Builder::Tester tests => 4;
@@ -24,17 +24,17 @@ $ENV{HARNESS_ACTIVE} ||= 0;
 # Main Testing
 
 SCOPE: {
-	# Run a test for a known-good program
-	test_out("ok 1 - Script t/bin/good.pl compiles");
-	my $rv = script_compiles('t/bin/good.pl');
-	test_test('Good script returns true');
-	is( $rv, 1, 'script_compiles_ok returns true as a convenience' );
+  # Run a test for a known-good program
+  test_out("ok 1 - Script t/bin/good.pl compiles");
+  my $rv = script_compiles('t/bin/good.pl');
+  test_test('Good script returns true');
+  is( $rv, 1, 'script_compiles_ok returns true as a convenience' );
 }
 
-SCOPE: {	
-	# Repeat with a custom message
-	test_out("ok 1 - It worked");
-	my $rv = script_compiles('t/bin/good.pl', 'It worked');
-	test_test('Good script returns true');
-	is( $rv, 1, 'script_compiles_ok returns true as a convenience' );
+SCOPE: {
+  # Repeat with a custom message
+  test_out("ok 1 - It worked");
+  my $rv = script_compiles('t/bin/good.pl', 'It worked');
+  test_test('Good script returns true');
+  is( $rv, 1, 'script_compiles_ok returns true as a convenience' );
 }
