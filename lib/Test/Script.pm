@@ -3,6 +3,14 @@ package Test::Script;
 # ABSTRACT: Basic cross-platform tests for scripts
 # VERSION
 
+=head1 SYNOPSIS
+
+ use Test::More tests => 2;
+ use Test::Script;
+ 
+ script_compiles('script/awesomescript.pl');
+ script_runs(['script/awesomescript.pl', '--awesome-argument']);
+
 =head1 DESCRIPTION
 
 The intent of this module is to provide a series of basic tests for 80%
