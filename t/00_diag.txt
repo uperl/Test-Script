@@ -1,0 +1,8 @@
+ExtUtils::MakeMaker
+File::Spec
+File::Spec::Functions
+IPC::Run3
+Probe::Perl
+Test::Builder
+Test::Builder::Tester
+Test::More

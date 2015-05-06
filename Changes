@@ -1,4 +1,10 @@
-Revision history for Perl extension Test-Script
+Revision history for Perl extension {{$dist->name}}
+
+{{$NEXT}}
+  - Now works with or without blib (rt81222, rt102743)
+  - Compatability with older versions of Test::Builder::Tester (rt81335)
+  - Requires Perl 5.6.0
+  - Migrate to Dist::Zilla
 
 1.07 Tue 24 Nov 2009
 	- Second attempt at fixing the "Using" bug
