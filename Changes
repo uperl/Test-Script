@@ -8,6 +8,9 @@ Revision history for Perl extension {{$dist->name}}
   - Use alternate expected exit and signal values with options as the
     second argument to script_runs.
   - Ability to pass input via stdin to the scriptwith script_runs.
+  - Functions to test stdout and stderr:
+      script_stdout_like
+      script_stdout_unlike
 
 1.08      2015-05-06 05:09:13 -0400
   - Now works with or without blib (rt81222, rt102743)

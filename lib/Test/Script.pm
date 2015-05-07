@@ -51,6 +51,8 @@ our @EXPORT  = qw{
   script_compiles
   script_compiles_ok
   script_runs
+  script_stdout_like
+  script_stdout_unlike
 };
 
 sub import {
@@ -92,7 +94,7 @@ sub path ($) {
 
  script_compiles( $script, $test_name );
 
-The C<script_compiles> test calls the script with "perl -c script.pl",
+The L</script_compiles> test calls the script with "perl -c script.pl",
 and checks that it returns without error.
 
 The path it should be passed is a relative unix-format script name. This
@@ -138,7 +140,7 @@ sub script_compiles {
  script_runs( $script, \%options, $test_name );
  script_runs( \@script_and_arguments, \%options, $test_name );
 
-The C<script_runs> test executes the script with "perl script.pl" and checks
+The L</script_runs> test executes the script with "perl script.pl" and checks
 that it returns success.
 
 The path it should be passed is a relative unix-format script name. This
@@ -170,6 +172,9 @@ The input to be passed into the script via stdin.
 
 =cut
 
+my $stdout;
+my $stderr;
+
 sub script_runs {
   my $args   = _script(shift);
   my $opt    = _options(\@_);
@@ -178,8 +183,8 @@ sub script_runs {
   my @libs   = map { "-I$_" } grep {!ref($_)} @INC;
   my $cmd    = [ perl, @libs, $path, @$args ];
   my $stdin  = $opt->{stdin};
-  my $stdout = '';
-  my $stderr = '';
+     $stdout = '';
+     $stderr = '';
   my $rv     = eval { IPC::Run3::run3( $cmd, \$stdin, \$stdout, \$stderr ) };
   my $error  = $@;
   my $exit   = $? ? ($? >> 8) : 0;
@@ -192,6 +197,60 @@ sub script_runs {
   $test->diag( "exception: $error" ) if $error;
   $test->diag( "signal: $signal" ) unless $signal == $opt->{signal};
 
+  return $ok;
+}
+
+=head2 script_stdout_like
+
+ script_stdout_like $regex, $test_name;
+
+Tests if the ouput to stdout from the previous L</script_runs> matches the regular
+expression.
+
+=cut
+
+sub script_stdout_like
+{
+  my($pattern, $name) = @_;
+  
+  my $ok = $stdout =~ $pattern;
+  
+  my $test = Test::Builder->new;
+  $test->ok( $ok, $name || "stdout matches" );
+  unless($ok) {
+    $test->diag( "The output" );
+    $test->diag( "  $_" ) for split /\n/, $stdout;
+    $test->diag( "does not match");
+    $test->diag( "  $pattern" );
+  }
+  
+  return $ok;
+}
+
+=head2 script_stdout_unlike
+
+ script_stdout_unlike $regex, $test_name;
+
+Tests if the ouput to stdout from the previous L</script_runs> does NOT matches the regular
+expression.
+
+=cut
+
+sub script_stdout_unlike
+{
+  my($pattern, $name) = @_;
+  
+  my $ok = $stdout !~ $pattern;
+  
+  my $test = Test::Builder->new;
+  $test->ok( $ok, $name || "stdout matches" );
+  unless($ok) {
+    $test->diag( "The output" );
+    $test->diag( "  $_" ) for split /\n/, $stdout;
+    $test->diag( "does match");
+    $test->diag( "  $pattern" );
+  }
+  
   return $ok;
 }
 
