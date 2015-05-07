@@ -1,6 +1,8 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
+
+1.09      2015-05-07 16:44:26 -0400
   - If IPC::Run3::run3 throws an exception it will now fail the test
     (with a helpful diagnostic) rather than crashing the test script.
   - A script that is killed with a singnal is now considered a failure
