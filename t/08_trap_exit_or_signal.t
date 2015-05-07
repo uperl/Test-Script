@@ -10,6 +10,7 @@ subtest 'non-zero exit' => sub {
     }, {
       ok => 1,
     },
+    'script_runs',
   );
 };
 
@@ -19,5 +20,6 @@ subtest 'signal' => sub {
     }, {
       ok => 1,
     },
+    'script_runs',
   );
 };
