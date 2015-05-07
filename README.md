@@ -80,32 +80,60 @@ You may pass in options as a hash as the second argument.
 
     The input to be passed into the script via stdin.
 
+## script\_stdout\_is
+
+    script_stdout_is $expected_stdout, $test;
+
+Tests if the output to stdout from the previous ["script\_runs"](#script_runs) matches the 
+expected value exactly.
+
+## script\_stdout\_isnt
+
+    script_stdout_is $expected_stdout, $test;
+
+Tests if the output to stdout from the previous ["script\_runs"](#script_runs) does NOT match the 
+expected value exactly.
+
 ## script\_stdout\_like
 
     script_stdout_like $regex, $test_name;
 
-Tests if the ouput to stdout from the previous ["script\_runs"](#script_runs) matches the regular
+Tests if the output to stdout from the previous ["script\_runs"](#script_runs) matches the regular
 expression.
 
 ## script\_stdout\_unlike
 
     script_stdout_unlike $regex, $test_name;
 
-Tests if the ouput to stdout from the previous ["script\_runs"](#script_runs) does NOT matches the regular
+Tests if the output to stdout from the previous ["script\_runs"](#script_runs) does NOT match the regular
 expression.
+
+## script\_stderr\_is
+
+    script_stderr_is $expected_stderr, $test;
+
+Tests if the output to stderr from the previous ["script\_runs"](#script_runs) matches the 
+expected value exactly.
+
+## script\_stderr\_isnt
+
+    script_stderr_is $expected_stderr, $test;
+
+Tests if the output to stderr from the previous ["script\_runs"](#script_runs) does NOT match the 
+expected value exactly.
 
 ## script\_stderr\_like
 
     script_stderr_like $regex, $test_name;
 
-Tests if the ouput to stderr from the previous ["script\_runs"](#script_runs) matches the regular
+Tests if the output to stderr from the previous ["script\_runs"](#script_runs) matches the regular
 expression.
 
 ## script\_stderr\_unlike
 
     script_stderr_unlike $regex, $test_name;
 
-Tests if the ouput to stderr from the previous ["script\_runs"](#script_runs) does NOT matches the regular
+Tests if the output to stderr from the previous ["script\_runs"](#script_runs) does NOT match the regular
 expression.
 
 # SEE ALSO

@@ -9,8 +9,12 @@ Revision history for Perl extension {{$dist->name}}
     second argument to script_runs.
   - Ability to pass input via stdin to the scriptwith script_runs.
   - Functions to test stdout and stderr:
+      script_stdout_is
+      script_stdout_isnt
       script_stdout_like
       script_stdout_unlike
+      script_stderr_is
+      script_stderr_isnt
       script_stderr_like
       script_stderr_unlike
 

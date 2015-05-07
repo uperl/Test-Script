@@ -51,10 +51,14 @@ our @EXPORT  = qw{
   script_compiles
   script_compiles_ok
   script_runs
-  script_stderr_like
-  script_stderr_unlike
+  script_stdout_is
+  script_stdout_isnt
   script_stdout_like
   script_stdout_unlike
+  script_stderr_is
+  script_stderr_isnt
+  script_stderr_like
+  script_stderr_unlike
 };
 
 sub import {
@@ -204,9 +208,9 @@ sub script_runs {
 
 sub _like
 {
-  my($text, $pattern, $not, $name) = @_;
+  my($text, $pattern, $regex, $not, $name) = @_;
   
-  my $ok = $text =~ $pattern;
+  my $ok = $regex ? $text =~ $pattern : $text eq $pattern;
   $ok = !$ok if $not;
   
   my $test = Test::Builder->new;
@@ -215,17 +219,53 @@ sub _like
     $test->diag( "The output" );
     $test->diag( "  $_") for split /\n/, $text;
     $test->diag( $not ? "does match" : "does not match" );
-    $test->diag( "  $pattern" );
+    if($regex) {
+      $test->diag( "  $pattern" );
+    } else {
+      $test->diag( "  $_" ) for split /\n/, $pattern;
+    }
   }
   
   $ok;
+}
+
+=head2 script_stdout_is
+
+ script_stdout_is $expected_stdout, $test;
+ 
+Tests if the output to stdout from the previous L</script_runs> matches the 
+expected value exactly.
+
+=cut
+
+sub script_stdout_is
+{
+  my($pattern, $name) = @_;
+  @_ = ($stdout, $pattern, 0, 0, $name || 'stdout matches' );
+  goto &_like;
+}
+
+=head2 script_stdout_isnt
+
+ script_stdout_is $expected_stdout, $test;
+ 
+Tests if the output to stdout from the previous L</script_runs> does NOT match the 
+expected value exactly.
+
+=cut
+
+sub script_stdout_isnt
+{
+  my($pattern, $name) = @_;
+  @_ = ($stdout, $pattern, 0, 1, $name || 'stdout does not match' );
+  goto &_like;
 }
 
 =head2 script_stdout_like
 
  script_stdout_like $regex, $test_name;
 
-Tests if the ouput to stdout from the previous L</script_runs> matches the regular
+Tests if the output to stdout from the previous L</script_runs> matches the regular
 expression.
 
 =cut
@@ -233,7 +273,7 @@ expression.
 sub script_stdout_like
 {
   my($pattern, $name) = @_;  
-  @_ = ($stdout, $pattern, 0, $name || 'stdout matches' );
+  @_ = ($stdout, $pattern, 1, 0, $name || 'stdout matches' );
   goto &_like;
 }
 
@@ -241,7 +281,7 @@ sub script_stdout_like
 
  script_stdout_unlike $regex, $test_name;
 
-Tests if the ouput to stdout from the previous L</script_runs> does NOT matches the regular
+Tests if the output to stdout from the previous L</script_runs> does NOT match the regular
 expression.
 
 =cut
@@ -249,7 +289,39 @@ expression.
 sub script_stdout_unlike
 {
   my($pattern, $name) = @_;
-  @_ = ($stdout, $pattern, 1, $name || 'stdout does not match' );
+  @_ = ($stdout, $pattern, 1, 1, $name || 'stdout does not match' );
+  goto &_like;
+}
+
+=head2 script_stderr_is
+
+ script_stderr_is $expected_stderr, $test;
+ 
+Tests if the output to stderr from the previous L</script_runs> matches the 
+expected value exactly.
+
+=cut
+
+sub script_stderr_is
+{
+  my($pattern, $name) = @_;
+  @_ = ($stderr, $pattern, 0, 0, $name || 'stderr matches' );
+  goto &_like;
+}
+
+=head2 script_stderr_isnt
+
+ script_stderr_is $expected_stderr, $test;
+ 
+Tests if the output to stderr from the previous L</script_runs> does NOT match the 
+expected value exactly.
+
+=cut
+
+sub script_stderr_isnt
+{
+  my($pattern, $name) = @_;
+  @_ = ($stderr, $pattern, 0, 1, $name || 'stderr does not match' );
   goto &_like;
 }
 
@@ -257,7 +329,7 @@ sub script_stdout_unlike
 
  script_stderr_like $regex, $test_name;
 
-Tests if the ouput to stderr from the previous L</script_runs> matches the regular
+Tests if the output to stderr from the previous L</script_runs> matches the regular
 expression.
 
 =cut
@@ -265,7 +337,7 @@ expression.
 sub script_stderr_like
 {
   my($pattern, $name) = @_;  
-  @_ = ($stderr, $pattern, 0, $name || 'stderr matches' );
+  @_ = ($stderr, $pattern, 1, 0, $name || 'stderr matches' );
   goto &_like;
 }
 
@@ -273,7 +345,7 @@ sub script_stderr_like
 
  script_stderr_unlike $regex, $test_name;
 
-Tests if the ouput to stderr from the previous L</script_runs> does NOT matches the regular
+Tests if the output to stderr from the previous L</script_runs> does NOT match the regular
 expression.
 
 =cut
@@ -281,7 +353,7 @@ expression.
 sub script_stderr_unlike
 {
   my($pattern, $name) = @_;
-  @_ = ($stderr, $pattern, 1, $name || 'stderr does not match' );
+  @_ = ($stderr, $pattern, 1, 1, $name || 'stderr does not match' );
   goto &_like;
 }
 
