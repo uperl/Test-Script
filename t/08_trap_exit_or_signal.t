@@ -15,7 +15,8 @@ subtest 'non-zero exit' => sub {
 };
 
 subtest 'signal' => sub {
-  check_test( sub {
+  plan skip_all => 'not for windows' if $^O eq 'MSWin32';
+  my(undef, $r) = check_test( sub {
       script_runs 't/bin/signal.pl', { signal => 9 };
     }, {
       ok => 1,

@@ -168,7 +168,8 @@ on your platform (usually 0).
 
 =item signal
 
-The expected signal.  The default is 0.
+The expected signal.  The default is 0.  Use with care!  This may not be
+portable, and is known not to work on Windows.
 
 =item stdin
 
