@@ -34,9 +34,9 @@ platform safety, this module will err on the side of platform safety.
 
 ## script\_compiles
 
-    script_compiles( 'script/foo.pl', 'Main script compiles' );
+    script_compiles( $script, $test_name );
 
-The `script_compiles` test calls the script with "perl -c script.pl",
+The ["script\_compiles"](#script_compiles) test calls the script with "perl -c script.pl",
 and checks that it returns without error.
 
 The path it should be passed is a relative unix-format script name. This
@@ -49,9 +49,12 @@ will also be shown in the diagnostic output on failure.
 
 ## script\_runs
 
-    script_runs( 'script/foo.pl', 'Main script runs' );
+    script_runs( $script, $test_name );
+    script_runs( \@script_and_arguments, $test_name );
+    script_runs( $script, \%options, $test_name );
+    script_runs( \@script_and_arguments, \%options, $test_name );
 
-The `script_runs` test executes the script with "perl script.pl" and checks
+The ["script\_runs"](#script_runs) test executes the script with "perl script.pl" and checks
 that it returns success.
 
 The path it should be passed is a relative unix-format script name. This
@@ -61,6 +64,49 @@ name used will be shown in the diagnostic output.
 The test will be run with the same [perl](https://metacpan.org/pod/perl) interpreter that is running the
 test script (and not with the default system perl). This will also be shown
 in the diagnostic output on failure.
+
+You may pass in options as a hash as the second argument.
+
+- exit
+
+    The expected exit value.  The default is to use whatever indicates success
+    on your platform (usually 0).
+
+- signal
+
+    The expected signal.  The default is 0.
+
+- stdin
+
+    The input to be passed into the script via stdin.
+
+## script\_stdout\_like
+
+    script_stdout_like $regex, $test_name;
+
+Tests if the ouput to stdout from the previous ["script\_runs"](#script_runs) matches the regular
+expression.
+
+## script\_stdout\_unlike
+
+    script_stdout_unlike $regex, $test_name;
+
+Tests if the ouput to stdout from the previous ["script\_runs"](#script_runs) does NOT matches the regular
+expression.
+
+## script\_stderr\_like
+
+    script_stderr_like $regex, $test_name;
+
+Tests if the ouput to stderr from the previous ["script\_runs"](#script_runs) matches the regular
+expression.
+
+## script\_stderr\_unlike
+
+    script_stderr_unlike $regex, $test_name;
+
+Tests if the ouput to stderr from the previous ["script\_runs"](#script_runs) does NOT matches the regular
+expression.
 
 # SEE ALSO
 
