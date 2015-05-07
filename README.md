@@ -78,7 +78,40 @@ You may pass in options as a hash as the second argument.
 
 - stdin
 
-    The input to be passed into the script via stdin.
+    The input to be passed into the script via stdin.  The value may be one of
+
+    - simple scalar
+
+        Is considered to be a filename.
+
+    - scalar reference
+
+        In which case the input will be drawn from the data contained in the referenced
+        scalar.
+
+    The behavior for any other types is undefined (the current implementation uses
+    [IPC::Run3](https://metacpan.org/pod/IPC::Run3), but that may change in the future).
+
+- stdout
+
+    Where to send the standard output to.  If you use this option, then the the
+    behavior of the `script_stdout_` functions below are undefined.  The value
+    may be one of 
+
+    - simple scalar
+
+        Is considered to be a filename.
+
+    - scalar reference
+
+    In which case the standard output will be places into the referenced scalar
+
+    The behavior for any other types is undefined (the current implementation uses
+    [IPC::Run3](https://metacpan.org/pod/IPC::Run3), but that may change in the future).
+
+- stderr
+
+    Same as `stdout` above, except for stderr.
 
 ## script\_stdout\_is
 

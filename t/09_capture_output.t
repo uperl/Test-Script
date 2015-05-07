@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 use Test::Tester;
-use Test::More tests => 3;
+use Test::More tests => 4;
 use Test::Script;
 
 script_runs 't/bin/print.pl';
@@ -215,5 +215,17 @@ subtest 'stderr' => sub {
     
     note $r->{diag};    
   };
+
+};
+
+subtest 'code ref' => sub {
+
+  my $stdout = '';
+  my $stderr = '';
+
+  script_runs 't/bin/print.pl', { stdout => \$stdout, stderr => \$stderr };
+
+  is $stdout, "Standard Out\nsecond line\n";
+  is $stderr, "Standard Error\nanother line\n";
 
 };

@@ -7,7 +7,8 @@ Revision history for Perl extension {{$dist->name}}
     as well.
   - Use alternate expected exit and signal values with options as the
     second argument to script_runs.
-  - Ability to pass input via stdin to the scriptwith script_runs.
+  - Ability to pass input via stdin to the script with script_runs.
+  - Ability to capture stdout and stderr from script with script_runs.
   - Functions to test stdout and stderr:
       script_stdout_is
       script_stdout_isnt

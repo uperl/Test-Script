@@ -172,7 +172,48 @@ The expected signal.  The default is 0.
 
 =item stdin
 
-The input to be passed into the script via stdin.
+The input to be passed into the script via stdin.  The value may be one of
+
+=over 4
+
+=item simple scalar
+
+Is considered to be a filename.
+
+=item scalar reference
+
+In which case the input will be drawn from the data contained in the referenced
+scalar.
+
+=back
+
+The behavior for any other types is undefined (the current implementation uses
+L<IPC::Run3>, but that may change in the future).
+
+=item stdout
+
+Where to send the standard output to.  If you use this option, then the the
+behavior of the C<script_stdout_> functions below are undefined.  The value
+may be one of 
+
+=over 4
+
+=item simple scalar
+
+Is considered to be a filename.
+
+=item scalar reference
+
+=back
+
+In which case the standard output will be places into the referenced scalar
+
+The behavior for any other types is undefined (the current implementation uses
+L<IPC::Run3>, but that may change in the future).
+
+=item stderr
+
+Same as C<stdout> above, except for stderr.
 
 =back
 
@@ -188,10 +229,9 @@ sub script_runs {
   my $path   = path( $unix );
   my @libs   = map { "-I$_" } grep {!ref($_)} @INC;
   my $cmd    = [ perl, @libs, $path, @$args ];
-  my $stdin  = $opt->{stdin};
      $stdout = '';
      $stderr = '';
-  my $rv     = eval { IPC::Run3::run3( $cmd, \$stdin, \$stdout, \$stderr ) };
+  my $rv     = eval { IPC::Run3::run3( $cmd, $opt->{stdin}, $opt->{stdout}, $opt->{stderr} ) };
   my $error  = $@;
   my $exit   = $? ? ($? >> 8) : 0;
   my $signal = $? ? ($? & 127) : 0;
@@ -380,9 +420,12 @@ sub _script {
 sub _options {
   my %options = ref($_[0]->[0]) eq 'HASH' ? %{ shift @{ $_[0] } }: ();
   
-  $options{exit}   = 0   unless defined $options{exit};
-  $options{signal} = 0   unless defined $options{signal};
-  $options{stdin}  = ''  unless defined $options{stdin};
+  $options{exit}   = 0        unless defined $options{exit};
+  $options{signal} = 0        unless defined $options{signal};
+  my $stdin = '';
+  $options{stdin}  = \$stdin  unless defined $options{stdin};
+  $options{stdout} = \$stdout unless defined $options{stdout};
+  $options{stderr} = \$stderr unless defined $options{stderr};
 
   \%options;
 }
