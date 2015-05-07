@@ -117,14 +117,16 @@ sub script_compiles {
   my $rv     = eval { IPC::Run3::run3( $cmd, \$stdin, \$stdout, \$stderr ) };
   my $error  = $@;
   my $exit   = $? ? ($? >> 8) : 0;
+  my $signal = $? ? ($? & 127) : 0;
   my $ok     = !! (
-    $error eq '' and $rv and $exit == 0 and $stderr =~ /syntax OK\s+\z/si
+    $error eq '' and $rv and $exit == 0 and $signal == 0 and $stderr =~ /syntax OK\s+\z/si
   );
 
   my $test = Test::Builder->new;
   $test->ok( $ok, $_[0] || "Script $unix compiles" );
   $test->diag( "$exit - $stderr" ) unless $ok;
   $test->diag( "exception: $error" ) if $error;
+  $test->diag( "signal: $signal" ) if $signal;
 
   return $ok;
 }
@@ -158,12 +160,14 @@ sub script_runs {
   my $rv     = eval { IPC::Run3::run3( $cmd, \$stdin, \$stdout, \$stderr ) };
   my $error  = $@;
   my $exit   = $? ? ($? >> 8) : 0;
-  my $ok     = !! ( $error eq '' and $rv and $exit == 0 );
+  my $signal = $? ? ($? & 127) : 0;
+  my $ok     = !! ( $error eq '' and $rv and $exit == 0 and $signal == 0 );
 
   my $test = Test::Builder->new;
   $test->ok( $ok, $_[0] || "Script $unix runs" );
   $test->diag( "$exit - $stderr" ) unless $ok;
   $test->diag( "exception: $error" ) if $error;
+  $test->diag( "signal: $signal" ) if $signal;
 
   return $ok;
 }

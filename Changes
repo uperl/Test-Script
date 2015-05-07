@@ -3,6 +3,8 @@ Revision history for Perl extension {{$dist->name}}
 {{$NEXT}}
   - If IPC::Run3::run3 throws an exception it will now fail the test
     (with a helpful diagnostic) rather than crashing the test script.
+  - A script that is killed with a singnal is now considered a failure
+    as well.
 
 1.08      2015-05-06 05:09:13 -0400
   - Now works with or without blib (rt81222, rt102743)
