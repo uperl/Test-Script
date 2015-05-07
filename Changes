@@ -11,6 +11,8 @@ Revision history for Perl extension {{$dist->name}}
   - Functions to test stdout and stderr:
       script_stdout_like
       script_stdout_unlike
+      script_stderr_like
+      script_stderr_unlike
 
 1.08      2015-05-06 05:09:13 -0400
   - Now works with or without blib (rt81222, rt102743)
