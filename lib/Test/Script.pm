@@ -90,7 +90,7 @@ sub path ($) {
 
 =head2 script_compiles
 
-    script_compiles( 'script/foo.pl', 'Main script compiles' );
+ script_compiles( $script, $test_name );
 
 The C<script_compiles> test calls the script with "perl -c script.pl",
 and checks that it returns without error.
@@ -133,7 +133,10 @@ sub script_compiles {
 
 =head2 script_runs
 
-    script_runs( 'script/foo.pl', 'Main script runs' );
+ script_runs( $script, $test_name );
+ script_runs( \@script_and_arguments, $test_name );
+ script_runs( $script, \%options, $test_name );
+ script_runs( \@script_and_arguments, \%options, $test_name );
 
 The C<script_runs> test executes the script with "perl script.pl" and checks
 that it returns success.
@@ -146,28 +149,48 @@ The test will be run with the same L<perl> interpreter that is running the
 test script (and not with the default system perl). This will also be shown
 in the diagnostic output on failure.
 
+You may pass in options as a hash as the second argument.
+
+=over 4
+
+=item exit
+
+The expected exit value.  The default is to use whatever indicates success
+on your platform (usually 0).
+
+=item signal
+
+The expected signal.  The default is 0.
+
+=item stdin
+
+The input to be passed into the script via stdin.
+
+=back
+
 =cut
 
 sub script_runs {
   my $args   = _script(shift);
+  my $opt    = _options(\@_);
   my $unix   = shift @$args;
   my $path   = path( $unix );
   my @libs   = map { "-I$_" } grep {!ref($_)} @INC;
   my $cmd    = [ perl, @libs, $path, @$args ];
-  my $stdin  = '';
+  my $stdin  = $opt->{stdin};
   my $stdout = '';
   my $stderr = '';
   my $rv     = eval { IPC::Run3::run3( $cmd, \$stdin, \$stdout, \$stderr ) };
   my $error  = $@;
   my $exit   = $? ? ($? >> 8) : 0;
   my $signal = $? ? ($? & 127) : 0;
-  my $ok     = !! ( $error eq '' and $rv and $exit == 0 and $signal == 0 );
+  my $ok     = !! ( $error eq '' and $rv and $exit == $opt->{exit} and $signal == $opt->{signal} );
 
   my $test = Test::Builder->new;
   $test->ok( $ok, $_[0] || "Script $unix runs" );
   $test->diag( "$exit - $stderr" ) unless $ok;
   $test->diag( "exception: $error" ) if $error;
-  $test->diag( "signal: $signal" ) if $signal;
+  $test->diag( "signal: $signal" ) unless $signal == $opt->{signal};
 
   return $ok;
 }
@@ -191,6 +214,16 @@ sub _script {
 }
 
 # Inline some basic Params::Util functions
+
+sub _options {
+  my %options = ref($_[0]->[0]) eq 'HASH' ? %{ shift @{ $_[0] } }: ();
+  
+  $options{exit}   = 0   unless defined $options{exit};
+  $options{signal} = 0   unless defined $options{signal};
+  $options{stdin}  = ''  unless defined $options{stdin};
+
+  \%options;
+}
 
 sub _ARRAY ($) {
   (ref $_[0] eq 'ARRAY' and @{$_[0]}) ? $_[0] : undef;
