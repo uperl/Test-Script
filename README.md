@@ -116,14 +116,14 @@ You may pass in options as a hash as the second argument.
 
 ## script\_stdout\_is
 
-    script_stdout_is $expected_stdout, $test;
+    script_stdout_is $expected_stdout, $test_name;
 
 Tests if the output to stdout from the previous ["script\_runs"](#script_runs) matches the 
 expected value exactly.
 
 ## script\_stdout\_isnt
 
-    script_stdout_is $expected_stdout, $test;
+    script_stdout_is $expected_stdout, $test_name;
 
 Tests if the output to stdout from the previous ["script\_runs"](#script_runs) does NOT match the 
 expected value exactly.
@@ -144,14 +144,14 @@ expression.
 
 ## script\_stderr\_is
 
-    script_stderr_is $expected_stderr, $test;
+    script_stderr_is $expected_stderr, $test_name;
 
 Tests if the output to stderr from the previous ["script\_runs"](#script_runs) matches the 
 expected value exactly.
 
 ## script\_stderr\_isnt
 
-    script_stderr_is $expected_stderr, $test;
+    script_stderr_is $expected_stderr, $test_name;
 
 Tests if the output to stderr from the previous ["script\_runs"](#script_runs) does NOT match the 
 expected value exactly.

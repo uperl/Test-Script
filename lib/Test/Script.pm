@@ -272,7 +272,7 @@ sub _like
 
 =head2 script_stdout_is
 
- script_stdout_is $expected_stdout, $test;
+ script_stdout_is $expected_stdout, $test_name;
  
 Tests if the output to stdout from the previous L</script_runs> matches the 
 expected value exactly.
@@ -288,7 +288,7 @@ sub script_stdout_is
 
 =head2 script_stdout_isnt
 
- script_stdout_is $expected_stdout, $test;
+ script_stdout_is $expected_stdout, $test_name;
  
 Tests if the output to stdout from the previous L</script_runs> does NOT match the 
 expected value exactly.
@@ -336,7 +336,7 @@ sub script_stdout_unlike
 
 =head2 script_stderr_is
 
- script_stderr_is $expected_stderr, $test;
+ script_stderr_is $expected_stderr, $test_name;
  
 Tests if the output to stderr from the previous L</script_runs> matches the 
 expected value exactly.
@@ -352,7 +352,7 @@ sub script_stderr_is
 
 =head2 script_stderr_isnt
 
- script_stderr_is $expected_stderr, $test;
+ script_stderr_is $expected_stderr, $test_name;
  
 Tests if the output to stderr from the previous L</script_runs> does NOT match the 
 expected value exactly.
