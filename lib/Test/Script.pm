@@ -97,7 +97,7 @@ sub path ($) {
 ## See rt94685, rt46333, rt95308 and IPC-Run3/gh#9"
 sub _borked_ipc_run3 () {
   $^O eq 'MSWin32' &&
-  ! eval { $! = 0; IPC::Run3::run3 [ perl, -e => 'BEGIN {die}' ], \undef, \undef, \undef; 1 }
+  ! eval { IPC::Run3::run3 [ perl, -e => 'BEGIN {die}' ], \undef, \undef, \undef; 1 }
 }
 
 if(_borked_ipc_run3())
