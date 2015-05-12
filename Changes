@@ -1,6 +1,11 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
+  - Work around for buggy IPC::Run3 0.048 on MSWin32
+    On Windows we probe for and mitigate a bug in IPC::Run3
+    (see https://github.com/plicease/Test-Script/issues/1 for details)
+    with the intention of removing the workaround if/when IPC::Run3
+    is fixed.
 
 1.09      2015-05-07 16:44:26 -0400
   - If IPC::Run3::run3 throws an exception it will now fail the test
