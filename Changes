@@ -1,6 +1,8 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
+
+1.10      2015-05-12 05:15:41 -0400
   - Work around for buggy IPC::Run3 0.048 on MSWin32
     On Windows we probe for and mitigate a bug in IPC::Run3
     (see https://github.com/plicease/Test-Script/issues/1 for details)
