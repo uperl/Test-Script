@@ -464,7 +464,15 @@ BEGIN {
 
 1;
 
-=pod
+=head1 CAVEATS
+
+This module uses L<IPC::Run3> to compile and run scripts.  There are a number of
+outstanding issues with this module, and maintenance for L<IPC::Run3> is not swift.
+One of these is that L<IPC::Run3> incorrectly throws an exception on Windows when
+you feed it a Perl script with a compile error.  Currently L<Test::Script> probes
+for this bug (it checks for the bug, not for a specific version) and applies a
+workaround in that case.  I am hoping to remove the work around once the bug is
+fixed in L<IPC::Run3>.
 
 =head1 SEE ALSO
 
