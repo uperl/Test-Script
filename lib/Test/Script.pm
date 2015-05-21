@@ -8,8 +8,8 @@ package Test::Script;
  use Test::More tests => 2;
  use Test::Script;
  
- script_compiles('script/awesomescript.pl');
- script_runs(['script/awesomescript.pl', '--awesome-argument']);
+ script_compiles('script/myscript.pl');
+ script_runs(['script/myscript.pl', '--my-argument']);
 
 =head1 DESCRIPTION
 
