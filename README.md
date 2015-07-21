@@ -172,6 +172,11 @@ expression.
 
 # CAVEATS
 
+This module is fully supported back to Perl 5.8.1.  It may work on 5.8.0.
+It should work on Perl 5.6.x and I may even test on 5.6.2.  I will accept
+patches to maintain compatibility for such older Perls, but you may
+need to fix it on 5.6.x / 5.8.0 and send me a patch.
+
 This module uses [IPC::Run3](https://metacpan.org/pod/IPC::Run3) to compile and run scripts.  There are a number of
 outstanding issues with this module, and maintenance for [IPC::Run3](https://metacpan.org/pod/IPC::Run3) is not swift.
 One of these is that [IPC::Run3](https://metacpan.org/pod/IPC::Run3) incorrectly throws an exception on Windows when
