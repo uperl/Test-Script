@@ -3,6 +3,8 @@ sudo: false
 
 install:
   - perlbrew list
+  - dzil authordeps --missing | cpanm -n
+  - dzil listdeps --missing | cpanm -n
 
 perl:
   - "5.8"
@@ -15,5 +17,5 @@ perl:
   - "5.22"
 
 script:
-  - prove -lv t
+  - dzil test -v
 
