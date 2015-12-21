@@ -1,4 +1,4 @@
-# Test::Script
+# Test::Script [![Build Status](https://secure.travis-ci.org/plicease/Test-Script.png)](http://travis-ci.org/plicease/Test-Script)
 
 Basic cross-platform tests for scripts
 
@@ -193,7 +193,7 @@ fixed in [IPC::Run3](https://metacpan.org/pod/IPC::Run3).
 
 Original author: Adam Kennedy
 
-Current maintainer: Graham Ollis <plicease@cpan.org>
+Current maintainer: Graham Ollis &lt;plicease@cpan.org>
 
 # COPYRIGHT AND LICENSE
 
