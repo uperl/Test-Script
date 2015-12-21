@@ -2,24 +2,36 @@ use strict;
 use warnings;
 use Config;
 use Test::More tests => 1;
-BEGIN {
-  my @modules;
-  eval q{
-    require FindBin;
-    require File::Spec;
+
+# This .t file is generated.
+# make changes instead to dist.ini
+
+my %modules;
+my $post_diag;
+
+$modules{$_} = $_ for qw(
+  ExtUtils::MakeMaker
+  File::Spec
+  File::Spec::Functions
+  IPC::Run3
+  Probe::Perl
+  Test::Builder
+  Test::Builder::Tester
+  Test::More
+  Test::Tester
+);
+
+$post_diag = sub
+{
+  eval {
+    require Test::Script;
+    diag "probing IPC::Run3 for rt94685 rt46333 rt95308 gh#9";
+    diag "IPC::Run3 is ", Test::Script::_borked_ipc_run3() ? 'borked' : 'good';
     1;
-  } || die $@;
-  do {
-    my $fh;
-    if(open($fh, '<', File::Spec->catfile($FindBin::Bin, '00_diag.pre.txt')))
-    {
-      @modules = <$fh>;
-      close $fh;
-      chomp @modules;
-    }
-  };
-  eval qq{ require $_ } for @modules;
+  } || diag "eval failed: $@";
 };
+
+my @modules = sort keys %modules;
 
 sub spacer ()
 {
@@ -29,15 +41,6 @@ sub spacer ()
 }
 
 pass 'okay';
-
-my @modules;
-do {
-  my $fh;
-  open($fh, '<', File::Spec->catfile($FindBin::Bin, '00_diag.txt'));
-  @modules = <$fh>;
-  close $fh;
-  chomp @modules;
-};
 
 my $max = 1;
 $max = $_ > $max ? $_ : $max for map { length $_ } @modules;
@@ -68,10 +71,7 @@ if(@keys > 0)
   spacer;
 }
 
-diag sprintf $format, 'perl ', $^V;
-
-require(File::Spec->catfile($FindBin::Bin, '00_diag.pl'))
-  if -e File::Spec->catfile($FindBin::Bin, '00_diag.pl');
+diag sprintf $format, 'perl ', $];
 
 foreach my $module (@modules)
 {
@@ -85,6 +85,12 @@ foreach my $module (@modules)
   {
     diag sprintf $format, $module, '-';
   }
+}
+
+if($post_diag)
+{
+  spacer;
+  $post_diag->();
 }
 
 spacer;
