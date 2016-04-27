@@ -20,7 +20,7 @@ SCOPE: {
   test_out("ok 1 - Script t/bin/good.pl compiles");
   my $rv = script_compiles('t/bin/good.pl');
   test_test('Good script returns true');
-  is( $rv, 1, 'script_compiles_ok returns true as a convenience' );
+  is( $rv, 1, 'script_compiles returns true as a convenience' );
 }
 
 SCOPE: {
@@ -28,5 +28,5 @@ SCOPE: {
   test_out("ok 1 - It worked");
   my $rv = script_compiles('t/bin/good.pl', 'It worked');
   test_test('Good script returns true');
-  is( $rv, 1, 'script_compiles_ok returns true as a convenience' );
+  is( $rv, 1, 'script_compiles returns true as a convenience' );
 }

@@ -28,7 +28,7 @@ SCOPE: {
   test_err("# BEGIN failed--compilation aborted at $bad line 5.");
   my $rv = script_compiles('t/bin/bad.pl');
   test_test('Bad script returns false');
-  is( $rv, '', 'script_compiles_ok returns false as a convenience' );
+  is( $rv, '', 'script_compiles returns false as a convenience' );
 }
 
 SCOPE: {
@@ -39,5 +39,5 @@ SCOPE: {
   test_err("# BEGIN failed--compilation aborted at $bad line 5.");
   my $rv = script_compiles('t/bin/bad.pl', 'It worked');
   test_test('Bad script returns false');
-  is( $rv, '', 'script_compiles_ok returns false as a convenience' );
+  is( $rv, '', 'script_compiles returns false as a convenience' );
 }

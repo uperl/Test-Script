@@ -193,7 +193,7 @@ fixed in [IPC::Run3](https://metacpan.org/pod/IPC::Run3).
 
 Original author: Adam Kennedy
 
-Current maintainer: Graham Ollis &lt;plicease@cpan.org>
+Current maintainer: Graham Ollis <plicease@cpan.org>
 
 # COPYRIGHT AND LICENSE
 

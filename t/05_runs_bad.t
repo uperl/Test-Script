@@ -22,7 +22,7 @@ SCOPE: {
   test_err(qr{^# 4 - (?:Using.*\n# )?Standard Error\n?$});
   my $rv = script_runs('t/bin/four.pl');
   test_test('Bad script returns false');
-  is( $rv, '', 'script_compiles_ok returns true as a convenience' );
+  is( $rv, '', 'script_runs returns true as a convenience' );
 }
 
 SCOPE: {
@@ -32,5 +32,5 @@ SCOPE: {
   test_err(qr{^# 4 - (?:Using.*\n# )?Standard Error\n?$});
   my $rv = script_runs('t/bin/four.pl', 'It worked');
   test_test('Bad script returns false');
-  is( $rv, '', 'script_compiles_ok returns true as a convenience' );
+  is( $rv, '', 'script_runs returns true as a convenience' );
 }
