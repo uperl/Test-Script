@@ -2,6 +2,11 @@ Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
 
+1.11_01   2016-04-27 12:28:33 -0400
+  - Including some optional Test2 based tests that should 
+    only be run with a merged Test2 / Test::Builder
+    (currently a dev release as Test::Simple on CPAN)
+
 1.10      2015-05-12 05:15:41 -0400
   - Work around for buggy IPC::Run3 0.048 on MSWin32
     On Windows we probe for and mitigate a bug in IPC::Run3
