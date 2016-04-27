@@ -88,19 +88,15 @@ subtest 'good' => sub {
 
 subtest 'unreasonable number of libs' => sub {
 
-  todo "cpan testers sometimes induces this" => sub {
+  local @INC = @INC;
+  my $dir = tempdir( CLEANUP => 1 );
+  for(map { File::Spec->catfile($dir, $_) } 1..1000000)
+  {
+    #mkdir;
+    push @INC, $_;
+  }
   
-    local @INC = @INC;
-    my $dir = tempdir( CLEANUP => 1 );
-    for(map { File::Spec->catfile($dir, $_) } 1..1000000)
-    {
-      #mkdir;
-      push @INC, $_;
-    }
-    
-    script_runs 't/bin/good.pl';
-  
-  };
+  script_runs 't/bin/good.pl';
 
 };
 

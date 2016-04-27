@@ -45,6 +45,8 @@ use File::Spec::Unix ();
 use Probe::Perl      ();
 use IPC::Run3        qw( run3 );
 use Test::Builder    ();
+use File::Temp       ();
+use File::Path       ();
 
 our @ISA     = 'Exporter';
 our @EXPORT  = qw{
@@ -136,7 +138,8 @@ sub script_compiles {
   my $unix   = shift @$args;
   my $path   = path( $unix );
   my @libs   = map { "-I$_" } grep {!ref($_)} @INC;
-  my $cmd    = [ perl, @libs, '-c', $path, @$args ];
+  my $dir    = _preload_module();
+  my $cmd    = [ perl, "-I$dir", '-M__TEST_SCRIPT__', '-c', $path, @$args ];
   my $stdin  = '';
   my $stdout = '';
   my $stderr = '';
@@ -148,6 +151,8 @@ sub script_compiles {
     $error eq '' and $rv and $exit == 0 and $signal == 0 and $stderr =~ /syntax OK\s+\z/si
   );
 
+  File::Path::rmtree($dir);
+
   my $test = Test::Builder->new;
   $test->ok( $ok, $_[0] || "Script $unix compiles" );
   $test->diag( "$exit - $stderr" ) unless $ok;
@@ -155,6 +160,27 @@ sub script_compiles {
   $test->diag( "signal: $signal" ) if $signal;
 
   return $ok;
+}
+
+# this is noticably slower for long @INC lists (sometimes present in cpantesters
+# boxes) than the previous implementation, which added a -I for every element in
+# @INC.  (also slower for more reasonable @INCs, but not noticably).  But it is
+# safer as very long argument lists can break calls to system
+sub _preload_module
+{
+  my $dir = File::Temp::tempdir( CLEANUP => 1 );
+  # this is hopefully a pm file that nobody would use
+  my $filename = File::Spec->catfile($dir, '__TEST_SCRIPT__.pm');
+  my $fh;
+  open($fh, ">$filename");
+  print $fh 'unshift @INC, ',
+    join ',', 
+    # quotemeta is overkill, but it will make sure that characters
+    # like " are quoted
+    map { '"' . quotemeta . '"' }
+    grep { ! ref } @INC;
+  close $fh;
+  $dir;
 }
 
 =head2 script_runs
@@ -246,8 +272,8 @@ sub script_runs {
   my $opt    = _options(\@_);
   my $unix   = shift @$args;
   my $path   = path( $unix );
-  my @libs   = map { "-I$_" } grep {!ref($_)} @INC;
-  my $cmd    = [ perl, @libs, $path, @$args ];
+  my $dir    = _preload_module();
+  my $cmd    = [ perl, "-I$dir", '-M__TEST_SCRIPT__', $path, @$args ];
      $stdout = '';
      $stderr = '';
   my $rv     = eval { run3( $cmd, $opt->{stdin}, $opt->{stdout}, $opt->{stderr} ) };
@@ -255,6 +281,8 @@ sub script_runs {
   my $exit   = $? ? ($? >> 8) : 0;
   my $signal = $? ? ($? & 127) : 0;
   my $ok     = !! ( $error eq '' and $rv and $exit == $opt->{exit} and $signal == $opt->{signal} );
+
+  File::Path::rmtree($dir);
 
   my $test = Test::Builder->new;
   $test->ok( $ok, $_[0] || "Script $unix runs" );
