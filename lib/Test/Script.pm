@@ -172,14 +172,16 @@ sub _preload_module
   # this is hopefully a pm file that nobody would use
   my $filename = File::Spec->catfile($dir, '__TEST_SCRIPT__.pm');
   my $fh;
-  open($fh, ">$filename");
-  print $fh 'unshift @INC, ',
+  open($fh, ">$filename") 
+    || die "unable to open $filename: $!";
+  print($fh 'unshift @INC, ',
     join ',', 
     # quotemeta is overkill, but it will make sure that characters
     # like " are quoted
     map { '"' . quotemeta . '"' }
-    grep { ! ref } @INC;
-  close $fh;
+    grep { ! ref } @INC)
+      || die "unable to write $filename: $!";
+  close($fh) || die "unable to close $filename: $!";;
   $dir;
 }
 

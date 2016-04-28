@@ -1,6 +1,7 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
+  - Check for IO errors on temporary .pm file
 
 1.11_02   2016-04-27 13:15:35 -0400
   - One possible fix for gh#5 
