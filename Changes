@@ -1,6 +1,8 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
+
+1.11_03   2016-04-28 06:45:52 -0400
   - Check for IO errors on temporary .pm file
 
 1.11_02   2016-04-27 13:15:35 -0400
