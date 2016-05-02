@@ -2,6 +2,9 @@ Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
 
+1.12      2016-05-02 11:18:01 -0400
+  - Production release identical to 1.11_03 release.
+
 1.11_03   2016-04-28 06:45:52 -0400
   - Check for IO errors on temporary .pm file
 
