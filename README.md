@@ -195,6 +195,10 @@ Original author: Adam Kennedy
 
 Current maintainer: Graham Ollis <plicease@cpan.org>
 
+Contributors:
+
+Brendan Byrd
+
 # COPYRIGHT AND LICENSE
 
 This software is copyright (c) 2006 by Adam Kennedy.
