@@ -1,6 +1,9 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
+  - Remove warning condition that happens with at least some
+    older versions of Perl when using quotemeta without
+    parentheses (gh#7 Thanks Brendan Byrd)
 
 1.12      2016-05-02 11:18:01 -0400
   - Production release identical to 1.11_03 release.

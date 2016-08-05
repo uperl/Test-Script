@@ -178,7 +178,7 @@ sub _preload_module
     join ',', 
     # quotemeta is overkill, but it will make sure that characters
     # like " are quoted
-    map { '"' . quotemeta . '"' }
+    map { '"' . quotemeta($_) . '"' }
     grep { ! ref } @INC)
       || die "unable to write $filename: $!";
   close($fh) || die "unable to close $filename: $!";;
