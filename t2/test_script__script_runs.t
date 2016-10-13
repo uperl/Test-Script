@@ -88,6 +88,8 @@ subtest 'good' => sub {
 
 subtest 'unreasonable number of libs' => sub {
 
+  skip_all 'developer only test' unless $ENV{TEST_SCRIPT_DEV_TEST};
+
   local @INC = @INC;
   my $dir = tempdir( CLEANUP => 1 );
   for(map { File::Spec->catfile($dir, $_) } 1..1000000)
