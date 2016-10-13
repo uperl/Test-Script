@@ -1,6 +1,13 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
+
+1.14      2016-10-13 11:04:48 -0400
+  - Fix a regex in a test that fails on recent versions of
+    Test2 on Windows (possibly others) (gh#8)
+  - One of the tests was unreasonably slow, so it does
+    not get run for users, but will be used for development
+    only
   - Remove warning condition that happens with at least some
     older versions of Perl when using quotemeta without
     parentheses (gh#7 Thanks Brendan Byrd)
