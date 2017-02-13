@@ -1,6 +1,8 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
+
+1.15      2017-02-14 07:08:51 +1100
   - Fix bug where list reference arguments to script_compiles
     and script_runs are modified (gh#9)
 
