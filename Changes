@@ -1,6 +1,8 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
+  - Fix bug where list reference arguments to script_compiles
+    and script_runs are modified (gh#9)
 
 1.14      2016-10-13 11:04:48 -0400
   - Fix a regex in a test that fails on recent versions of

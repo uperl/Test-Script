@@ -458,7 +458,7 @@ sub _script {
   }
   if ( _ARRAY($in) ) {
     unless ( scalar grep { not defined _STRING($_) } @$in ) {
-      return $in;     
+      return [ @$in ];
     }
   }
   Carp::croak("Invalid command parameter");
