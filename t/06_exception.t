@@ -7,30 +7,27 @@ use IPC::Run3 ();
 
 do { no warnings; sub IPC::Run3::run3 { die "an exception" } };
 
-subtest script_compiles => sub {
+my ($res1, $res2);
+subtest 'script_compiles' => sub {
 
-  my(undef, $result) = check_test( sub {
+  (undef, $res1) = check_test( sub {
       script_compiles( 't/bin/missing.pl' );
     }, {
       ok   => 0,
       name => 'Script t/bin/missing.pl compiles',
     },
   );
-
-  note $result->{diag};
-
+  note($res1->{diag});
 };
 
-subtest script_runs => sub {
+subtest 'script_runs' => sub {
 
-  my(undef, $result) = check_test( sub {
+  (undef, $res2) = check_test( sub {
       script_runs( 't/bin/missing.pl' );
     }, {
       ok   => 0,
       name => 'Script t/bin/missing.pl runs',
     },
   );
-  
-  note $result->{diag};
-
+  note($res2->{diag});
 };
