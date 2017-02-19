@@ -68,7 +68,7 @@ sub import {
   my $pack = caller;
   my $test = Test::Builder->new;
   $test->exported_to($pack);
-  $test->plan(@_);
+  $test->plan(@_) if grep /^tests$/, @_;
   foreach ( @EXPORT ) {
     $self->export_to_level(1, $self, $_);
   }
