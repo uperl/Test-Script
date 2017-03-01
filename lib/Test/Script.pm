@@ -68,7 +68,10 @@ sub import {
   my $pack = caller;
   my $test = Test::Builder->new;
   $test->exported_to($pack);
-  $test->plan(@_);
+  if(defined $_[0] && $_[0] =~ /^(?:no_plan|skip_all|tests)$/)
+  {
+    $test->plan(@_);
+  }
   foreach ( @EXPORT ) {
     $self->export_to_level(1, $self, $_);
   }
