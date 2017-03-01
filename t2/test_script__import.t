@@ -17,6 +17,7 @@ is(
   array {
     event Plan => sub {
       call directive => 'SKIP';
+      call reason => 'foo';
     };
   },
   'with skip',
@@ -24,8 +25,10 @@ is(
 
 is(
   # does not appear to emit any events.
-  intercept { Test::Script->import('no_plan') },
+  intercept { Test::Script->import('no_plan'); done_testing },
   array {
+    event Plan => sub {
+    };
   },
   'with no plan',
 );
