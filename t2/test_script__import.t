@@ -24,7 +24,6 @@ is(
 );
 
 is(
-  # does not appear to emit any events.
   intercept { Test::Script->import('no_plan'); done_testing },
   array {
     event Plan => sub {
