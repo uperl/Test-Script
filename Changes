@@ -1,6 +1,7 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
+  - Handle scripts with -T taint mode (gh#13)
 
 1.16      2017-03-04 12:16:10 -0500
   - Stricter useage of plans.

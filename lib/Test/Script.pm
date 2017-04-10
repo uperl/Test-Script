@@ -140,9 +140,10 @@ sub script_compiles {
   my $args   = _script(shift);
   my $unix   = shift @$args;
   my $path   = path( $unix );
+  my $pargs  = _perl_args($path);
   my @libs   = map { "-I$_" } grep {!ref($_)} @INC;
   my $dir    = _preload_module();
-  my $cmd    = [ perl, "-I$dir", '-M__TEST_SCRIPT__', '-c', $path, @$args ];
+  my $cmd    = [ perl, @$pargs, "-I$dir", '-M__TEST_SCRIPT__', '-c', $path, @$args ];
   my $stdin  = '';
   my $stdout = '';
   my $stderr = '';
@@ -277,8 +278,9 @@ sub script_runs {
   my $opt    = _options(\@_);
   my $unix   = shift @$args;
   my $path   = path( $unix );
+  my $pargs  = _perl_args($path);
   my $dir    = _preload_module();
-  my $cmd    = [ perl, "-I$dir", '-M__TEST_SCRIPT__', $path, @$args ];
+  my $cmd    = [ perl, @$pargs, "-I$dir", '-M__TEST_SCRIPT__', $path, @$args ];
      $stdout = '';
      $stderr = '';
   my $rv     = eval { run3( $cmd, $opt->{stdin}, $opt->{stdout}, $opt->{stderr} ) };
@@ -465,6 +467,20 @@ sub _script {
     }
   }
   Carp::croak("Invalid command parameter");
+}
+
+# Determine any extra arguments that need to be passed into Perl.
+# ATM this is just -T.
+sub _perl_args {
+  my($script) = @_;
+  my $fh;
+  my $first_line = '';
+  if(open($fh, "<$script"))
+  {
+    $first_line = <$fh>;
+    close $fh;
+  }
+  (grep /^-.*T/, split /\s+/, $first_line) ? ['-T'] : [];
 }
 
 # Inline some basic Params::Util functions
