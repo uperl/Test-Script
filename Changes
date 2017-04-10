@@ -1,6 +1,7 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
+  - Use three argument open
 
 1.17_01   2017-04-10 06:51:38 -0400
   - Handle scripts with -T taint mode (gh#13)

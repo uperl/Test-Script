@@ -176,7 +176,7 @@ sub _preload_module
   # this is hopefully a pm file that nobody would use
   my $filename = File::Spec->catfile($dir, '__TEST_SCRIPT__.pm');
   my $fh;
-  open($fh, ">$filename") 
+  open($fh, '>', $filename) 
     || die "unable to open $filename: $!";
   print($fh 'unshift @INC, ',
     join ',', 
@@ -475,7 +475,7 @@ sub _perl_args {
   my($script) = @_;
   my $fh;
   my $first_line = '';
-  if(open($fh, "<$script"))
+  if(open($fh, '<', $script))
   {
     $first_line = <$fh>;
     close $fh;
