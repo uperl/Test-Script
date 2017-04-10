@@ -3,6 +3,7 @@ sudo: false
 
 install:
   - perlbrew list
+  - cpanm Dist::Zilla
   - dzil authordeps --missing | cpanm -n
   - dzil listdeps --missing | cpanm -n
 
