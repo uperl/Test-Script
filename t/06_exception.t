@@ -3,9 +3,6 @@ use warnings;
 use Test::Tester;
 use Test::More tests => 2;
 use Test::Script;
-use IPC::Run3 ();
-
-do { no warnings; sub IPC::Run3::run3 { die "an exception" } };
 
 subtest script_compiles => sub {
 
