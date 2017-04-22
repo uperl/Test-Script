@@ -43,7 +43,6 @@ use Exporter         ();
 use File::Spec       ();
 use File::Spec::Unix ();
 use Probe::Perl      ();
-use IPC::Run3        qw( run3 );
 use Capture::Tiny    qw( capture );
 use Test::Builder    ();
 use File::Temp       ();

@@ -13,7 +13,6 @@ $modules{$_} = $_ for qw(
   Capture::Tiny
   ExtUtils::MakeMaker
   File::Spec
-  IPC::Run3
   Probe::Perl
   Test::Builder
   Test::Builder::Tester
