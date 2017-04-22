@@ -99,24 +99,6 @@ sub path ($) {
   );
 }
 
-## This can and should be removed if/when IPC::Run3 is fixed on MSWin32
-## See rt94685, rt46333, rt95308 and IPC-Run3/gh#9"
-sub _borked_ipc_run3 () {
-  $^O eq 'MSWin32' &&
-  ! eval { IPC::Run3::run3 [ perl, -e => 'BEGIN {die}' ], \undef, \undef, \undef; 1 }
-}
-
-if(_borked_ipc_run3())
-{
-  no warnings 'redefine';
-  *run3 = sub {
-    $! = 0;
-    my $r = IPC::Run3::run3(@_, { return_if_system_error => 1 });
-    Carp::croak($!) if $! && $! !~ /Inappropriate I\/O control operation/;
-    $r;
-  };
-}
-
 #####################################################################
 # Test Functions
 
