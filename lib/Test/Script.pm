@@ -219,7 +219,7 @@ scalar.
 =back
 
 The behavior for any other types is undefined (the current implementation uses
-L<IPC::Run3>, but that may change in the future).
+L<Capture::Tiny>).
 
 =item stdout
 
@@ -240,7 +240,7 @@ Is considered to be a filename.
 In which case the standard output will be places into the referenced scalar
 
 The behavior for any other types is undefined (the current implementation uses
-L<IPC::Run3>, but that may change in the future).
+L<Capture::Tiny>).
 
 =item stderr
 
@@ -499,14 +499,6 @@ This module is fully supported back to Perl 5.8.1.  It may work on 5.8.0.
 It should work on Perl 5.6.x and I may even test on 5.6.2.  I will accept
 patches to maintain compatibility for such older Perls, but you may
 need to fix it on 5.6.x / 5.8.0 and send me a patch.
-
-This module uses L<IPC::Run3> to compile and run scripts.  There are a number of
-outstanding issues with this module, and maintenance for L<IPC::Run3> is not swift.
-One of these is that L<IPC::Run3> incorrectly throws an exception on Windows when
-you feed it a Perl script with a compile error.  Currently L<Test::Script> probes
-for this bug (it checks for the bug, not for a specific version) and applies a
-workaround in that case.  I am hoping to remove the work around once the bug is
-fixed in L<IPC::Run3>.
 
 =head1 SEE ALSO
 
