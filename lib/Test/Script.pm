@@ -280,13 +280,13 @@ sub script_runs {
   my $pargs  = _perl_args($path);
   my $dir    = _preload_module();
   my $cmd    = [ perl, @$pargs, "-I$dir", '-M__TEST_SCRIPT__', $path, @$args ];
-     $stdout = '';
-     $stderr = '';
-  my $rv     = eval { run3( $cmd, $opt->{stdin}, $opt->{stdout}, $opt->{stderr} ) };
+  $stdout = '';
+  $stderr = '';
+  (${$opt->{stdout}}, ${$opt->{stderr}}) = capture { system(@$cmd) };
   my $error  = $@;
   my $exit   = $? ? ($? >> 8) : 0;
   my $signal = $? ? ($? & 127) : 0;
-  my $ok     = !! ( $error eq '' and $rv and $exit == $opt->{exit} and $signal == $opt->{signal} );
+  my $ok     = !! ( $error eq '' and $exit == $opt->{exit} and $signal == $opt->{signal} );
 
   File::Path::rmtree($dir);
 
