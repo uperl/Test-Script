@@ -21,15 +21,7 @@ $modules{$_} = $_ for qw(
   Test::Tester
 );
 
-$post_diag = sub
-{
-  eval {
-    require Test::Script;
-    diag "probing IPC::Run3 for rt94685 rt46333 rt95308 gh#9";
-    diag "IPC::Run3 is ", Test::Script::_borked_ipc_run3() ? 'borked' : 'good';
-    1;
-  } || diag "eval failed: $@";
-};
+
 
 my @modules = sort keys %modules;
 
