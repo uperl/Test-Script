@@ -126,13 +126,12 @@ sub script_compiles {
   my @libs   = map { "-I$_" } grep {!ref($_)} @INC;
   my $dir    = _preload_module();
   my $cmd    = [ perl, @$pargs, "-I$dir", '-M__TEST_SCRIPT__', '-c', $path, @$args ];
-  my ($stdout, $stderr, $rv) = capture { system(@$cmd) };
-  $rv = $rv == 0 ? 1 : 0;
+  my ($stdout, $stderr) = capture { system(@$cmd) };
   my $error  = $@;
   my $exit   = $? ? ($? >> 8) : 0;
   my $signal = $? ? ($? & 127) : 0;
   my $ok     = !! (
-    $error eq '' and $rv and $exit == 0 and $signal == 0 and $stderr =~ /syntax OK\s+\z/si
+    $error eq '' and $exit == 0 and $signal == 0 and $stderr =~ /syntax OK\s+\z/si
   );
 
   File::Path::rmtree($dir);
