@@ -166,9 +166,9 @@ sub script_compiles {
   return $ok;
 }
 
-# this is noticably slower for long @INC lists (sometimes present in cpantesters
+# this is noticeably slower for long @INC lists (sometimes present in cpantesters
 # boxes) than the previous implementation, which added a -I for every element in
-# @INC.  (also slower for more reasonable @INCs, but not noticably).  But it is
+# @INC.  (also slower for more reasonable @INCs, but not noticeably).  But it is
 # safer as very long argument lists can break calls to system
 sub _preload_module
 {
