@@ -126,7 +126,7 @@ if(_borked_ipc_run3())
 The L</script_compiles> test calls the script with "perl -c script.pl",
 and checks that it returns without error.
 
-The path it should be passed is a relative unix-format script name. This
+The path it should be passed is a relative Unix-format script name. This
 will be localised when running C<perl -c> and if the test fails the local
 name used will be shown in the diagnostic output.
 
