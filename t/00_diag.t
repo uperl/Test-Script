@@ -12,6 +12,7 @@ my $post_diag;
 $modules{$_} = $_ for qw(
   ExtUtils::MakeMaker
   File::Spec
+  File::Temp
   IPC::Run3
   Probe::Perl
   Test::Builder
