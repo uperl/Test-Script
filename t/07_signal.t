@@ -25,7 +25,7 @@ subtest 'runs' => sub {
       ok => 0,
     },
   );
-  
+
   note $r->{diag};
 
 };

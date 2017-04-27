@@ -30,7 +30,7 @@ subtest script_runs => sub {
       name => 'Script t/bin/missing.pl runs',
     },
   );
-  
+
   note $result->{diag};
 
 };
