@@ -40,7 +40,7 @@ subtest 'stdout' => sub {
       },
       'script_stdout_is',
     );
-    note $r->{diag};    
+    note $r->{diag};
   };
 
   subtest 'not isnt' => sub {
@@ -52,7 +52,7 @@ subtest 'stdout' => sub {
       },
       'script_stdout_isnt',
     );
-    note $r->{diag};    
+    note $r->{diag};
   };
 
   subtest 'like' => sub {
@@ -65,7 +65,7 @@ subtest 'stdout' => sub {
       },
       'script_stdout_like',
     );
-    
+
   };
 
   subtest 'not like' => sub {
@@ -79,8 +79,8 @@ subtest 'stdout' => sub {
       'script_stdout_like',
     );
 
-    note $r->{diag};    
-    
+    note $r->{diag};
+
   };
 
   subtest 'unlike' => sub {
@@ -93,7 +93,7 @@ subtest 'stdout' => sub {
       },
       'script_stdout_unlike',
     );
-    
+
   };
 
   subtest 'not unlike' => sub {
@@ -106,8 +106,8 @@ subtest 'stdout' => sub {
       },
       'script_stdout_unlike',
     );
-    
-    note $r->{diag};    
+
+    note $r->{diag};
   };
 
 };
@@ -146,7 +146,7 @@ subtest 'stderr' => sub {
       },
       'script_stderr_is',
     );
-    note $r->{diag};    
+    note $r->{diag};
   };
 
   subtest 'not isnt' => sub {
@@ -158,7 +158,7 @@ subtest 'stderr' => sub {
       },
       'script_stderr_isnt',
     );
-    note $r->{diag};    
+    note $r->{diag};
   };
 
   subtest 'like' => sub {
@@ -171,7 +171,7 @@ subtest 'stderr' => sub {
       },
       'script_stderr_like',
     );
-    
+
   };
 
   subtest 'not like' => sub {
@@ -185,8 +185,8 @@ subtest 'stderr' => sub {
       'script_stderr_like',
     );
 
-    note $r->{diag};    
-    
+    note $r->{diag};
+
   };
 
   subtest 'unlike' => sub {
@@ -199,7 +199,7 @@ subtest 'stderr' => sub {
       },
       'script_stderr_unlike',
     );
-    
+
   };
 
   subtest 'not unlike' => sub {
@@ -212,8 +212,8 @@ subtest 'stderr' => sub {
       },
       'script_stderr_unlike',
     );
-    
-    note $r->{diag};    
+
+    note $r->{diag};
   };
 
 };
