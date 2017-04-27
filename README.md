@@ -39,7 +39,7 @@ platform safety, this module will err on the side of platform safety.
 The ["script\_compiles"](#script_compiles) test calls the script with "perl -c script.pl",
 and checks that it returns without error.
 
-The path it should be passed is a relative unix-format script name. This
+The path it should be passed is a relative Unix-format script name. This
 will be localised when running `perl -c` and if the test fails the local
 name used will be shown in the diagnostic output.
 
@@ -97,7 +97,7 @@ You may pass in options as a hash as the second argument.
 
     Where to send the standard output to.  If you use this option, then the the
     behavior of the `script_stdout_` functions below are undefined.  The value
-    may be one of 
+    may be one of
 
     - simple scalar
 
@@ -118,14 +118,14 @@ You may pass in options as a hash as the second argument.
 
     script_stdout_is $expected_stdout, $test_name;
 
-Tests if the output to stdout from the previous ["script\_runs"](#script_runs) matches the 
+Tests if the output to stdout from the previous ["script\_runs"](#script_runs) matches the
 expected value exactly.
 
 ## script\_stdout\_isnt
 
     script_stdout_is $expected_stdout, $test_name;
 
-Tests if the output to stdout from the previous ["script\_runs"](#script_runs) does NOT match the 
+Tests if the output to stdout from the previous ["script\_runs"](#script_runs) does NOT match the
 expected value exactly.
 
 ## script\_stdout\_like
@@ -146,14 +146,14 @@ expression.
 
     script_stderr_is $expected_stderr, $test_name;
 
-Tests if the output to stderr from the previous ["script\_runs"](#script_runs) matches the 
+Tests if the output to stderr from the previous ["script\_runs"](#script_runs) matches the
 expected value exactly.
 
 ## script\_stderr\_isnt
 
     script_stderr_is $expected_stderr, $test_name;
 
-Tests if the output to stderr from the previous ["script\_runs"](#script_runs) does NOT match the 
+Tests if the output to stderr from the previous ["script\_runs"](#script_runs) does NOT match the
 expected value exactly.
 
 ## script\_stderr\_like
