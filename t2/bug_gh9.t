@@ -4,9 +4,9 @@ use Test::Script;
 subtest 'non-distructive' => sub {
 
   my @foo = qw( foo bar baz );
-  
+
   my $bar = Test::Script::_script \@foo;
-  
+
   is(
     $bar,
     [qw( foo bar baz )],

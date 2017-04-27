@@ -9,7 +9,7 @@ use File::Temp qw( tempdir );
 subtest 'good' => sub {
 
   my $rv;
-  
+
   is(
     intercept { $rv = script_runs 't/bin/good.pl' },
     array {
@@ -21,7 +21,7 @@ subtest 'good' => sub {
     },
     'script_runs t/bin/good.pl',
   );
-  
+
   is $rv, T(), 'script_compiles_ok returns true as convenience';
 
   is(
@@ -35,16 +35,16 @@ subtest 'good' => sub {
     },
     'script_runs t/bin/good.pl It worked',
   );
-  
+
   is $rv, T(), 'script_compiles_ok returns true as convenience';
-  
-  
+
+
 };
 
 subtest 'good' => sub {
 
   my $rv;
-  
+
   is(
     intercept { $rv = script_runs 't/bin/four.pl' },
     array {
@@ -61,7 +61,7 @@ subtest 'good' => sub {
     },
     'script_runs t/bin/good.pl',
   );
-  
+
   is $rv, F(), 'script_compiles_ok returns false as convenience';
 
   is(
@@ -80,10 +80,10 @@ subtest 'good' => sub {
     },
     'script_runs t/bin/good.pl It worked',
   );
-  
+
   is $rv, F(), 'script_compiles_ok returns false as convenience';
-  
-  
+
+
 };
 
 subtest 'unreasonable number of libs' => sub {
@@ -97,7 +97,7 @@ subtest 'unreasonable number of libs' => sub {
     #mkdir;
     push @INC, $_;
   }
-  
+
   script_runs 't/bin/good.pl';
 
 };

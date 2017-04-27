@@ -35,7 +35,7 @@ subtest 'good' => sub {
     },
     'script_compiles t/bin/good.pl It worked',
   );
-  
+
   is $rv, T(), 'script_compiles_ok returns true as convenience';
 };
 
@@ -100,17 +100,17 @@ subtest 'bad' => sub {
 subtest 'unreasonable number of libs' => sub {
 
   skip_all 'developer only test' unless $ENV{TEST_SCRIPT_DEV_TEST};
-  
+
   local @INC = @INC;
-  
+
   my $dir = tempdir( CLEANUP => 1 );
-  
+
   for(map { File::Spec->catfile($dir, $_) } 1..1000000)
   {
     #mkdir;
     push @INC, $_;
   }
-  
+
   script_compiles 't/bin/good.pl';
 
 };
