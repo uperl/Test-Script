@@ -176,10 +176,10 @@ sub _preload_module
   # this is hopefully a pm file that nobody would use
   my $filename = File::Spec->catfile($dir, '__TEST_SCRIPT__.pm');
   my $fh;
-  open($fh, '>', $filename) 
+  open($fh, '>', $filename)
     || die "unable to open $filename: $!";
   print($fh 'unshift @INC, ',
-    join ',', 
+    join ',',
     # quotemeta is overkill, but it will make sure that characters
     # like " are quoted
     map { '"' . quotemeta($_) . '"' }
@@ -245,7 +245,7 @@ L<IPC::Run3>, but that may change in the future).
 
 Where to send the standard output to.  If you use this option, then the the
 behavior of the C<script_stdout_> functions below are undefined.  The value
-may be one of 
+may be one of
 
 =over 4
 
@@ -303,10 +303,10 @@ sub script_runs {
 sub _like
 {
   my($text, $pattern, $regex, $not, $name) = @_;
-  
+
   my $ok = $regex ? $text =~ $pattern : $text eq $pattern;
   $ok = !$ok if $not;
-  
+
   my $test = Test::Builder->new;
   $test->ok( $ok, $name );
   unless($ok) {
@@ -319,15 +319,15 @@ sub _like
       $test->diag( "  $_" ) for split /\n/, $pattern;
     }
   }
-  
+
   $ok;
 }
 
 =head2 script_stdout_is
 
  script_stdout_is $expected_stdout, $test_name;
-
-Tests if the output to stdout from the previous L</script_runs> matches the 
+ 
+Tests if the output to stdout from the previous L</script_runs> matches the
 expected value exactly.
 
 =cut
@@ -342,8 +342,8 @@ sub script_stdout_is
 =head2 script_stdout_isnt
 
  script_stdout_is $expected_stdout, $test_name;
-
-Tests if the output to stdout from the previous L</script_runs> does NOT match the 
+ 
+Tests if the output to stdout from the previous L</script_runs> does NOT match the
 expected value exactly.
 
 =cut
@@ -366,7 +366,7 @@ expression.
 
 sub script_stdout_like
 {
-  my($pattern, $name) = @_;  
+  my($pattern, $name) = @_;
   @_ = ($stdout, $pattern, 1, 0, $name || 'stdout matches' );
   goto &_like;
 }
@@ -390,8 +390,8 @@ sub script_stdout_unlike
 =head2 script_stderr_is
 
  script_stderr_is $expected_stderr, $test_name;
-
-Tests if the output to stderr from the previous L</script_runs> matches the 
+ 
+Tests if the output to stderr from the previous L</script_runs> matches the
 expected value exactly.
 
 =cut
@@ -406,8 +406,8 @@ sub script_stderr_is
 =head2 script_stderr_isnt
 
  script_stderr_is $expected_stderr, $test_name;
-
-Tests if the output to stderr from the previous L</script_runs> does NOT match the 
+ 
+Tests if the output to stderr from the previous L</script_runs> does NOT match the
 expected value exactly.
 
 =cut
@@ -430,7 +430,7 @@ expression.
 
 sub script_stderr_like
 {
-  my($pattern, $name) = @_;  
+  my($pattern, $name) = @_;
   @_ = ($stderr, $pattern, 1, 0, $name || 'stderr matches' );
   goto &_like;
 }
@@ -487,7 +487,7 @@ sub _perl_args {
 
 sub _options {
   my %options = ref($_[0]->[0]) eq 'HASH' ? %{ shift @{ $_[0] } }: ();
-  
+
   $options{exit}   = 0        unless defined $options{exit};
   $options{signal} = 0        unless defined $options{signal};
   my $stdin = '';
