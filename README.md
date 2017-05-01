@@ -6,7 +6,7 @@ Basic cross-platform tests for scripts
 
     use Test::More tests => 2;
     use Test::Script;
-    
+
     script_compiles('script/myscript.pl');
     script_runs(['script/myscript.pl', '--my-argument']);
 
