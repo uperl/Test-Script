@@ -1,6 +1,8 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
+  - Use Capture::Tiny instead of IPC::Run3 (Paul Cochrane/PTC++ gh#4, gh#15)
+  - Minor documentation fixes (Paul Cochrane/PTC++)
 
 1.18      2017-04-12 07:01:14 -0400
   - Production release identical to 1.17_02 release.
