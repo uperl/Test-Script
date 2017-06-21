@@ -2,6 +2,9 @@ Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
 
+1.19_02   2017-06-21 17:06:47 -0400
+  - Identical to 1.19_01
+
 1.19_01   2017-05-01 06:12:01 -0400
   - Use Capture::Tiny instead of IPC::Run3 (Paul Cochrane/PTC++ gh#4, gh#15)
   - Minor documentation fixes (Paul Cochrane/PTC++)
