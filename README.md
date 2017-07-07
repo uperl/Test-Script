@@ -91,7 +91,7 @@ You may pass in options as a hash as the second argument.
         scalar.
 
     The behavior for any other types is undefined (the current implementation uses
-    [Capture::Tiny](https://metacpan.org/pod/Capture::Tiny)).
+    [Capture::Tiny](https://metacpan.org/pod/Capture::Tiny)).  Any already opened stdin will be closed.
 
 - stdout
 
@@ -172,10 +172,13 @@ expression.
 
 # CAVEATS
 
-This module is fully supported back to Perl 5.8.1.  It may work on 5.8.0.
-It should work on Perl 5.6.x and I may even test on 5.6.2.  I will accept
-patches to maintain compatibility for such older Perls, but you may
-need to fix it on 5.6.x / 5.8.0 and send me a patch.
+This module is fully supported back to Perl 5.8.1.  In the near future, support
+for the older pre-Test2 Test::Builer will be dropped.
+
+The STDIN handle will be closed when using script\_runs with the stdin option.
+An older version used [IPC::Run3](https://metacpan.org/pod/IPC::Run3), which attempted to save STDIN, but
+apparently this cannot be done consistently or portably.  We now use
+[Capture::Tiny](https://metacpan.org/pod/Capture::Tiny) instead and explicitly do not support saving STDIN handles.
 
 # SEE ALSO
 

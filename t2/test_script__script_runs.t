@@ -104,6 +104,8 @@ subtest 'stdin' => sub {
 
   script_compiles 't/bin/stdin.pl';
 
+  # see https://github.com/plicease/Test-Script/issues/23
+
   subtest 'filename' => sub {
 
     script_runs     't/bin/stdin.pl', { stdin => 't/bin/stdin.txt' };

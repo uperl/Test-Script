@@ -38,16 +38,16 @@ platform safety, this module will err on the side of platform safety.
 use 5.008001;
 use strict;
 use warnings;
-use Carp             qw( croak );
-use Exporter         ();
-use File::Spec       ();
-use File::Spec::Unix ();
-use Probe::Perl      ();
-use Capture::Tiny    qw( capture );
-use Test::Builder    ();
-use File::Temp       ();
-use File::Path       ();
-use IO::Handle       ();
+use Carp qw( croak );
+use Exporter;
+use File::Spec;
+use File::Spec::Unix;
+use Probe::Perl;
+use Capture::Tiny qw( capture );
+use Test::Builder ();
+use File::Temp qw( tempdir );
+use File::Path qw( rmtree );
+use IO::Handle;
 
 our @ISA     = 'Exporter';
 our @EXPORT  = qw{
@@ -135,7 +135,7 @@ sub script_compiles {
     $error eq '' and $exit == 0 and $signal == 0 and $stderr =~ /syntax OK\s+\z/si
   );
 
-  File::Path::rmtree($dir);
+  rmtree($dir);
 
   my $test = Test::Builder->new;
   $test->ok( $ok, $_[0] || "Script $unix compiles" );
@@ -152,7 +152,7 @@ sub script_compiles {
 # safer as very long argument lists can break calls to system
 sub _preload_module
 {
-  my $dir = File::Temp::tempdir( CLEANUP => 1 );
+  my $dir = tempdir( CLEANUP => 1 );
   # this is hopefully a pm file that nobody would use
   my $filename = File::Spec->catfile($dir, '__TEST_SCRIPT__.pm');
   my $fh;
@@ -219,7 +219,7 @@ scalar.
 =back
 
 The behavior for any other types is undefined (the current implementation uses
-L<Capture::Tiny>).
+L<Capture::Tiny>).  Any already opened stdin will be closed.
 
 =item stdout
 
@@ -272,7 +272,7 @@ sub script_runs {
     {
       $DB::single = 1;
       $filename = File::Spec->catfile(
-        File::Temp::tempdir(CLEANUP => 1),
+        tempdir(CLEANUP => 1),
         'stdin.txt',
       );
       my $tmp;
@@ -301,7 +301,7 @@ sub script_runs {
   my $signal = $? ? ($? & 127) : 0;
   my $ok     = !! ( $error eq '' and $exit == $opt->{exit} and $signal == $opt->{signal} );
 
-  File::Path::rmtree($dir);
+  rmtree($dir);
 
   my $test = Test::Builder->new;
   $test->ok( $ok, $_[0] || "Script $unix runs" );
@@ -527,15 +527,13 @@ BEGIN {
 
 =head1 CAVEATS
 
-This module is fully supported back to Perl 5.8.1.  It may work on 5.8.0.
-It should work on Perl 5.6.x and I may even test on 5.6.2.  I will accept
-patches to maintain compatibility for such older Perls, but you may
-need to fix it on 5.6.x / 5.8.0 and send me a patch.
+This module is fully supported back to Perl 5.8.1.  In the near future, support
+for the older pre-Test2 Test::Builer will be dropped.
 
-The STDIN handle will be closed when using script_runs.  An older version
-used L<IPC::Run3>, which attempted to save STDIN, but apparently this cannot
-be done consistently or portably.  We now use L<Capture::Tiny> instead and
-explicitly do not save STDIN handles.
+The STDIN handle will be closed when using script_runs with the stdin option.
+An older version used L<IPC::Run3>, which attempted to save STDIN, but
+apparently this cannot be done consistently or portably.  We now use
+L<Capture::Tiny> instead and explicitly do not support saving STDIN handles.
 
 =head1 SEE ALSO
 
