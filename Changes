@@ -1,7 +1,13 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
+
+1.19_04   2017-07-07 16:26:41 -0400
   - Add support for stdin option that was lost in the Capture::Tiny migration
+  - Officially drop support for Perl 5.6 (support for 5.6 was already
+    implicitly dropped when we migrated to Capture::Tiny).
+  - A near term future version will also drop support for the old pre-Test2
+    Test::Builder.
 
 1.19_03   2017-07-07 10:14:25 -0400
   - Use Test2::V0 instead of Test2::Bundle::Extended for Test2 tests
