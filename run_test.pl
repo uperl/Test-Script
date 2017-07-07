@@ -7,7 +7,7 @@ use File::Glob qw( bsd_glob );
 
 my $test2 = eval {
   require Test2;
-  require Test2::Suite;
+  require Test2::V0;
   require Test::Builder;
   Test::Builder->can('context');
 };

@@ -1,6 +1,7 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
+  - Use Test2::V0 instead of Test2::Bundle::Extended for Test2 tests
 
 1.19_02   2017-06-21 17:06:47 -0400
   - Identical to 1.19_01
