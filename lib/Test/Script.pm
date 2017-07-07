@@ -35,10 +35,10 @@ platform safety, this module will err on the side of platform safety.
 
 =cut
 
-use 5.006;
+use 5.008001;
 use strict;
 use warnings;
-use Carp             ();
+use Carp             qw( croak );
 use Exporter         ();
 use File::Spec       ();
 use File::Spec::Unix ();
@@ -47,6 +47,7 @@ use Capture::Tiny    qw( capture );
 use Test::Builder    ();
 use File::Temp       ();
 use File::Path       ();
+use IO::Handle       ();
 
 our @ISA     = 'Exporter';
 our @EXPORT  = qw{
@@ -87,10 +88,10 @@ sub perl () {
 sub path ($) {
   my $path = shift;
   unless ( defined $path ) {
-    Carp::croak("Did not provide a script name");
+    croak("Did not provide a script name");
   }
   if ( File::Spec::Unix->file_name_is_absolute($path) ) {
-    Carp::croak("Script name must be relative");
+    croak("Script name must be relative");
   }
   File::Spec->catfile(
     File::Spec->curdir,
@@ -262,7 +263,39 @@ sub script_runs {
   my $cmd    = [ perl, @$pargs, "-I$dir", '-M__TEST_SCRIPT__', $path, @$args ];
   $stdout = '';
   $stderr = '';
+
+  if($opt->{stdin})
+  {
+    my $filename;
+
+    if(ref($opt->{stdin}) eq 'SCALAR')
+    {
+      $DB::single = 1;
+      $filename = File::Spec->catfile(
+        File::Temp::tempdir(CLEANUP => 1),
+        'stdin.txt',
+      );
+      my $tmp;
+      open($tmp, '>', $filename) || die "unable to write to $filename";
+      print $tmp ${ $opt->{stdin} };
+      close $tmp;
+    }
+    elsif(ref($opt->{stdin}) eq '')
+    {
+      $filename = $opt->{stdin};
+    }
+    else
+    {
+      croak("stdin MUST be either a scalar reference or a string filename");
+    }
+
+    my $fh;
+    open($fh, '<', $filename) || die "unable to open $filename $!";
+    STDIN->fdopen( $fh, 'r' ) or die "unable to reopen stdin to $filename $!";
+  }
+
   (${$opt->{stdout}}, ${$opt->{stderr}}) = capture { system(@$cmd) };
+  
   my $error  = $@;
   my $exit   = $? ? ($? >> 8) : 0;
   my $signal = $? ? ($? & 127) : 0;
@@ -445,7 +478,7 @@ sub _script {
       return [ @$in ];
     }
   }
-  Carp::croak("Invalid command parameter");
+  croak("Invalid command parameter");
 }
 
 # Determine any extra arguments that need to be passed into Perl.
@@ -470,7 +503,7 @@ sub _options {
   $options{exit}   = 0        unless defined $options{exit};
   $options{signal} = 0        unless defined $options{signal};
   my $stdin = '';
-  $options{stdin}  = \$stdin  unless defined $options{stdin};
+  #$options{stdin}  = \$stdin  unless defined $options{stdin};
   $options{stdout} = \$stdout unless defined $options{stdout};
   $options{stderr} = \$stderr unless defined $options{stderr};
 
@@ -498,6 +531,11 @@ This module is fully supported back to Perl 5.8.1.  It may work on 5.8.0.
 It should work on Perl 5.6.x and I may even test on 5.6.2.  I will accept
 patches to maintain compatibility for such older Perls, but you may
 need to fix it on 5.6.x / 5.8.0 and send me a patch.
+
+The STDIN handle will be closed when using script_runs.  An older version
+used L<IPC::Run3>, which attempted to save STDIN, but apparently this cannot
+be done consistently or portably.  We now use L<Capture::Tiny> instead and
+explicitly do not save STDIN handles.
 
 =head1 SEE ALSO
 

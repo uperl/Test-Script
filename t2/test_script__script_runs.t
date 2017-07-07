@@ -104,13 +104,6 @@ subtest 'stdin' => sub {
 
   script_compiles 't/bin/stdin.pl';
 
-  subtest 'scalar ref' => sub {
-
-    script_runs     't/bin/stdin.pl', { stdin => \'helloooo there' };
-    script_stdout_like qr{hellbbbb there};
-  
-  };
-  
   subtest 'filename' => sub {
 
     script_runs     't/bin/stdin.pl', { stdin => 't/bin/stdin.txt' };
@@ -118,6 +111,13 @@ subtest 'stdin' => sub {
   
   };
 
+  subtest 'scalar ref' => sub {
+
+    script_runs     't/bin/stdin.pl', { stdin => \'helloooo there' };
+    script_stdout_like qr{hellbbbb there};
+  
+  };
+  
 };
 
 done_testing;
