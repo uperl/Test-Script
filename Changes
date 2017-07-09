@@ -1,6 +1,8 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
+
+1.19_05   2017-07-09 11:35:59 -0400
   - Diagnostic release
 
 1.19_04   2017-07-07 16:26:41 -0400
