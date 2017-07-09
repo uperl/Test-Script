@@ -22,8 +22,10 @@ subtest 'good' => sub {
 
   is $rv, T(), 'script_compiles_ok returns true as convenience';
 
+  my $events;
+
   is(
-    intercept { $rv = script_compiles 't/bin/good.pl', 'It worked' },
+    $events = intercept { $rv = script_compiles 't/bin/good.pl', 'It worked' },
     array {
       event Ok => sub {
         call pass => T();
@@ -35,6 +37,11 @@ subtest 'good' => sub {
   );
 
   is $rv, T(), 'script_compiles_ok returns true as convenience';
+
+  use Data::Dumper qw( Dumper );
+  
+  diag Dumper($events) unless $rv;
+
 };
 
 # second subtest replaces t/03_compiles_bad.t

@@ -1,6 +1,7 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
+  - Diagnostic release
 
 1.19_04   2017-07-07 16:26:41 -0400
   - Add support for stdin option that was lost in the Capture::Tiny migration
