@@ -1,85 +1,118 @@
 use Test2::V0;
 use Test::Script;
 use File::Temp qw( tempdir );
+use Data::Dumper qw( Dumper );
 
 # the first subtest replaces t/04_runs_good.t
 
 subtest 'good' => sub {
 
-  my $rv;
+  subtest 'default name' => sub {
 
-  is(
-    intercept { $rv = script_runs 't/bin/good.pl' },
-    array {
-      event Ok => sub {
-        call pass => T();
-        call name => 'Script t/bin/good.pl runs';
-      };
-      end;
-    },
-    'script_runs t/bin/good.pl',
-  );
+    my $rv;
+    my $events;
 
-  is $rv, T(), 'script_compiles_ok returns true as convenience';
+    is(
+      $events = intercept { $rv = script_runs 't/bin/good.pl' },
+      array {
+        event Ok => sub {
+          call pass => T();
+          call name => 'Script t/bin/good.pl runs';
+        };
+        end;
+      },
+      'script_runs t/bin/good.pl',
+    );
+    
+    diag Dumper($events) unless $rv;
 
-  is(
-    intercept { $rv = script_runs 't/bin/good.pl', 'It worked' },
-    array {
-      event Ok => sub {
-        call pass => T();
-        call name => 'It worked';
-      };
-      end;
-    },
-    'script_runs t/bin/good.pl It worked',
-  );
+    is $rv, T(), 'script_compiles_ok returns true as convenience';
 
-  is $rv, T(), 'script_compiles_ok returns true as convenience';
+  };
+
+  subtest 'custom name' => sub {
+
+    my $rv;
+    my $events;
+
+    is(
+      $events = intercept { $rv = script_runs 't/bin/good.pl', 'It worked' },
+      array {
+        event Ok => sub {
+          call pass => T();
+          call name => 'It worked';
+        };
+        end;
+      },
+      'script_runs t/bin/good.pl It worked',
+    );
+
+    diag Dumper($events) unless $rv;
+
+    is $rv, T(), 'script_compiles_ok returns true as convenience';
+    
+  };
 
 
 };
 
-subtest 'good' => sub {
+subtest 'bad: returns 4' => sub {
 
-  my $rv;
+  subtest 'default name' => sub {
 
-  is(
-    intercept { $rv = script_runs 't/bin/four.pl' },
-    array {
-      event Ok => sub {
-        call pass => F();
-        call name => 'Script t/bin/four.pl runs';
-      };
-      event Diag => sub {};
-      event Diag => sub {};
-      event Diag => sub {
-        call message => match qr{4 - (?:Using.*\n# )?Standard Error\n};
-      };
-      end;
-    },
-    'script_runs t/bin/good.pl',
-  );
+    my $rv;
+    my $events;
 
-  is $rv, F(), 'script_compiles_ok returns false as convenience';
+    my $rv2 = is(
+      $events = intercept { $rv = script_runs 't/bin/four.pl' },
+      array {
+        event Ok => sub {
+          call pass => F();
+          call name => 'Script t/bin/four.pl runs';
+        };
+        event Diag => sub {};
+        event Diag => sub {};
+        event Diag => sub {
+          call message => match qr{4 - (?:Using.*\n# )?Standard Error\n};
+        };
+        end;
+      },
+      'script_runs t/bin/good.pl',
+    );
 
-  is(
-    intercept { $rv = script_runs 't/bin/four.pl', 'It worked' },
-    array {
-      event Ok => sub {
-        call pass => F();
-        call name => 'It worked';
-      };
-      event Diag => sub {};
-      event Diag => sub {};
-      event Diag => sub {
-        call message => match qr{4 - (?:Using.*\n# )?Standard Error\n};
-      };
-      end;
-    },
-    'script_runs t/bin/good.pl It worked',
-  );
+    diag Dumper($events) unless $rv2;
 
-  is $rv, F(), 'script_compiles_ok returns false as convenience';
+    is $rv, F(), 'script_compiles_ok returns false as convenience';
+    
+  };
+  
+  subtest 'custom name' => sub {
+
+    my $rv;
+    my $events;
+
+    my $rv2 = is(
+      $events = intercept { $rv = script_runs 't/bin/four.pl', 'It worked' },
+      array {
+        event Ok => sub {
+          call pass => F();
+          call name => 'It worked';
+        };
+        event Diag => sub {};
+        event Diag => sub {};
+        event Diag => sub {
+          call message => match qr{4 - (?:Using.*\n# )?Standard Error\n};
+        };
+        end;
+      },
+      'script_runs t/bin/good.pl It worked',
+    );
+
+    diag Dumper($events) unless $rv2;
+
+    is $rv, F(), 'script_compiles_ok returns false as convenience';
+    
+  };
 
 
 };
