@@ -135,8 +135,6 @@ sub script_compiles {
     $error eq '' and $exit == 0 and $signal == 0 and $stderr =~ /syntax OK\s+\z/si
   );
 
-  rmtree($dir);
-
   my $test = Test::Builder->new;
   $test->ok( $ok, $_[0] || "Script $unix compiles" );
   $test->diag( "$exit - $stderr" ) unless $ok;
@@ -152,7 +150,7 @@ sub script_compiles {
 # safer as very long argument lists can break calls to system
 sub _preload_module
 {
-  my $dir = tempdir( CLEANUP => 1 );
+  my $dir = tempdir( '.test-script-XXXXX', DIR => File::Spec->curdir, CLEANUP => 1 );
   # this is hopefully a pm file that nobody would use
   my $filename = File::Spec->catfile($dir, '__TEST_SCRIPT__.pm');
   my $fh;
@@ -270,7 +268,6 @@ sub script_runs {
 
     if(ref($opt->{stdin}) eq 'SCALAR')
     {
-      $DB::single = 1;
       $filename = File::Spec->catfile(
         tempdir(CLEANUP => 1),
         'stdin.txt',
@@ -300,8 +297,6 @@ sub script_runs {
   my $exit   = $? ? ($? >> 8) : 0;
   my $signal = $? ? ($? & 127) : 0;
   my $ok     = !! ( $error eq '' and $exit == $opt->{exit} and $signal == $opt->{signal} );
-
-  rmtree($dir);
 
   my $test = Test::Builder->new;
   $test->ok( $ok, $_[0] || "Script $unix runs" );
