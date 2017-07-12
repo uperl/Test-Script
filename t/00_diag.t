@@ -20,7 +20,7 @@ $modules{$_} = $_ for qw(
   Test::More
   Test::Tester
 );
-
+eval q{ require Test::Tester; };
 
 
 my @modules = sort keys %modules;
