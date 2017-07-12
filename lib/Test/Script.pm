@@ -124,7 +124,6 @@ sub script_compiles {
   my $unix   = shift @$args;
   my $path   = path( $unix );
   my $pargs  = _perl_args($path);
-  my @libs   = map { "-I$_" } grep {!ref($_)} @INC;
   my $dir    = _preload_module();
   my $cmd    = [ perl, @$pargs, "-I$dir", '-M__TEST_SCRIPT__', '-c', $path, @$args ];
   my ($stdout, $stderr) = capture { system(@$cmd) };
