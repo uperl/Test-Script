@@ -149,7 +149,13 @@ sub script_compiles {
 # safer as very long argument lists can break calls to system
 sub _preload_module
 {
-  my $dir = tempdir( '.test-script-XXXXX', DIR => File::Spec->curdir, CLEANUP => 1 );
+  my @opts = ( '.test-script-XXXXXXXX', CLEANUP => 1);
+  if(-w File::Spec->curdir)
+  { push @opts, DIR => File::Spec->curdir }
+  else
+  { push @opts, DIR => File::Spec->tmpdir }
+  my $dir = tempdir(@opts);
+  $dir = File::Spec->rel2abs($dir);
   # this is hopefully a pm file that nobody would use
   my $filename = File::Spec->catfile($dir, '__TEST_SCRIPT__.pm');
   my $fh;
