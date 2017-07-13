@@ -4,11 +4,13 @@ Basic cross-platform tests for scripts
 
 # SYNOPSIS
 
-    use Test::More tests => 2;
+    use Test2::V0;
     use Test::Script;
     
     script_compiles('script/myscript.pl');
     script_runs(['script/myscript.pl', '--my-argument']);
+    
+    done_testing;
 
 # DESCRIPTION
 
@@ -182,7 +184,7 @@ apparently this cannot be done consistently or portably.  We now use
 
 # SEE ALSO
 
-[Test::Script::Run](https://metacpan.org/pod/Test::Script::Run), [Test::More](https://metacpan.org/pod/Test::More)
+[Test::Script::Run](https://metacpan.org/pod/Test::Script::Run), [Test2::Suite](https://metacpan.org/pod/Test2::Suite)
 
 # AUTHOR
 

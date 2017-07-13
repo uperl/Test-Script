@@ -5,11 +5,13 @@ package Test::Script;
 
 =head1 SYNOPSIS
 
- use Test::More tests => 2;
+ use Test2::V0;
  use Test::Script;
  
  script_compiles('script/myscript.pl');
  script_runs(['script/myscript.pl', '--my-argument']);
+ 
+ done_testing;
 
 =head1 DESCRIPTION
 
@@ -536,6 +538,6 @@ L<Capture::Tiny> instead and explicitly do not support saving STDIN handles.
 
 =head1 SEE ALSO
 
-L<Test::Script::Run>, L<Test::More>
+L<Test::Script::Run>, L<Test2::Suite>
 
 =cut
