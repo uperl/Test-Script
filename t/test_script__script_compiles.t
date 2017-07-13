@@ -147,5 +147,31 @@ subtest 'unreasonable number of libs' => sub {
 
 };
 
+subtest exception => sub {
+
+  my $events;
+  
+  is(
+    $events = intercept { script_compiles( 't/bin/missing.pl' ) },
+    array {
+      event Ok => sub {
+        call pass => F();
+        call name => 'Script t/bin/missing.pl compiles';
+      };
+      event Diag => sub {};
+      event Diag => sub {};
+      event Diag => sub {};
+      end;
+    },
+  );
+
+  foreach my $event (@$events)
+  {
+    next unless $event->isa('Test2::Event::Diag');
+    note "diag=@{[ $event->message ]}";
+  }
+
+};
+
 done_testing;
 
