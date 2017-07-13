@@ -1,7 +1,9 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
-  - Migrate to using Test2::V0 non-optionally
+
+1.21_01   2017-07-13 13:37:09 -0400
+  - Migrate to using Test2::V0 internally
 
 1.20      2017-07-13 11:17:42 -0400
   - Production release identical to 1.19_08 release.
