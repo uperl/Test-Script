@@ -1,7 +1,4 @@
-use strict;
-use warnings;
-use Test2::Tools::Exports;
-use Test2::Tools::Basic;
+use Test2::V0;
 use Test::Script;
 
 # replaces t/01_compile.t
