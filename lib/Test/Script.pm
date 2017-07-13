@@ -46,7 +46,6 @@ use Probe::Perl;
 use Capture::Tiny qw( capture );
 use Test::Builder ();
 use File::Temp qw( tempdir );
-use File::Path qw( rmtree );
 use IO::Handle;
 
 our @ISA     = 'Exporter';
