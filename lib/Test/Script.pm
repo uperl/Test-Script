@@ -46,7 +46,7 @@ use File::Spec;
 use File::Spec::Unix;
 use Probe::Perl;
 use Capture::Tiny qw( capture );
-use Test::Builder ();
+use Test2::API qw( context );
 use File::Temp qw( tempdir );
 use IO::Handle;
 
@@ -68,11 +68,24 @@ our @EXPORT  = qw{
 sub import {
   my $self = shift;
   my $pack = caller;
-  my $test = Test::Builder->new;
-  $test->exported_to($pack);
   if(defined $_[0] && $_[0] =~ /^(?:no_plan|skip_all|tests)$/)
   {
-    $test->plan(@_);
+    # icky back compat.
+    # do not use.
+    my $ctx = context();
+    if($_[0] eq 'tests')
+    {
+      $ctx->plan($_[1]);
+    }
+    elsif($_[0] eq 'skip_all')
+    {
+      $ctx->plan(0, 'SKIP', $_[1]);
+    }
+    else
+    {
+      $ctx->hub->plan('NO PLAN');
+    }
+    $ctx->release;
   }
   foreach ( @EXPORT ) {
     $self->export_to_level(1, $self, $_);
@@ -135,11 +148,12 @@ sub script_compiles {
     $error eq '' and $exit == 0 and $signal == 0 and $stderr =~ /syntax OK\s+\z/si
   );
 
-  my $test = Test::Builder->new;
-  $test->ok( $ok, $_[0] || "Script $unix compiles" );
-  $test->diag( "$exit - $stderr" ) unless $ok;
-  $test->diag( "exception: $error" ) if $error;
-  $test->diag( "signal: $signal" ) if $signal;
+  my $ctx = context();
+  $ctx->ok( $ok, $_[0] || "Script $unix compiles" );
+  $ctx->diag( "$exit - $stderr" ) unless $ok;
+  $ctx->diag( "exception: $error" ) if $error;
+  $ctx->diag( "signal: $signal" ) if $signal;
+  $ctx->release;
 
   return $ok;
 }
@@ -304,11 +318,12 @@ sub script_runs {
   my $signal = $? ? ($? & 127) : 0;
   my $ok     = !! ( $error eq '' and $exit == $opt->{exit} and $signal == $opt->{signal} );
 
-  my $test = Test::Builder->new;
-  $test->ok( $ok, $_[0] || "Script $unix runs" );
-  $test->diag( "$exit - $stderr" ) unless $ok;
-  $test->diag( "exception: $error" ) if $error;
-  $test->diag( "signal: $signal" ) unless $signal == $opt->{signal};
+  my $ctx = context();
+  $ctx->ok( $ok, $_[0] || "Script $unix runs" );
+  $ctx->diag( "$exit - $stderr" ) unless $ok;
+  $ctx->diag( "exception: $error" ) if $error;
+  $ctx->diag( "signal: $signal" ) unless $signal == $opt->{signal};
+  $ctx->release;
 
   return $ok;
 }
@@ -320,18 +335,19 @@ sub _like
   my $ok = $regex ? $text =~ $pattern : $text eq $pattern;
   $ok = !$ok if $not;
 
-  my $test = Test::Builder->new;
-  $test->ok( $ok, $name );
+  my $ctx = context;
+  $ctx->ok( $ok, $name );
   unless($ok) {
-    $test->diag( "The output" );
-    $test->diag( "  $_") for split /\n/, $text;
-    $test->diag( $not ? "does match" : "does not match" );
+    $ctx->diag( "The output" );
+    $ctx->diag( "  $_") for split /\n/, $text;
+    $ctx->diag( $not ? "does match" : "does not match" );
     if($regex) {
-      $test->diag( "  $pattern" );
+      $ctx->diag( "  $pattern" );
     } else {
-      $test->diag( "  $_" ) for split /\n/, $pattern;
+      $ctx->diag( "  $_" ) for split /\n/, $pattern;
     }
   }
+  $ctx->release;
 
   $ok;
 }

@@ -15,13 +15,10 @@ $modules{$_} = $_ for qw(
   File::Spec
   IO::Handle
   Probe::Perl
+  Test2::API
   Test2::V0
-  Test::Builder
-  Test::Builder::Tester
-  Test::More
-  Test::Tester
 );
-eval q{ require Test::Tester; };
+
 
 
 my @modules = sort keys %modules;

@@ -71,7 +71,6 @@ subtest 'bad: returns 4' => sub {
           call name => 'Script t/bin/four.pl runs';
         };
         event Diag => sub {};
-        event Diag => sub {};
         event Diag => sub {
           call message => match qr{4 - (?:Using.*\n# )?Standard Error\n};
         };
@@ -98,7 +97,6 @@ subtest 'bad: returns 4' => sub {
           call pass => F();
           call name => 'It worked';
         };
-        event Diag => sub {};
         event Diag => sub {};
         event Diag => sub {
           call message => match qr{4 - (?:Using.*\n# )?Standard Error\n};
@@ -167,17 +165,10 @@ subtest exception => sub {
         call name => 'Script t/bin/missing.pl runs';
       };
       event Diag => sub {};
-      event Diag => sub {};
-      event Diag => sub {};
+      event Diag => sub { call message => match(qr{^2 - })};
       end;
     },
   );
-
-  foreach my $event (@$events)
-  {
-    next unless $event->isa('Test2::Event::Diag');
-    note "diag=@{[ $event->message ]}";
-  }
 
 };
 
@@ -192,18 +183,11 @@ subtest 'signal' => sub {
         call pass => F();
       };
       event Diag => sub {};
-      event Diag => sub {};
-      event Diag => sub {};
-      event Diag => sub {};
+      event Diag => sub { call message => '0 - ' };
+      event Diag => sub { call message => 'signal: 9' };
       end;
     },
   );
-
-  foreach my $event (@$events)
-  {
-    next unless $event->isa('Test2::Event::Diag');
-    note "diag=@{[ $event->message ]}";
-  }
 
 };
 
@@ -236,5 +220,19 @@ subtest 'signal' => sub {
   );
 
 };
+
+subtest 'scalar ref' => sub {
+
+  my $stdout = '';
+  my $stderr = '';
+
+  script_runs 't/bin/print.pl', { stdout => \$stdout, stderr => \$stderr };
+
+  is $stdout, "Standard Out\nsecond line\n";
+  is $stderr, "Standard Error\nanother line\n";
+
+};
+
+script_runs 't/bin/taint.pl';
 
 done_testing;
