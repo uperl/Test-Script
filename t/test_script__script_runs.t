@@ -181,4 +181,60 @@ subtest exception => sub {
 
 };
 
+subtest 'signal' => sub {
+
+  my $events;
+  
+  is(
+    $events = intercept { script_runs( 't/bin/signal.pl' ) },
+    array {
+      event Ok => sub {
+        call pass => F();
+      };
+      event Diag => sub {};
+      event Diag => sub {};
+      event Diag => sub {};
+      event Diag => sub {};
+      end;
+    },
+  );
+
+  foreach my $event (@$events)
+  {
+    next unless $event->isa('Test2::Event::Diag');
+    note "diag=@{[ $event->message ]}";
+  }
+
+};
+
+subtest 'non-zero exit' => sub {
+
+  is(
+    intercept { script_runs 't/bin/four.pl', { exit => 4 } },
+    array {
+      event Ok => sub {
+        call pass => T();
+      };
+      end;
+    },
+  );
+
+};
+
+subtest 'signal' => sub {
+
+  skip_all 'not for windows' if $^O eq 'MSWin32';
+
+  is(
+    intercept { script_runs 't/bin/signal.pl', { signal => 9 } },
+    array {
+      event Ok => sub {
+        call pass => T();
+      };
+      end;
+    },
+  );
+
+};
+
 done_testing;

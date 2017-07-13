@@ -173,5 +173,31 @@ subtest exception => sub {
 
 };
 
+subtest 'signal' => sub {
+
+  my $events;
+  
+  is(
+    $events = intercept { script_compiles( 't/bin/signal.pl' ) },
+    array {
+      event Ok => sub {
+        call pass => F();
+      };
+      event Diag => sub {};
+      event Diag => sub {};
+      event Diag => sub {};
+      event Diag => sub {};
+      end;
+    },
+  );
+
+  foreach my $event (@$events)
+  {
+    next unless $event->isa('Test2::Event::Diag');
+    note "diag=@{[ $event->message ]}";
+  }
+};
+
+
 done_testing;
 
