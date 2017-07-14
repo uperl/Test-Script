@@ -1,4 +1,4 @@
-use Test2::V0;
+use Test2::V0 -no_srand => 1;
 use Test::Script;
 use File::Spec;
 use File::Temp qw( tempdir );
@@ -163,6 +163,8 @@ subtest exception => sub {
 };
 
 subtest 'signal' => sub {
+
+  skip_all 'not on windows' if $^O eq 'MSWin32';
 
   is(
     intercept { script_compiles( 't/bin/signal.pl' ) },

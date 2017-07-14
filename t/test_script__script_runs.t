@@ -1,4 +1,4 @@
-use Test2::V0;
+use Test2::V0 -no_srand => 1;
 use Test::Script;
 use File::Temp qw( tempdir );
 use Data::Dumper qw( Dumper );
@@ -173,6 +173,8 @@ subtest exception => sub {
 };
 
 subtest 'signal' => sub {
+
+  skip_all 'not on Winows' if $^O eq 'MSWin32';
 
   my $events;
   
