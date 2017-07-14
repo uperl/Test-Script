@@ -1,6 +1,8 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
+
+1.22_01   2017-07-14 07:21:00 -0400
   - Fix testing failures on Windows introduced in 1.21_01
 
 1.21_01   2017-07-13 13:37:09 -0400
