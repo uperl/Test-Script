@@ -1,6 +1,3 @@
-cache:
-    - C:\Strawberry -> .appveyor_clear_cache.txt
-
 shallow_clone: true
 
 install:
