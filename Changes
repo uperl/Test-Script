@@ -1,6 +1,7 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
+  - Fix testing failures on Windows introduced in 1.21_01
 
 1.21_01   2017-07-13 13:37:09 -0400
   - Migrate to using Test2::V0 internally
