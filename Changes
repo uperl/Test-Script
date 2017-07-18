@@ -2,6 +2,9 @@ Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
 
+1.23      2017-07-18 03:12:24 -0400
+  - Production release identical to 1.22_01 release.
+
 1.22_01   2017-07-14 07:21:00 -0400
   - Fix testing failures on Windows introduced in 1.21_01
 
