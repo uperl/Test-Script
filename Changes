@@ -1,6 +1,7 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
+  - Add interpreter_options to script_runs options
 
 1.23      2017-07-18 03:12:24 -0400
   - Production release identical to 1.22_01 release.

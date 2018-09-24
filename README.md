@@ -74,6 +74,12 @@ You may pass in options as a hash as the second argument.
     The expected exit value.  The default is to use whatever indicates success
     on your platform (usually 0).
 
+- interpreter\_options
+
+    Array reference of Perl options to be passed to the interpreter.  Things
+    like `-w` or `-x` can be passed this way.  This may be either a single
+    string or an array reference.
+
 - signal
 
     The expected signal.  The default is 0.  Use with care!  This may not be
