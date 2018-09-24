@@ -1,6 +1,8 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
+
+1.24_01   2018-09-24 12:38:07 -0400
   - Add interpreter_options to script_runs options
 
 1.23      2017-07-18 03:12:24 -0400
