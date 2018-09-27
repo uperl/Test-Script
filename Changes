@@ -2,6 +2,9 @@ Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
 
+1.25      2018-09-27 15:33:19 -0400
+  - Production release identical to 1.24_01 release.
+
 1.24_01   2018-09-24 12:38:07 -0400
   - Add interpreter_options to script_runs options
 
