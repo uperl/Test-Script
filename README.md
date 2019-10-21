@@ -181,7 +181,7 @@ expression.
 # CAVEATS
 
 This module is fully supported back to Perl 5.8.1.  In the near future, support
-for the older pre-Test2 Test::Builer will be dropped.
+for the older pre-Test2 Test::Builder will be dropped.
 
 The STDIN handle will be closed when using script\_runs with the stdin option.
 An older version used [IPC::Run3](https://metacpan.org/pod/IPC::Run3), which attempted to save STDIN, but

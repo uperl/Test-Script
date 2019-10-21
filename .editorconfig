@@ -1,0 +1,10 @@
+root=true
+
+[*]
+end_of_line = LF
+indent_style = space
+indent_size = 2
+
+# https://github.com/plicease/Test-Script/pull/27#discussion_r336819133
+[lib/Test/Script.pm]
+trim_trailing_whitespace = false

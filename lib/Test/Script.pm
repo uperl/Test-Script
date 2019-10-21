@@ -318,7 +318,7 @@ sub script_runs {
   }
 
   (${$opt->{stdout}}, ${$opt->{stderr}}) = capture { system(@$cmd) };
-  
+
   my $error  = $@;
   my $exit   = $? ? ($? >> 8) : 0;
   my $signal = $? ? ($? & 127) : 0;
@@ -361,7 +361,7 @@ sub _like
 =head2 script_stdout_is
 
  script_stdout_is $expected_stdout, $test_name;
- 
+
 Tests if the output to stdout from the previous L</script_runs> matches the
 expected value exactly.
 
@@ -377,7 +377,7 @@ sub script_stdout_is
 =head2 script_stdout_isnt
 
  script_stdout_is $expected_stdout, $test_name;
- 
+
 Tests if the output to stdout from the previous L</script_runs> does NOT match the
 expected value exactly.
 
@@ -425,7 +425,7 @@ sub script_stdout_unlike
 =head2 script_stderr_is
 
  script_stderr_is $expected_stderr, $test_name;
- 
+
 Tests if the output to stderr from the previous L</script_runs> matches the
 expected value exactly.
 
@@ -441,7 +441,7 @@ sub script_stderr_is
 =head2 script_stderr_isnt
 
  script_stderr_is $expected_stderr, $test_name;
- 
+
 Tests if the output to stderr from the previous L</script_runs> does NOT match the
 expected value exactly.
 
@@ -564,7 +564,7 @@ BEGIN {
 =head1 CAVEATS
 
 This module is fully supported back to Perl 5.8.1.  In the near future, support
-for the older pre-Test2 Test::Builer will be dropped.
+for the older pre-Test2 Test::Builder will be dropped.
 
 The STDIN handle will be closed when using script_runs with the stdin option.
 An older version used L<IPC::Run3>, which attempted to save STDIN, but
