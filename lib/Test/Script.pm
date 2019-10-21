@@ -11,6 +11,8 @@ package Test::Script;
  script_compiles('script/myscript.pl');
  script_runs(['script/myscript.pl', '--my-argument']);
  
+ program_runs(['ls', '/dev']);
+ 
  done_testing;
 
 =head1 DESCRIPTION
@@ -18,6 +20,9 @@ package Test::Script;
 The intent of this module is to provide a series of basic tests for 80%
 of the testing you will need to do for scripts in the F<script> (or F<bin>
 as is also commonly used) paths of your Perl distribution.
+
+It also provides similar functions for testing programs that are not
+Perl scripts.
 
 Further, it aims to provide this functionality with perfect
 platform-compatibility, and in a way that is as unobtrusive as possible.
@@ -63,6 +68,15 @@ our @EXPORT  = qw{
   script_stderr_isnt
   script_stderr_like
   script_stderr_unlike
+  program_runs
+  program_stdout_is
+  program_stdout_isnt
+  program_stdout_like
+  program_stdout_unlike
+  program_stderr_is
+  program_stderr_isnt
+  program_stderr_like
+  program_stderr_unlike
 };
 
 sub import {
@@ -114,7 +128,7 @@ sub path ($) {
 }
 
 #####################################################################
-# Test Functions
+# Test Functions for Scripts
 
 =head2 script_compiles
 
@@ -279,7 +293,7 @@ my $stderr;
 
 sub script_runs {
   my $args   = _script(shift);
-  my $opt    = _options(\@_);
+  my $opt    = _options(\$stdout, \$stderr, 1, \@_);
   my $unix   = shift @$args;
   my $path   = path( $unix );
   my $pargs  = [ @{ _perl_args($path) }, @{ $opt->{interpreter_options} } ];
@@ -287,6 +301,16 @@ sub script_runs {
   my $cmd    = [ perl, @$pargs, "-I$dir", '-M__TEST_SCRIPT__', $path, @$args ];
   $stdout = '';
   $stderr = '';
+
+  unshift @_, "Script $unix runs" unless $_[0];
+  unshift @_, $cmd, $opt;
+  goto &_run;
+}
+
+# Run a script or program and provide test events corresponding to the results.
+# Call as _run(\@cmd, \%opt, "Test description")
+sub _run {
+  my ($cmd, $opt, $description) = @_;
 
   if($opt->{stdin})
   {
@@ -325,8 +349,8 @@ sub script_runs {
   my $ok     = !! ( $error eq '' and $exit == $opt->{exit} and $signal == $opt->{signal} );
 
   my $ctx = context();
-  $ctx->ok( $ok, $_[0] || "Script $unix runs" );
-  $ctx->diag( "$exit - $stderr" ) unless $ok;
+  $ctx->ok( $ok, $description );
+  $ctx->diag( "$exit - " . ${$opt->{stderr}} ) unless $ok;
   $ctx->diag( "exception: $error" ) if $error;
   $ctx->diag( "signal: $signal" ) unless $signal == $opt->{signal};
   $ctx->release;
@@ -486,6 +510,181 @@ sub script_stderr_unlike
   goto &_like;
 }
 
+#####################################################################
+# Test Functions for Programs
+
+my $program_stdout;
+my $program_stderr;
+
+=head2 program_runs
+
+ program_runs( $program, $test_name );
+ program_runs( \@program_and_arguments, $test_name );
+ program_runs( $program, \%options, $test_name );
+ program_runs( \@program_and_arguments, \%options, $test_name );
+
+The L</program_runs> test executes the given program and checks
+that it returns success.  This function works like L</script_runs> except:
+
+=over 4
+
+=item *
+
+The path C<$program> or C<@program_and_arguments> is passed as-is to
+L<system()|https://perldoc.perl.org/functions/system.html>.  This means
+C<program_runs> can test any program, not just Perl scripts.
+
+=item *
+
+The C<%options> do not support the C<interpreter_options> key.
+
+=back
+
+See L<File::Spec> or L<Path::Class> for routines useful in building pathnames
+in a cross-platform way.
+
+=cut
+
+sub program_runs {
+  my $cmd    = _script(shift);
+  my $opt    = _options(\$program_stdout, \$program_stderr, 0, \@_);
+  $program_stdout = '';
+  $program_stderr = '';
+
+  unshift @_, "Program $$cmd[0] runs" unless $_[0];
+  unshift @_, $cmd, $opt;
+  goto &_run;
+}
+
+=head2 program_stdout_is
+
+ program_stdout_is $expected_stdout, $test_name;
+
+Tests if the output to stdout from the previous L</program_runs> matches the
+expected value exactly.
+
+=cut
+
+sub program_stdout_is
+{
+  my($pattern, $name) = @_;
+  @_ = ($program_stdout, $pattern, 0, 0, $name || 'stdout matches' );
+  goto &_like;
+}
+
+=head2 program_stdout_isnt
+
+ program_stdout_is $expected_stdout, $test_name;
+
+Tests if the output to stdout from the previous L</program_runs> does NOT match the
+expected value exactly.
+
+=cut
+
+sub program_stdout_isnt
+{
+  my($pattern, $name) = @_;
+  @_ = ($program_stdout, $pattern, 0, 1, $name || 'stdout does not match' );
+  goto &_like;
+}
+
+=head2 program_stdout_like
+
+ program_stdout_like $regex, $test_name;
+
+Tests if the output to stdout from the previous L</program_runs> matches the regular
+expression.
+
+=cut
+
+sub program_stdout_like
+{
+  my($pattern, $name) = @_;
+  @_ = ($program_stdout, $pattern, 1, 0, $name || 'stdout matches' );
+  goto &_like;
+}
+
+=head2 program_stdout_unlike
+
+ program_stdout_unlike $regex, $test_name;
+
+Tests if the output to stdout from the previous L</program_runs> does NOT match the regular
+expression.
+
+=cut
+
+sub program_stdout_unlike
+{
+  my($pattern, $name) = @_;
+  @_ = ($program_stdout, $pattern, 1, 1, $name || 'stdout does not match' );
+  goto &_like;
+}
+
+=head2 program_stderr_is
+
+ program_stderr_is $expected_stderr, $test_name;
+
+Tests if the output to stderr from the previous L</program_runs> matches the
+expected value exactly.
+
+=cut
+
+sub program_stderr_is
+{
+  my($pattern, $name) = @_;
+  @_ = ($program_stderr, $pattern, 0, 0, $name || 'stderr matches' );
+  goto &_like;
+}
+
+=head2 program_stderr_isnt
+
+ program_stderr_is $expected_stderr, $test_name;
+
+Tests if the output to stderr from the previous L</program_runs> does NOT match the
+expected value exactly.
+
+=cut
+
+sub program_stderr_isnt
+{
+  my($pattern, $name) = @_;
+  @_ = ($program_stderr, $pattern, 0, 1, $name || 'stderr does not match' );
+  goto &_like;
+}
+
+=head2 program_stderr_like
+
+ program_stderr_like $regex, $test_name;
+
+Tests if the output to stderr from the previous L</program_runs> matches the regular
+expression.
+
+=cut
+
+sub program_stderr_like
+{
+  my($pattern, $name) = @_;
+  @_ = ($program_stderr, $pattern, 1, 0, $name || 'stderr matches' );
+  goto &_like;
+}
+
+=head2 program_stderr_unlike
+
+ program_stderr_unlike $regex, $test_name;
+
+Tests if the output to stderr from the previous L</program_runs> does NOT match the regular
+expression.
+
+=cut
+
+sub program_stderr_unlike
+{
+  my($pattern, $name) = @_;
+  @_ = ($program_stderr, $pattern, 1, 1, $name || 'stderr does not match' );
+  goto &_like;
+}
+
+
 ######################################################################
 # Support Functions
 
@@ -521,17 +720,21 @@ sub _perl_args {
 # Inline some basic Params::Util functions
 
 sub _options {
+  my $ref_stdout = shift;
+  my $ref_stderr = shift;
+  my $permit_interpreter_options = shift;
   my %options = ref($_[0]->[0]) eq 'HASH' ? %{ shift @{ $_[0] } }: ();
 
   $options{exit}   = 0        unless defined $options{exit};
   $options{signal} = 0        unless defined $options{signal};
   my $stdin = '';
   #$options{stdin}  = \$stdin  unless defined $options{stdin};
-  $options{stdout} = \$stdout unless defined $options{stdout};
-  $options{stderr} = \$stderr unless defined $options{stderr};
+  $options{stdout} = $ref_stdout unless defined $options{stdout};
+  $options{stderr} = $ref_stderr unless defined $options{stderr};
 
   if(defined $options{interpreter_options})
   {
+    die "interpreter_options not supported" unless $permit_interpreter_options;
     unless(ref $options{interpreter_options} eq 'ARRAY')
     {
       require Text::ParseWords;
