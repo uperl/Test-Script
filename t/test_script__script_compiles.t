@@ -4,7 +4,6 @@ use File::Spec;
 use File::Temp qw( tempdir );
 use Data::Dumper qw( Dumper );
 
-
 # the first subtest replaces t/02_compiles_good.t
 
 subtest 'good' => sub {

@@ -2,8 +2,20 @@ use Test2::V0 -no_srand => 1;
 use Test::Script;
 use File::Temp qw( tempdir );
 use Data::Dumper qw( Dumper );
+use Probe::Perl;
 
-# the first subtest replaces t/04_runs_good.t
+# Use the Perl interpreter as the program since it's the only one we know
+# exists.  The files in t/bin do not use any modules, so we don't have
+# to worry about passing @INC down.
+my $perl = Probe::Perl->find_perl_interpreter() or die "Can't find perl";
+
+subtest 'no interpreter_options' => sub {
+  like(
+    dies { program_runs $perl, { interpreter_options => 1 } },
+    qr{interpreter_options},
+    'program_runs rejects {interpreter_options => ...}'
+  );
+};
 
 subtest 'good' => sub {
 
@@ -13,20 +25,20 @@ subtest 'good' => sub {
     my $events;
 
     is(
-      $events = intercept { $rv = script_runs 't/bin/good.pl' },
+      $events = intercept { $rv = program_runs [$perl, 't/bin/good.pl'] },
       array {
         event Ok => sub {
           call pass => T();
-          call name => 'Script t/bin/good.pl runs';
+          call name => "Program $perl runs";
         };
         end;
       },
-      'script_runs t/bin/good.pl',
+      'program_runs: perl t/bin/good.pl',
     );
 
     diag Dumper($events) unless $rv;
 
-    is $rv, T(), 'script_compiles_ok returns true as convenience';
+    is $rv, T(), 'program_runs returns true as convenience';
 
   };
 
@@ -36,7 +48,7 @@ subtest 'good' => sub {
     my $events;
 
     is(
-      $events = intercept { $rv = script_runs 't/bin/good.pl', 'It worked' },
+      $events = intercept { $rv = program_runs [$perl, 't/bin/good.pl'], 'It worked' },
       array {
         event Ok => sub {
           call pass => T();
@@ -44,12 +56,12 @@ subtest 'good' => sub {
         };
         end;
       },
-      'script_runs t/bin/good.pl It worked',
+      'program_runs perl t/bin/good.pl It worked',
     );
 
     diag Dumper($events) unless $rv;
 
-    is $rv, T(), 'script_compiles_ok returns true as convenience';
+    is $rv, T(), 'program_runs returns true as convenience';
 
   };
 
@@ -63,11 +75,11 @@ subtest 'bad: returns 4' => sub {
     my $events;
 
     my $rv2 = is(
-      $events = intercept { $rv = script_runs 't/bin/four.pl' },
+      $events = intercept { $rv = program_runs [$perl, 't/bin/four.pl'] },
       array {
         event Ok => sub {
           call pass => F();
-          call name => 'Script t/bin/four.pl runs';
+          call name => "Program $perl runs";
         };
         event Diag => sub {};
         event Diag => sub {
@@ -75,12 +87,12 @@ subtest 'bad: returns 4' => sub {
         };
         end;
       },
-      'script_runs t/bin/good.pl',
+      'program_runs perl t/bin/good.pl',
     );
 
     diag Dumper($events) unless $rv2;
 
-    is $rv, F(), 'script_compiles_ok returns false as convenience';
+    is $rv, F(), 'program_runs returns false as convenience';
 
   };
 
@@ -90,7 +102,7 @@ subtest 'bad: returns 4' => sub {
     my $events;
 
     my $rv2 = is(
-      $events = intercept { $rv = script_runs 't/bin/four.pl', 'It worked' },
+      $events = intercept { $rv = program_runs [$perl, 't/bin/four.pl'], 'It worked' },
       array {
         event Ok => sub {
           call pass => F();
@@ -102,50 +114,32 @@ subtest 'bad: returns 4' => sub {
         };
         end;
       },
-      'script_runs t/bin/good.pl It worked',
+      'program_runs perl t/bin/good.pl It worked',
     );
 
     diag Dumper($events) unless $rv2;
 
-    is $rv, F(), 'script_compiles_ok returns false as convenience';
+    is $rv, F(), 'program_runs returns false as convenience';
 
   };
-
-};
-
-subtest 'unreasonable number of libs' => sub {
-
-  skip_all 'developer only test' unless $ENV{TEST_SCRIPT_DEV_TEST};
-
-  local @INC = @INC;
-  my $dir = tempdir( CLEANUP => 1 );
-  for(map { File::Spec->catfile($dir, $_) } 1..1000000)
-  {
-    #mkdir;
-    push @INC, $_;
-  }
-
-  script_runs 't/bin/good.pl';
 
 };
 
 subtest 'stdin' => sub {
 
-  script_compiles 't/bin/stdin.pl';
-
   # see https://github.com/plicease/Test-Script/issues/23
 
   subtest 'filename' => sub {
 
-    script_runs     't/bin/stdin.pl', { stdin => 't/bin/stdin.txt' };
-    script_stdout_like qr{fbbbaz};
+    program_runs     [$perl, 't/bin/stdin.pl'], { stdin => 't/bin/stdin.txt' };
+    program_stdout_like qr{fbbbaz};
 
   };
 
   subtest 'scalar ref' => sub {
 
-    script_runs     't/bin/stdin.pl', { stdin => \'helloooo there' };
-    script_stdout_like qr{hellbbbb there};
+    program_runs     [$perl, 't/bin/stdin.pl'], { stdin => \'helloooo there' };
+    program_stdout_like qr{hellbbbb there};
 
   };
 
@@ -156,11 +150,11 @@ subtest exception => sub {
   my $events;
 
   is(
-    $events = intercept { script_runs( 't/bin/missing.pl' ) },
+    $events = intercept { program_runs( [$perl, 't/bin/missing.pl'] ) },
     array {
       event Ok => sub {
         call pass => F();
-        call name => 'Script t/bin/missing.pl runs';
+        call name => "Program $perl runs";
       };
       event Diag => sub {};
       event Diag => sub { call message => match(qr{^2 - })};
@@ -177,7 +171,7 @@ subtest 'signal' => sub {
   my $events;
 
   is(
-    $events = intercept { script_runs( 't/bin/signal.pl' ) },
+    $events = intercept { program_runs( [$perl, 't/bin/signal.pl'] ) },
     array {
       event Ok => sub {
         call pass => F();
@@ -194,7 +188,7 @@ subtest 'signal' => sub {
 subtest 'non-zero exit' => sub {
 
   is(
-    intercept { script_runs 't/bin/four.pl', { exit => 4 } },
+    intercept { program_runs [$perl, 't/bin/four.pl'], { exit => 4 } },
     array {
       event Ok => sub {
         call pass => T();
@@ -210,7 +204,7 @@ subtest 'signal' => sub {
   skip_all 'not for windows' if $^O eq 'MSWin32';
 
   is(
-    intercept { script_runs 't/bin/signal.pl', { signal => 9 } },
+    intercept { program_runs [$perl, 't/bin/signal.pl'], { signal => 9 } },
     array {
       event Ok => sub {
         call pass => T();
@@ -226,20 +220,11 @@ subtest 'scalar ref' => sub {
   my $stdout = '';
   my $stderr = '';
 
-  script_runs 't/bin/print.pl', { stdout => \$stdout, stderr => \$stderr };
+  program_runs [$perl, 't/bin/print.pl'], { stdout => \$stdout, stderr => \$stderr };
 
   is $stdout, "Standard Out\nsecond line\n";
   is $stderr, "Standard Error\nanother line\n";
 
 };
-
-subtest 'interpreter_options' => sub {
-
-  script_runs 't/bin/warnon.pl', { interpreter_options => [ '-w' ] }, 'as array reference';
-  script_runs 't/bin/warnon.pl', { interpreter_options => '-w' }, 'as string';
-
-};
-
-script_runs 't/bin/taint.pl';
 
 done_testing;
