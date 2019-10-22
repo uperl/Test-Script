@@ -766,8 +766,7 @@ BEGIN {
 
 =head1 CAVEATS
 
-This module is fully supported back to Perl 5.8.1.  In the near future, support
-for the older pre-Test2 Test::Builder will be dropped.
+This module is fully supported back to Perl 5.8.1.
 
 The STDIN handle will be closed when using script_runs with the stdin option.
 An older version used L<IPC::Run3>, which attempted to save STDIN, but
