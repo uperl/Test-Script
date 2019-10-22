@@ -259,8 +259,7 @@ expression.
 
 # CAVEATS
 
-This module is fully supported back to Perl 5.8.1.  In the near future, support
-for the older pre-Test2 Test::Builder will be dropped.
+This module is fully supported back to Perl 5.8.1.
 
 The STDIN handle will be closed when using script\_runs with the stdin option.
 An older version used [IPC::Run3](https://metacpan.org/pod/IPC::Run3), which attempted to save STDIN, but
@@ -281,9 +280,11 @@ Contributors:
 
 Brendan Byrd
 
+Chris White <cxw@cpan.org>
+
 # COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2017 by Adam Kennedy.
+This software is copyright (c) 2019 by Adam Kennedy.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
