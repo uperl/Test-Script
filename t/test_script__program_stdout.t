@@ -1,10 +1,13 @@
 use Test2::V0 -no_srand => 1;
 use Test::Script;
+use Probe::Perl;
 
-script_runs 't/bin/print.pl';
+my $perl = Probe::Perl->find_perl_interpreter() or die "Can't find perl";
+
+program_runs [$perl, 't/bin/print.pl'];
 
 is(
-  intercept { script_stdout_is "Standard Out\nsecond line\n" },
+  intercept { program_stdout_is "Standard Out\nsecond line\n" },
   array {
     event Ok => sub {
       call pass => T();
@@ -12,11 +15,11 @@ is(
     };
     end;
   },
-  'script_stdout_is',
+  'program_stdout_is',
 );
 
 is(
-  intercept { script_stdout_isnt "XXXX" },
+  intercept { program_stdout_isnt "XXXX" },
   array {
     event Ok => sub {
       call pass => T();
@@ -24,11 +27,11 @@ is(
     };
     end;
   },
-  'script_stdout_isnt',
+  'program_stdout_isnt',
 );
 
 is(
-  intercept { script_stdout_is "XXX" },
+  intercept { program_stdout_is "XXX" },
   array {
     event Ok => sub {
       call pass => F();
@@ -42,11 +45,11 @@ is(
     event Diag => sub {};
     end;
   },
-  'script_stdout_is fail',
+  'program_stdout_is fail',
 );
 
 is(
-  intercept { script_stdout_isnt "Standard Out\nsecond line\n" },
+  intercept { program_stdout_isnt "Standard Out\nsecond line\n" },
   array {
     event Ok => sub {
       call pass => F();
@@ -61,11 +64,11 @@ is(
     event Diag => sub {};
     end;
   },
-  'script_stdout_isnt fail',
+  'program_stdout_isnt fail',
 );
 
 is(
-  intercept { script_stdout_like qr{tandard Ou} },
+  intercept { program_stdout_like qr{tandard Ou} },
   array {
     event Ok => sub {
       call pass => T();
@@ -73,11 +76,11 @@ is(
     };
     end;
   },
-  'script_stdout_like',
+  'program_stdout_like',
 );
 
 is(
-  intercept { script_stdout_like qr{XXXX} },
+  intercept { program_stdout_like qr{XXXX} },
   array {
     event Ok => sub {
       call pass => F();
@@ -91,11 +94,11 @@ is(
     event Diag => sub {};
     end;
   },
-  'script_stdout_like fail',
+  'program_stdout_like fail',
 );
 
 is(
-  intercept { script_stdout_unlike qr{XXXX} },
+  intercept { program_stdout_unlike qr{XXXX} },
   array {
     event Ok => sub {
       call pass => T();
@@ -103,11 +106,11 @@ is(
     };
     end;
   },
-  'script_stdout_unlike',
+  'program_stdout_unlike',
 );
 
 is(
-  intercept { script_stdout_unlike qr{tandard Ou} },
+  intercept { program_stdout_unlike qr{tandard Ou} },
   array {
     event Ok => sub {
       call pass => F();
@@ -121,7 +124,7 @@ is(
     event Diag => sub {};
     end;
   },
-  'script_stdout_unlike fail'
+  'program_stdout_unlike fail'
 );
 
 done_testing;

@@ -1,38 +1,41 @@
 use Test2::V0 -no_srand => 1;
 use Test::Script;
+use Probe::Perl;
 
-script_runs 't/bin/print.pl';
+my $perl = Probe::Perl->find_perl_interpreter() or die "Can't find perl";
+
+program_runs [$perl, 't/bin/print.pl'];
 
 is(
-  intercept { script_stdout_is "Standard Out\nsecond line\n" },
+  intercept { program_stderr_is "Standard Error\nanother line\n" },
   array {
     event Ok => sub {
       call pass => T();
-      call name => 'stdout matches';
+      call name => 'stderr matches';
     };
     end;
   },
-  'script_stdout_is',
+  'program_stderr_is',
 );
 
 is(
-  intercept { script_stdout_isnt "XXXX" },
+  intercept { program_stderr_isnt "XXXX" },
   array {
     event Ok => sub {
       call pass => T();
-      call name => 'stdout does not match';
+      call name => 'stderr does not match';
     };
     end;
   },
-  'script_stdout_isnt',
+  'program_stderr_isnt',
 );
 
 is(
-  intercept { script_stdout_is "XXX" },
+  intercept { program_stderr_is "XXX" },
   array {
     event Ok => sub {
       call pass => F();
-      call name => 'stdout matches';
+      call name => 'stderr matches';
     };
     event Diag => sub {};
     event Diag => sub {};
@@ -42,15 +45,15 @@ is(
     event Diag => sub {};
     end;
   },
-  'script_stdout_is fail',
+  'program_stderr_is fail',
 );
 
 is(
-  intercept { script_stdout_isnt "Standard Out\nsecond line\n" },
+  intercept { program_stderr_isnt "Standard Error\nanother line\n" },
   array {
     event Ok => sub {
       call pass => F();
-      call name => 'stdout does not match';
+      call name => 'stderr does not match';
     };
     event Diag => sub {};
     event Diag => sub {};
@@ -61,27 +64,27 @@ is(
     event Diag => sub {};
     end;
   },
-  'script_stdout_isnt fail',
+  'program_stderr_isnt fail',
 );
 
 is(
-  intercept { script_stdout_like qr{tandard Ou} },
+  intercept { program_stderr_like qr{tandard Er} },
   array {
     event Ok => sub {
       call pass => T();
-      call name => 'stdout matches';
+      call name => 'stderr matches';
     };
     end;
   },
-  'script_stdout_like',
+  'program_stderr_like',
 );
 
 is(
-  intercept { script_stdout_like qr{XXXX} },
+  intercept { program_stderr_like qr{XXXX} },
   array {
     event Ok => sub {
       call pass => F();
-      call name => 'stdout matches';
+      call name => 'stderr matches';
     };
     event Diag => sub {};
     event Diag => sub {};
@@ -91,27 +94,27 @@ is(
     event Diag => sub {};
     end;
   },
-  'script_stdout_like fail',
+  'program_stderr_like fail',
 );
 
 is(
-  intercept { script_stdout_unlike qr{XXXX} },
+  intercept { program_stderr_unlike qr{XXXX} },
   array {
     event Ok => sub {
       call pass => T();
-      call name => 'stdout does not match';
+      call name => 'stderr does not match';
     };
     end;
   },
-  'script_stdout_unlike',
+  'program_stderr_unlike',
 );
 
 is(
-  intercept { script_stdout_unlike qr{tandard Ou} },
+  intercept { program_stderr_unlike qr{tandard Er} },
   array {
     event Ok => sub {
       call pass => F();
-      call name => 'stdout does not match';
+      call name => 'stderr does not match';
     };
     event Diag => sub {};
     event Diag => sub {};
@@ -121,7 +124,7 @@ is(
     event Diag => sub {};
     end;
   },
-  'script_stdout_unlike fail'
+  'program_stderr_unlike fail',
 );
 
 done_testing;

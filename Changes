@@ -1,6 +1,8 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
+  - Add program_runs and related functions for testing programs
+    that do not run under Perl (gh#26)
 
 1.25      2018-09-27 15:33:19 -0400
   - Production release identical to 1.24_01 release.

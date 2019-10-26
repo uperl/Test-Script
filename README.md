@@ -10,6 +10,8 @@ Basic cross-platform tests for scripts
     script_compiles('script/myscript.pl');
     script_runs(['script/myscript.pl', '--my-argument']);
     
+    program_runs(['ls', '/dev']);
+    
     done_testing;
 
 # DESCRIPTION
@@ -17,6 +19,9 @@ Basic cross-platform tests for scripts
 The intent of this module is to provide a series of basic tests for 80%
 of the testing you will need to do for scripts in the `script` (or `bin`
 as is also commonly used) paths of your Perl distribution.
+
+It also provides similar functions for testing programs that are not
+Perl scripts.
 
 Further, it aims to provide this functionality with perfect
 platform-compatibility, and in a way that is as unobtrusive as possible.
@@ -178,10 +183,83 @@ expression.
 Tests if the output to stderr from the previous ["script\_runs"](#script_runs) does NOT match the regular
 expression.
 
+## program\_runs
+
+    program_runs( $program, $test_name );
+    program_runs( \@program_and_arguments, $test_name );
+    program_runs( $program, \%options, $test_name );
+    program_runs( \@program_and_arguments, \%options, $test_name );
+
+The ["program\_runs"](#program_runs) test executes the given program and checks
+that it returns success.  This function works like ["script\_runs"](#script_runs) except:
+
+- The path `$program` or `@program_and_arguments` is passed as-is to
+[system()](https://perldoc.perl.org/functions/system.html).  This means
+`program_runs` can test any program, not just Perl scripts.
+- The `%options` do not support the `interpreter_options` key.
+
+See [File::Spec](https://metacpan.org/pod/File::Spec) or [Path::Class](https://metacpan.org/pod/Path::Class) for routines useful in building pathnames
+in a cross-platform way.
+
+## program\_stdout\_is
+
+    program_stdout_is $expected_stdout, $test_name;
+
+Tests if the output to stdout from the previous ["program\_runs"](#program_runs) matches the
+expected value exactly.
+
+## program\_stdout\_isnt
+
+    program_stdout_is $expected_stdout, $test_name;
+
+Tests if the output to stdout from the previous ["program\_runs"](#program_runs) does NOT match the
+expected value exactly.
+
+## program\_stdout\_like
+
+    program_stdout_like $regex, $test_name;
+
+Tests if the output to stdout from the previous ["program\_runs"](#program_runs) matches the regular
+expression.
+
+## program\_stdout\_unlike
+
+    program_stdout_unlike $regex, $test_name;
+
+Tests if the output to stdout from the previous ["program\_runs"](#program_runs) does NOT match the regular
+expression.
+
+## program\_stderr\_is
+
+    program_stderr_is $expected_stderr, $test_name;
+
+Tests if the output to stderr from the previous ["program\_runs"](#program_runs) matches the
+expected value exactly.
+
+## program\_stderr\_isnt
+
+    program_stderr_is $expected_stderr, $test_name;
+
+Tests if the output to stderr from the previous ["program\_runs"](#program_runs) does NOT match the
+expected value exactly.
+
+## program\_stderr\_like
+
+    program_stderr_like $regex, $test_name;
+
+Tests if the output to stderr from the previous ["program\_runs"](#program_runs) matches the regular
+expression.
+
+## program\_stderr\_unlike
+
+    program_stderr_unlike $regex, $test_name;
+
+Tests if the output to stderr from the previous ["program\_runs"](#program_runs) does NOT match the regular
+expression.
+
 # CAVEATS
 
-This module is fully supported back to Perl 5.8.1.  In the near future, support
-for the older pre-Test2 Test::Builer will be dropped.
+This module is fully supported back to Perl 5.8.1.
 
 The STDIN handle will be closed when using script\_runs with the stdin option.
 An older version used [IPC::Run3](https://metacpan.org/pod/IPC::Run3), which attempted to save STDIN, but
@@ -202,9 +280,11 @@ Contributors:
 
 Brendan Byrd
 
+Chris White <cxw@cpan.org>
+
 # COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2017 by Adam Kennedy.
+This software is copyright (c) 2019 by Adam Kennedy.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
