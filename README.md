@@ -1,18 +1,20 @@
-# Test::Script [![Build Status](https://secure.travis-ci.org/plicease/Test-Script.png)](http://travis-ci.org/plicease/Test-Script)
+# Test::Script [![Build Status](https://secure.travis-ci.org/plicease/Test-Script.png)](http://travis-ci.org/plicease/Test-Script) ![windows](https://github.com/plicease/Test-Script/workflows/windows/badge.svg) ![macos](https://github.com/plicease/Test-Script/workflows/macos/badge.svg)
 
 Basic cross-platform tests for scripts
 
 # SYNOPSIS
 
-    use Test2::V0;
-    use Test::Script;
-    
-    script_compiles('script/myscript.pl');
-    script_runs(['script/myscript.pl', '--my-argument']);
-    
-    program_runs(['ls', '/dev']);
-    
-    done_testing;
+```perl
+use Test2::V0;
+use Test::Script;
+
+script_compiles('script/myscript.pl');
+script_runs(['script/myscript.pl', '--my-argument']);
+
+program_runs(['ls', '/dev']);
+
+done_testing;
+```
 
 # DESCRIPTION
 
@@ -41,7 +43,9 @@ platform safety, this module will err on the side of platform safety.
 
 ## script\_compiles
 
-    script_compiles( $script, $test_name );
+```
+script_compiles( $script, $test_name );
+```
 
 The ["script\_compiles"](#script_compiles) test calls the script with "perl -c script.pl",
 and checks that it returns without error.
@@ -56,10 +60,12 @@ will also be shown in the diagnostic output on failure.
 
 ## script\_runs
 
-    script_runs( $script, $test_name );
-    script_runs( \@script_and_arguments, $test_name );
-    script_runs( $script, \%options, $test_name );
-    script_runs( \@script_and_arguments, \%options, $test_name );
+```
+script_runs( $script, $test_name );
+script_runs( \@script_and_arguments, $test_name );
+script_runs( $script, \%options, $test_name );
+script_runs( \@script_and_arguments, \%options, $test_name );
+```
 
 The ["script\_runs"](#script_runs) test executes the script with "perl script.pl" and checks
 that it returns success.
@@ -129,66 +135,84 @@ You may pass in options as a hash as the second argument.
 
 ## script\_stdout\_is
 
-    script_stdout_is $expected_stdout, $test_name;
+```
+script_stdout_is $expected_stdout, $test_name;
+```
 
 Tests if the output to stdout from the previous ["script\_runs"](#script_runs) matches the
 expected value exactly.
 
 ## script\_stdout\_isnt
 
-    script_stdout_is $expected_stdout, $test_name;
+```
+script_stdout_is $expected_stdout, $test_name;
+```
 
 Tests if the output to stdout from the previous ["script\_runs"](#script_runs) does NOT match the
 expected value exactly.
 
 ## script\_stdout\_like
 
-    script_stdout_like $regex, $test_name;
+```
+script_stdout_like $regex, $test_name;
+```
 
 Tests if the output to stdout from the previous ["script\_runs"](#script_runs) matches the regular
 expression.
 
 ## script\_stdout\_unlike
 
-    script_stdout_unlike $regex, $test_name;
+```
+script_stdout_unlike $regex, $test_name;
+```
 
 Tests if the output to stdout from the previous ["script\_runs"](#script_runs) does NOT match the regular
 expression.
 
 ## script\_stderr\_is
 
-    script_stderr_is $expected_stderr, $test_name;
+```
+script_stderr_is $expected_stderr, $test_name;
+```
 
 Tests if the output to stderr from the previous ["script\_runs"](#script_runs) matches the
 expected value exactly.
 
 ## script\_stderr\_isnt
 
-    script_stderr_is $expected_stderr, $test_name;
+```
+script_stderr_is $expected_stderr, $test_name;
+```
 
 Tests if the output to stderr from the previous ["script\_runs"](#script_runs) does NOT match the
 expected value exactly.
 
 ## script\_stderr\_like
 
-    script_stderr_like $regex, $test_name;
+```
+script_stderr_like $regex, $test_name;
+```
 
 Tests if the output to stderr from the previous ["script\_runs"](#script_runs) matches the regular
 expression.
 
 ## script\_stderr\_unlike
 
-    script_stderr_unlike $regex, $test_name;
+```
+script_stderr_unlike $regex, $test_name;
+```
 
 Tests if the output to stderr from the previous ["script\_runs"](#script_runs) does NOT match the regular
 expression.
 
 ## program\_runs
 
-    program_runs( $program, $test_name );
-    program_runs( \@program_and_arguments, $test_name );
-    program_runs( $program, \%options, $test_name );
-    program_runs( \@program_and_arguments, \%options, $test_name );
+```
+program_runs( $program, $test_name );
+program_runs( \@program_and_arguments, $test_name );
+program_runs( $program, \%options, $test_name );
+program_runs( \@program_and_arguments, \%options, $test_name );
+```
 
 The ["program\_runs"](#program_runs) test executes the given program and checks
 that it returns success.  This function works like ["script\_runs"](#script_runs) except:
@@ -203,56 +227,72 @@ in a cross-platform way.
 
 ## program\_stdout\_is
 
-    program_stdout_is $expected_stdout, $test_name;
+```
+program_stdout_is $expected_stdout, $test_name;
+```
 
 Tests if the output to stdout from the previous ["program\_runs"](#program_runs) matches the
 expected value exactly.
 
 ## program\_stdout\_isnt
 
-    program_stdout_is $expected_stdout, $test_name;
+```
+program_stdout_is $expected_stdout, $test_name;
+```
 
 Tests if the output to stdout from the previous ["program\_runs"](#program_runs) does NOT match the
 expected value exactly.
 
 ## program\_stdout\_like
 
-    program_stdout_like $regex, $test_name;
+```
+program_stdout_like $regex, $test_name;
+```
 
 Tests if the output to stdout from the previous ["program\_runs"](#program_runs) matches the regular
 expression.
 
 ## program\_stdout\_unlike
 
-    program_stdout_unlike $regex, $test_name;
+```
+program_stdout_unlike $regex, $test_name;
+```
 
 Tests if the output to stdout from the previous ["program\_runs"](#program_runs) does NOT match the regular
 expression.
 
 ## program\_stderr\_is
 
-    program_stderr_is $expected_stderr, $test_name;
+```
+program_stderr_is $expected_stderr, $test_name;
+```
 
 Tests if the output to stderr from the previous ["program\_runs"](#program_runs) matches the
 expected value exactly.
 
 ## program\_stderr\_isnt
 
-    program_stderr_is $expected_stderr, $test_name;
+```
+program_stderr_is $expected_stderr, $test_name;
+```
 
 Tests if the output to stderr from the previous ["program\_runs"](#program_runs) does NOT match the
 expected value exactly.
 
 ## program\_stderr\_like
 
-    program_stderr_like $regex, $test_name;
+```
+program_stderr_like $regex, $test_name;
+```
 
 Tests if the output to stderr from the previous ["program\_runs"](#program_runs) matches the regular
 expression.
 
 ## program\_stderr\_unlike
 
-    program_stderr_unlike $regex, $test_name;
+```
+program_stderr_unlike $regex, $test_name;
+```
 
 Tests if the output to stderr from the previous ["program\_runs"](#program_runs) does NOT match the regular
 expression.
