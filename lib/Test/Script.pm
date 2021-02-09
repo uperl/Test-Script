@@ -145,6 +145,8 @@ Note also that the test will be run with the same L<perl> interpreter that
 is running the test script (and not with the default system perl). This
 will also be shown in the diagnostic output on failure.
 
+This function was added in version 1.05.
+
 =cut
 
 sub script_compiles {
@@ -219,7 +221,9 @@ The test will be run with the same L<perl> interpreter that is running the
 test script (and not with the default system perl). This will also be shown
 in the diagnostic output on failure.
 
-You may pass in options as a hash as the second argument.
+This function was added in version 1.05.
+
+You may pass in options as a hash as the second argument (as of version 1.09).
 
 =over 4
 
@@ -233,6 +237,8 @@ on your platform (usually 0).
 Array reference of Perl options to be passed to the interpreter.  Things
 like C<-w> or C<-x> can be passed this way.  This may be either a single
 string or an array reference.
+
+This option was added in version 1.25.
 
 =item signal
 
@@ -389,6 +395,8 @@ sub _like
 Tests if the output to stdout from the previous L</script_runs> matches the
 expected value exactly.
 
+This function was added in version 1.09.
+
 =cut
 
 sub script_stdout_is
@@ -404,6 +412,8 @@ sub script_stdout_is
 
 Tests if the output to stdout from the previous L</script_runs> does NOT match the
 expected value exactly.
+
+This function was added in version 1.09.
 
 =cut
 
@@ -421,6 +431,8 @@ sub script_stdout_isnt
 Tests if the output to stdout from the previous L</script_runs> matches the regular
 expression.
 
+This function was added in version 1.09.
+
 =cut
 
 sub script_stdout_like
@@ -436,6 +448,8 @@ sub script_stdout_like
 
 Tests if the output to stdout from the previous L</script_runs> does NOT match the regular
 expression.
+
+This function was added in version 1.09.
 
 =cut
 
@@ -453,6 +467,8 @@ sub script_stdout_unlike
 Tests if the output to stderr from the previous L</script_runs> matches the
 expected value exactly.
 
+This function was added in version 1.09.
+
 =cut
 
 sub script_stderr_is
@@ -468,6 +484,8 @@ sub script_stderr_is
 
 Tests if the output to stderr from the previous L</script_runs> does NOT match the
 expected value exactly.
+
+This function was added in version 1.09.
 
 =cut
 
@@ -485,6 +503,8 @@ sub script_stderr_isnt
 Tests if the output to stderr from the previous L</script_runs> matches the regular
 expression.
 
+This function was added in version 1.09.
+
 =cut
 
 sub script_stderr_like
@@ -500,6 +520,8 @@ sub script_stderr_like
 
 Tests if the output to stderr from the previous L</script_runs> does NOT match the regular
 expression.
+
+This function was added in version 1.09.
 
 =cut
 
@@ -542,6 +564,8 @@ The C<%options> do not support the C<interpreter_options> key.
 
 See L<File::Spec> or L<Path::Class> for routines useful in building pathnames
 in a cross-platform way.
+
+This function was added in version 1.26.
 
 =cut
 
