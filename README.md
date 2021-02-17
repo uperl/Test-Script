@@ -58,6 +58,8 @@ Note also that the test will be run with the same [perl](https://metacpan.org/po
 is running the test script (and not with the default system perl). This
 will also be shown in the diagnostic output on failure.
 
+This function was added in version 1.05.
+
 ## script\_runs
 
 ```
@@ -78,7 +80,9 @@ The test will be run with the same [perl](https://metacpan.org/pod/perl) interpr
 test script (and not with the default system perl). This will also be shown
 in the diagnostic output on failure.
 
-You may pass in options as a hash as the second argument.
+This function was added in version 1.05.
+
+You may pass in options as a hash as the second argument (as of version 1.09).
 
 - exit
 
@@ -90,6 +94,8 @@ You may pass in options as a hash as the second argument.
     Array reference of Perl options to be passed to the interpreter.  Things
     like `-w` or `-x` can be passed this way.  This may be either a single
     string or an array reference.
+
+    This option was added in version 1.25.
 
 - signal
 
@@ -142,6 +148,8 @@ script_stdout_is $expected_stdout, $test_name;
 Tests if the output to stdout from the previous ["script\_runs"](#script_runs) matches the
 expected value exactly.
 
+This function was added in version 1.09.
+
 ## script\_stdout\_isnt
 
 ```
@@ -150,6 +158,8 @@ script_stdout_is $expected_stdout, $test_name;
 
 Tests if the output to stdout from the previous ["script\_runs"](#script_runs) does NOT match the
 expected value exactly.
+
+This function was added in version 1.09.
 
 ## script\_stdout\_like
 
@@ -160,6 +170,8 @@ script_stdout_like $regex, $test_name;
 Tests if the output to stdout from the previous ["script\_runs"](#script_runs) matches the regular
 expression.
 
+This function was added in version 1.09.
+
 ## script\_stdout\_unlike
 
 ```
@@ -168,6 +180,8 @@ script_stdout_unlike $regex, $test_name;
 
 Tests if the output to stdout from the previous ["script\_runs"](#script_runs) does NOT match the regular
 expression.
+
+This function was added in version 1.09.
 
 ## script\_stderr\_is
 
@@ -178,6 +192,8 @@ script_stderr_is $expected_stderr, $test_name;
 Tests if the output to stderr from the previous ["script\_runs"](#script_runs) matches the
 expected value exactly.
 
+This function was added in version 1.09.
+
 ## script\_stderr\_isnt
 
 ```
@@ -186,6 +202,8 @@ script_stderr_is $expected_stderr, $test_name;
 
 Tests if the output to stderr from the previous ["script\_runs"](#script_runs) does NOT match the
 expected value exactly.
+
+This function was added in version 1.09.
 
 ## script\_stderr\_like
 
@@ -196,6 +214,8 @@ script_stderr_like $regex, $test_name;
 Tests if the output to stderr from the previous ["script\_runs"](#script_runs) matches the regular
 expression.
 
+This function was added in version 1.09.
+
 ## script\_stderr\_unlike
 
 ```
@@ -204,6 +224,8 @@ script_stderr_unlike $regex, $test_name;
 
 Tests if the output to stderr from the previous ["script\_runs"](#script_runs) does NOT match the regular
 expression.
+
+This function was added in version 1.09.
 
 ## program\_runs
 
@@ -224,6 +246,8 @@ that it returns success.  This function works like ["script\_runs"](#script_runs
 
 See [File::Spec](https://metacpan.org/pod/File::Spec) or [Path::Class](https://metacpan.org/pod/Path::Class) for routines useful in building pathnames
 in a cross-platform way.
+
+This function was added in version 1.26.
 
 ## program\_stdout\_is
 
