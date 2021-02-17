@@ -1,4 +1,4 @@
-# Test::Script [![Build Status](https://api.travis-ci.com/plicease/Test-Script.svg?branch=master)](https://travis-ci.com/github/plicease/Test-Script) ![windows](https://github.com/plicease/Test-Script/workflows/windows/badge.svg) ![macos](https://github.com/plicease/Test-Script/workflows/macos/badge.svg)
+# Test::Script [![Build Status](https://api.travis-ci.com/plicease/Test-Script.svg?branch=main)](https://travis-ci.com/github/plicease/Test-Script) ![windows](https://github.com/plicease/Test-Script/workflows/windows/badge.svg) ![macos](https://github.com/plicease/Test-Script/workflows/macos/badge.svg)
 
 Basic cross-platform tests for scripts
 

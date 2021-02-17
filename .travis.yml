@@ -34,7 +34,6 @@ jobs:
 branches:
   only:
     - main
-    - master
 
 cache:
   directories:
