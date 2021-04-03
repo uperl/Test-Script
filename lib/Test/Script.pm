@@ -132,6 +132,8 @@ sub path ($) {
 
 =head2 script_compiles
 
+[version 1.05]
+
  script_compiles( $script, $test_name );
 
 The L</script_compiles> test calls the script with "perl -c script.pl",
@@ -144,8 +146,6 @@ name used will be shown in the diagnostic output.
 Note also that the test will be run with the same L<perl> interpreter that
 is running the test script (and not with the default system perl). This
 will also be shown in the diagnostic output on failure.
-
-This function was added in version 1.05.
 
 =cut
 
@@ -205,6 +205,8 @@ sub _preload_module
 
 =head2 script_runs
 
+[version 1.05]
+
  script_runs( $script, $test_name );
  script_runs( \@script_and_arguments, $test_name );
  script_runs( $script, \%options, $test_name );
@@ -221,7 +223,7 @@ The test will be run with the same L<perl> interpreter that is running the
 test script (and not with the default system perl). This will also be shown
 in the diagnostic output on failure.
 
-This function was added in version 1.05.
+[version 1.09]
 
 You may pass in options as a hash as the second argument (as of version 1.09).
 
@@ -234,11 +236,11 @@ on your platform (usually 0).
 
 =item interpreter_options
 
+[version 1.25]
+
 Array reference of Perl options to be passed to the interpreter.  Things
 like C<-w> or C<-x> can be passed this way.  This may be either a single
 string or an array reference.
-
-This option was added in version 1.25.
 
 =item signal
 
@@ -390,12 +392,12 @@ sub _like
 
 =head2 script_stdout_is
 
+[version 1.09]
+
  script_stdout_is $expected_stdout, $test_name;
 
 Tests if the output to stdout from the previous L</script_runs> matches the
 expected value exactly.
-
-This function was added in version 1.09.
 
 =cut
 
@@ -408,12 +410,12 @@ sub script_stdout_is
 
 =head2 script_stdout_isnt
 
+[version 1.09]
+
  script_stdout_is $expected_stdout, $test_name;
 
 Tests if the output to stdout from the previous L</script_runs> does NOT match the
 expected value exactly.
-
-This function was added in version 1.09.
 
 =cut
 
@@ -426,12 +428,12 @@ sub script_stdout_isnt
 
 =head2 script_stdout_like
 
+[version 1.09]
+
  script_stdout_like $regex, $test_name;
 
 Tests if the output to stdout from the previous L</script_runs> matches the regular
 expression.
-
-This function was added in version 1.09.
 
 =cut
 
@@ -444,12 +446,12 @@ sub script_stdout_like
 
 =head2 script_stdout_unlike
 
+[version 1.09]
+
  script_stdout_unlike $regex, $test_name;
 
 Tests if the output to stdout from the previous L</script_runs> does NOT match the regular
 expression.
-
-This function was added in version 1.09.
 
 =cut
 
@@ -462,12 +464,12 @@ sub script_stdout_unlike
 
 =head2 script_stderr_is
 
+[version 1.09]
+
  script_stderr_is $expected_stderr, $test_name;
 
 Tests if the output to stderr from the previous L</script_runs> matches the
 expected value exactly.
-
-This function was added in version 1.09.
 
 =cut
 
@@ -480,12 +482,12 @@ sub script_stderr_is
 
 =head2 script_stderr_isnt
 
+[version 1.09]
+
  script_stderr_is $expected_stderr, $test_name;
 
 Tests if the output to stderr from the previous L</script_runs> does NOT match the
 expected value exactly.
-
-This function was added in version 1.09.
 
 =cut
 
@@ -498,12 +500,12 @@ sub script_stderr_isnt
 
 =head2 script_stderr_like
 
+[version 1.09]
+
  script_stderr_like $regex, $test_name;
 
 Tests if the output to stderr from the previous L</script_runs> matches the regular
 expression.
-
-This function was added in version 1.09.
 
 =cut
 
@@ -516,12 +518,12 @@ sub script_stderr_like
 
 =head2 script_stderr_unlike
 
+[version 1.09]
+
  script_stderr_unlike $regex, $test_name;
 
 Tests if the output to stderr from the previous L</script_runs> does NOT match the regular
 expression.
-
-This function was added in version 1.09.
 
 =cut
 
@@ -539,6 +541,8 @@ my $program_stdout;
 my $program_stderr;
 
 =head2 program_runs
+
+[version 1.26]
 
  program_runs( $program, $test_name );
  program_runs( \@program_and_arguments, $test_name );
@@ -565,8 +569,6 @@ The C<%options> do not support the C<interpreter_options> key.
 See L<File::Spec> or L<Path::Class> for routines useful in building pathnames
 in a cross-platform way.
 
-This function was added in version 1.26.
-
 =cut
 
 sub program_runs {
@@ -581,6 +583,8 @@ sub program_runs {
 }
 
 =head2 program_stdout_is
+
+[version 1.26]
 
  program_stdout_is $expected_stdout, $test_name;
 
@@ -598,6 +602,8 @@ sub program_stdout_is
 
 =head2 program_stdout_isnt
 
+[version 1.26]
+
  program_stdout_is $expected_stdout, $test_name;
 
 Tests if the output to stdout from the previous L</program_runs> does NOT match the
@@ -613,6 +619,8 @@ sub program_stdout_isnt
 }
 
 =head2 program_stdout_like
+
+[version 1.26]
 
  program_stdout_like $regex, $test_name;
 
@@ -630,6 +638,8 @@ sub program_stdout_like
 
 =head2 program_stdout_unlike
 
+[version 1.26]
+
  program_stdout_unlike $regex, $test_name;
 
 Tests if the output to stdout from the previous L</program_runs> does NOT match the regular
@@ -645,6 +655,8 @@ sub program_stdout_unlike
 }
 
 =head2 program_stderr_is
+
+[version 1.26]
 
  program_stderr_is $expected_stderr, $test_name;
 
@@ -662,6 +674,8 @@ sub program_stderr_is
 
 =head2 program_stderr_isnt
 
+[version 1.26]
+
  program_stderr_is $expected_stderr, $test_name;
 
 Tests if the output to stderr from the previous L</program_runs> does NOT match the
@@ -678,6 +692,8 @@ sub program_stderr_isnt
 
 =head2 program_stderr_like
 
+[version 1.26]
+
  program_stderr_like $regex, $test_name;
 
 Tests if the output to stderr from the previous L</program_runs> matches the regular
@@ -693,6 +709,8 @@ sub program_stderr_like
 }
 
 =head2 program_stderr_unlike
+
+[version 1.26]
 
  program_stderr_unlike $regex, $test_name;
 
