@@ -1,3 +1,5 @@
 /Test-Script-*
 /.build
 *.swp
+*.tmp
+*.html
