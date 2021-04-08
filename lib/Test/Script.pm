@@ -59,6 +59,7 @@ our @ISA     = 'Exporter';
 our @EXPORT  = qw{
   script_compiles
   script_compiles_ok
+  script_fails
   script_runs
   script_stdout_is
   script_stdout_isnt
@@ -68,6 +69,7 @@ our @EXPORT  = qw{
   script_stderr_isnt
   script_stderr_like
   script_stderr_unlike
+  program_fails
   program_runs
   program_stdout_is
   program_stdout_isnt
@@ -311,6 +313,21 @@ sub script_runs {
   unshift @_, "Script $unix runs" unless $_[0];
   unshift @_, $cmd, $opt;
   goto &_run;
+}
+
+=head2 script_fails
+
+L</script_runs> may be invoked as L</script_fails>. The exit option is mandatory when used this way. Since Perl 5.12, C<die> usually returns 255, but does not promise to do so. Fatal errors like divide by 0 also return 255 often so it is not the best error code for a trapped exception. L<script_runs> needs an exit code it considers success, use C<warn; exit;> instead of die.
+
+=cut
+
+sub script_fails {
+  my $args   = _script(shift);
+  my ( $opt, $testname ) = @_;
+  die "exit is a mandatory option for script_fails"
+    unless eval{ defined $opt->{exit} };
+  $testname = "Script $args->[0] fails" unless defined $testname;
+  script_runs( $args, $opt, $testname );
 }
 
 # Run a script or program and provide test events corresponding to the results.
@@ -578,6 +595,21 @@ sub program_runs {
   unshift @_, "Program $$cmd[0] runs" unless $_[0];
   unshift @_, $cmd, $opt;
   goto &_run;
+}
+
+=head2 program_fails
+
+L</program_runs> may be invoked as L</program_fails>. Unlike L</script_fails> which defaults to 255 (the exit value for C<die>), L</program_fails> needs to know the expected exit value, so exit becomes a required option. 
+
+=cut
+
+sub program_fails {
+  my $cmd    = _script(shift);
+  my ( $opt, $testname ) = @_;
+  die "exit is a mandatory option for program_fails"
+    unless eval{ defined $opt->{exit} };
+  $testname = 'program_fails' unless defined $testname;
+  program_runs( $cmd, $opt, $testname );
 }
 
 =head2 program_stdout_is
