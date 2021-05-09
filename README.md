@@ -139,6 +139,22 @@ You may pass in options as a hash as the second argument (as of version 1.09).
 
     Same as `stdout` above, except for stderr.
 
+## script\_fails
+
+\[ version 1.28 \]
+
+```perl
+script_fails $script, { exit => $expected_exit }, $test_name );
+script_fails $script, \%options, $test_name;
+```
+
+["script\_runs"](#script_runs) may be invoked as ["script\_fails"](#script_fails). The exit option is
+mandatory when used this way. Since Perl 5.12, `die` usually returns 255,
+but does not promise to do so. Fatal errors like divide by 0 also return
+255 often so it is not the best error code for a trapped exception.
+[script\_runs](https://metacpan.org/pod/script_runs) needs an exit code it considers success, use `warn; exit;`
+instead of die.
+
 ## script\_stdout\_is
 
 ```
@@ -248,6 +264,18 @@ See [File::Spec](https://metacpan.org/pod/File::Spec) or [Path::Class](https://m
 in a cross-platform way.
 
 This function was added in version 1.26.
+
+## program\_fails
+
+\[ version 1.28 \]
+
+```perl
+program_fails $program, { exit => $expected_exit }, $test_name;
+program_fails $program, \%options, $test_name;
+```
+
+["program\_runs"](#program_runs) may be invoked as ["program\_fails"](#program_fails). ["program\_fails"](#program_fails)
+needs to know the expected exit value, so exit becomes a required option.
 
 ## program\_stdout\_is
 

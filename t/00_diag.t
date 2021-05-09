@@ -16,6 +16,7 @@ $modules{$_} = $_ for qw(
   IO::Handle
   Probe::Perl
   Test2::API
+  Test2::Tools::Exception
   Test2::V0
   Text::ParseWords
 );
