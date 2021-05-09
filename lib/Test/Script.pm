@@ -317,8 +317,15 @@ sub script_runs {
 
 =head2 script_fails
 
-L</script_runs> may be invoked as L</script_fails>. The exit option is mandatory when used this way. Since Perl 5.12, C<die> usually returns 255, but does not promise to do so. Fatal errors like divide by 0 also return 255 often so it is not the best error code for a trapped exception. L<script_runs> needs an exit code it considers success, use C<warn; exit;> instead of die.
+[ version 1.28 ]
 
+ script_fails $script, { exit => $expected_exit }, $test_name );
+ script_fails $script, \%options, $test_name;
+
+L</script_runs> may be invoked as L</script_fails>. The exit option is mandatory when used this way. Since
+Perl 5.12, C<die> usually returns 255, but does not promise to do so. Fatal errors like divide by 0 also return
+255 often so it is not the best error code for a trapped exception. L<script_runs> needs an exit code it considers
+success, use C<warn; exit;> instead of die.
 =cut
 
 sub script_fails {
