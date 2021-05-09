@@ -1,4 +1,4 @@
-# Test::Script [![Build Status](https://api.travis-ci.com/plicease/Test-Script.svg?branch=main)](https://travis-ci.com/github/plicease/Test-Script) ![windows](https://github.com/plicease/Test-Script/workflows/windows/badge.svg) ![macos](https://github.com/plicease/Test-Script/workflows/macos/badge.svg)
+# Test::Script ![linux](https://github.com/uperl/Test-Script/workflows/linux/badge.svg) ![macos](https://github.com/uperl/Test-Script/workflows/macos/badge.svg) ![windows](https://github.com/uperl/Test-Script/workflows/windows/badge.svg) ![cygwin](https://github.com/uperl/Test-Script/workflows/cygwin/badge.svg) ![msys2-mingw](https://github.com/uperl/Test-Script/workflows/msys2-mingw/badge.svg)
 
 Basic cross-platform tests for scripts
 
@@ -43,6 +43,8 @@ platform safety, this module will err on the side of platform safety.
 
 ## script\_compiles
 
+\[version 1.05\]
+
 ```
 script_compiles( $script, $test_name );
 ```
@@ -58,9 +60,9 @@ Note also that the test will be run with the same [perl](https://metacpan.org/po
 is running the test script (and not with the default system perl). This
 will also be shown in the diagnostic output on failure.
 
-This function was added in version 1.05.
-
 ## script\_runs
+
+\[version 1.05\]
 
 ```
 script_runs( $script, $test_name );
@@ -80,7 +82,7 @@ The test will be run with the same [perl](https://metacpan.org/pod/perl) interpr
 test script (and not with the default system perl). This will also be shown
 in the diagnostic output on failure.
 
-This function was added in version 1.05.
+\[version 1.09\]
 
 You may pass in options as a hash as the second argument (as of version 1.09).
 
@@ -91,11 +93,11 @@ You may pass in options as a hash as the second argument (as of version 1.09).
 
 - interpreter\_options
 
+    \[version 1.25\]
+
     Array reference of Perl options to be passed to the interpreter.  Things
     like `-w` or `-x` can be passed this way.  This may be either a single
     string or an array reference.
-
-    This option was added in version 1.25.
 
 - signal
 
@@ -157,6 +159,8 @@ instead of die.
 
 ## script\_stdout\_is
 
+\[version 1.09\]
+
 ```
 script_stdout_is $expected_stdout, $test_name;
 ```
@@ -164,9 +168,9 @@ script_stdout_is $expected_stdout, $test_name;
 Tests if the output to stdout from the previous ["script\_runs"](#script_runs) matches the
 expected value exactly.
 
-This function was added in version 1.09.
-
 ## script\_stdout\_isnt
+
+\[version 1.09\]
 
 ```
 script_stdout_is $expected_stdout, $test_name;
@@ -175,9 +179,9 @@ script_stdout_is $expected_stdout, $test_name;
 Tests if the output to stdout from the previous ["script\_runs"](#script_runs) does NOT match the
 expected value exactly.
 
-This function was added in version 1.09.
-
 ## script\_stdout\_like
+
+\[version 1.09\]
 
 ```
 script_stdout_like $regex, $test_name;
@@ -186,9 +190,9 @@ script_stdout_like $regex, $test_name;
 Tests if the output to stdout from the previous ["script\_runs"](#script_runs) matches the regular
 expression.
 
-This function was added in version 1.09.
-
 ## script\_stdout\_unlike
+
+\[version 1.09\]
 
 ```
 script_stdout_unlike $regex, $test_name;
@@ -197,9 +201,9 @@ script_stdout_unlike $regex, $test_name;
 Tests if the output to stdout from the previous ["script\_runs"](#script_runs) does NOT match the regular
 expression.
 
-This function was added in version 1.09.
-
 ## script\_stderr\_is
+
+\[version 1.09\]
 
 ```
 script_stderr_is $expected_stderr, $test_name;
@@ -208,9 +212,9 @@ script_stderr_is $expected_stderr, $test_name;
 Tests if the output to stderr from the previous ["script\_runs"](#script_runs) matches the
 expected value exactly.
 
-This function was added in version 1.09.
-
 ## script\_stderr\_isnt
+
+\[version 1.09\]
 
 ```
 script_stderr_is $expected_stderr, $test_name;
@@ -219,9 +223,9 @@ script_stderr_is $expected_stderr, $test_name;
 Tests if the output to stderr from the previous ["script\_runs"](#script_runs) does NOT match the
 expected value exactly.
 
-This function was added in version 1.09.
-
 ## script\_stderr\_like
+
+\[version 1.09\]
 
 ```
 script_stderr_like $regex, $test_name;
@@ -230,9 +234,9 @@ script_stderr_like $regex, $test_name;
 Tests if the output to stderr from the previous ["script\_runs"](#script_runs) matches the regular
 expression.
 
-This function was added in version 1.09.
-
 ## script\_stderr\_unlike
+
+\[version 1.09\]
 
 ```
 script_stderr_unlike $regex, $test_name;
@@ -241,9 +245,9 @@ script_stderr_unlike $regex, $test_name;
 Tests if the output to stderr from the previous ["script\_runs"](#script_runs) does NOT match the regular
 expression.
 
-This function was added in version 1.09.
-
 ## program\_runs
+
+\[version 1.26\]
 
 ```
 program_runs( $program, $test_name );
@@ -263,21 +267,9 @@ that it returns success.  This function works like ["script\_runs"](#script_runs
 See [File::Spec](https://metacpan.org/pod/File::Spec) or [Path::Class](https://metacpan.org/pod/Path::Class) for routines useful in building pathnames
 in a cross-platform way.
 
-This function was added in version 1.26.
-
-## program\_fails
-
-\[ version 1.28 \]
-
-```perl
-program_fails $program, { exit => $expected_exit }, $test_name;
-program_fails $program, \%options, $test_name;
-```
-
-["program\_runs"](#program_runs) may be invoked as ["program\_fails"](#program_fails). ["program\_fails"](#program_fails)
-needs to know the expected exit value, so exit becomes a required option.
-
 ## program\_stdout\_is
+
+\[version 1.26\]
 
 ```
 program_stdout_is $expected_stdout, $test_name;
@@ -288,6 +280,8 @@ expected value exactly.
 
 ## program\_stdout\_isnt
 
+\[version 1.26\]
+
 ```
 program_stdout_is $expected_stdout, $test_name;
 ```
@@ -296,6 +290,8 @@ Tests if the output to stdout from the previous ["program\_runs"](#program_runs)
 expected value exactly.
 
 ## program\_stdout\_like
+
+\[version 1.26\]
 
 ```
 program_stdout_like $regex, $test_name;
@@ -306,6 +302,8 @@ expression.
 
 ## program\_stdout\_unlike
 
+\[version 1.26\]
+
 ```
 program_stdout_unlike $regex, $test_name;
 ```
@@ -314,6 +312,8 @@ Tests if the output to stdout from the previous ["program\_runs"](#program_runs)
 expression.
 
 ## program\_stderr\_is
+
+\[version 1.26\]
 
 ```
 program_stderr_is $expected_stderr, $test_name;
@@ -324,6 +324,8 @@ expected value exactly.
 
 ## program\_stderr\_isnt
 
+\[version 1.26\]
+
 ```
 program_stderr_is $expected_stderr, $test_name;
 ```
@@ -333,6 +335,8 @@ expected value exactly.
 
 ## program\_stderr\_like
 
+\[version 1.26\]
+
 ```
 program_stderr_like $regex, $test_name;
 ```
@@ -341,6 +345,8 @@ Tests if the output to stderr from the previous ["program\_runs"](#program_runs)
 expression.
 
 ## program\_stderr\_unlike
+
+\[version 1.26\]
 
 ```
 program_stderr_unlike $regex, $test_name;
@@ -376,7 +382,7 @@ Chris White <cxw@cpan.org>
 
 # COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2019 by Adam Kennedy.
+This software is copyright (c) 2006-2021 by Adam Kennedy.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
