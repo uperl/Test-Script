@@ -329,7 +329,8 @@ sub script_fails {
   die "exit is a mandatory option for script_fails"
     unless eval{ defined $opt->{exit} };
   $testname = "Script $args->[0] fails" unless defined $testname;
-  script_runs( $args, $opt, $testname );
+  my $ctx = context();
+  return release $ctx, script_runs( $args, $opt, $testname );
 }
 
 # Run a script or program and provide test events corresponding to the results.
