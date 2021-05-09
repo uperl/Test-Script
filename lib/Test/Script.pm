@@ -7,12 +7,12 @@ package Test::Script;
 
  use Test2::V0;
  use Test::Script;
- 
+
  script_compiles('script/myscript.pl');
  script_runs(['script/myscript.pl', '--my-argument']);
- 
+
  program_runs(['ls', '/dev']);
- 
+
  done_testing;
 
 =head1 DESCRIPTION
@@ -324,18 +324,21 @@ sub script_runs {
  script_fails $script, { exit => $expected_exit }, $test_name );
  script_fails $script, \%options, $test_name;
 
-L</script_runs> may be invoked as L</script_fails>. The exit option is mandatory when used this way. Since
-Perl 5.12, C<die> usually returns 255, but does not promise to do so. Fatal errors like divide by 0 also return
-255 often so it is not the best error code for a trapped exception. L<script_runs> needs an exit code it considers
-success, use C<warn; exit;> instead of die.
+L</script_runs> may be invoked as L</script_fails>. The exit option is
+mandatory when used this way. Since Perl 5.12, C<die> usually returns 255,
+but does not promise to do so. Fatal errors like divide by 0 also return
+255 often so it is not the best error code for a trapped exception.
+L<script_runs> needs an exit code it considers success, use C<warn; exit;>
+instead of die.
+
 =cut
 
 sub script_fails {
   my $args   = _script(shift);
   my ( $opt, $testname ) = @_;
+  $testname = "Script $args->[0] fails" unless defined $testname;
   die "exit is a mandatory option for script_fails"
     unless eval{ defined $opt->{exit} };
-  $testname = "Script $args->[0] fails" unless defined $testname;
   my $ctx = context();
   return release $ctx, script_runs( $args, $opt, $testname );
 }
@@ -614,19 +617,19 @@ sub program_runs {
  program_fails $program, { exit => $expected_exit }, $test_name;
  program_fails $program, \%options, $test_name;
 
-L</program_runs> may be invoked as L</program_fails>. Unlike L</script_fails> which defaults to 255
- (the exit value for C<die>), L</program_fails> needs to know the expected exit value, so exit becomes a
- required option. 
+L</program_runs> may be invoked as L</program_fails>. L</program_fails>
+needs to know the expected exit value, so exit becomes a required option.
 
 =cut
 
 sub program_fails {
   my $cmd    = _script(shift);
   my ( $opt, $testname ) = @_;
+  $testname = 'program_fails' unless defined $testname;
   die "exit is a mandatory option for program_fails"
     unless eval{ defined $opt->{exit} };
-  $testname = 'program_fails' unless defined $testname;
-  program_runs( $cmd, $opt, $testname );
+  my $ctx = context();
+  return release $ctx, program_runs( $cmd, $opt, $testname );
 }
 
 =head2 program_stdout_is
