@@ -601,7 +601,14 @@ sub program_runs {
 
 =head2 program_fails
 
-L</program_runs> may be invoked as L</program_fails>. Unlike L</script_fails> which defaults to 255 (the exit value for C<die>), L</program_fails> needs to know the expected exit value, so exit becomes a required option. 
+[ version 1.28 ]
+
+ program_fails $program, { exit => $expected_exit }, $test_name;
+ program_fails $program, \%options, $test_name;
+
+L</program_runs> may be invoked as L</program_fails>. Unlike L</script_fails> which defaults to 255
+ (the exit value for C<die>), L</program_fails> needs to know the expected exit value, so exit becomes a
+ required option. 
 
 =cut
 
