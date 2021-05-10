@@ -7,12 +7,12 @@ package Test::Script;
 
  use Test2::V0;
  use Test::Script;
-
+ 
  script_compiles('script/myscript.pl');
  script_runs(['script/myscript.pl', '--my-argument']);
-
+ 
  program_runs(['ls', '/dev']);
-
+ 
  done_testing;
 
 =head1 DESCRIPTION
