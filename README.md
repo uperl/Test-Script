@@ -392,6 +392,8 @@ Brendan Byrd
 
 Chris White <cxw@cpan.org>
 
+John Karr (BRAINBUZ)
+
 # COPYRIGHT AND LICENSE
 
 This software is copyright (c) 2006-2021 by Adam Kennedy.
