@@ -15,8 +15,8 @@ subtest 'script_fails' => sub {
   my $events;
 
   is(
-    $events = intercept { 
-      $rv = script_fails( ['t/bin/liveordie.pl', 'fail', 111 ], { exit => 111 }) },   
+    $events = intercept {
+      $rv = script_fails( ['t/bin/liveordie.pl', 'fail', 111 ], { exit => 111 }) },
     array {
       event Ok => sub {
         call pass => T();
@@ -27,11 +27,11 @@ subtest 'script_fails' => sub {
     'script that failes with expected exit code passes .',
   );
 
-  $events = intercept { 
+  $events = intercept {
     $rv = script_fails('t/bin/liveordie.pl', {exit=>255})};
   is( $events->[0]{pass}, 0, 'script that lives fails script_fails');
 
-};  
+};
 
 subtest exception => sub {
   my $events;
@@ -40,11 +40,11 @@ subtest exception => sub {
   is( $events->[0]{pass}, 0, 'missing program failed for program_fails');
 
   like (
-    dies { 
+    dies {
       script_fails( ['t/bin/liveordie.pl', 'die' ], undef, 'test named X') },
     qr/exit is a mandatory option/,
     'exit is a mandatory option for script_fails'
-  ); 
+  );
 
   like (
     dies { program_fails( [$perl, 't/bin/missing.pl'], 'test named X' ) },
