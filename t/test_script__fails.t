@@ -3,7 +3,6 @@ use Test::Script;
 use File::Temp qw( tempdir );
 use Data::Dumper qw( Dumper );
 use Probe::Perl;
-use Test2::Tools::Exception qw/dies lives/;
 
 # Use the Perl interpreter as the program since it's the only one we know
 # exists.  The files in t/bin do not use any modules, so we don't have
