@@ -2,6 +2,9 @@ Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
 
+1.29      2021-05-13 09:17:30 -0600
+  - Production release identical to 1.28_01 release.
+
 1.28_01   2021-05-10 10:12:22 -0600
   - Added script_fails and program_fails functions (brainbuz++ gh#34, gh#38)
 
