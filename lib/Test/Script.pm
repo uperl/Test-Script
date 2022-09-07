@@ -33,7 +33,7 @@ considered unacceptable.
 
 In doing so, it is hoped that B<Test::Script> can become a module that
 you can safely make a dependency of all your modules, without risking that
-your module won't on some platform because of the dependency.
+your module won't install on some platform because of the dependency.
 
 Where a clash exists between wanting more functionality and maintaining
 platform safety, this module will err on the side of platform safety.
