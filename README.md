@@ -34,7 +34,7 @@ considered unacceptable.
 
 In doing so, it is hoped that **Test::Script** can become a module that
 you can safely make a dependency of all your modules, without risking that
-your module won't on some platform because of the dependency.
+your module won't install on some platform because of the dependency.
 
 Where a clash exists between wanting more functionality and maintaining
 platform safety, this module will err on the side of platform safety.
@@ -396,7 +396,7 @@ John Karr (BRAINBUZ)
 
 # COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2006-2021 by Adam Kennedy.
+This software is copyright (c) 2006-2022 by Adam Kennedy.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
