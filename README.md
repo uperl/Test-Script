@@ -1,4 +1,4 @@
-# Test::Script ![linux](https://github.com/uperl/Test-Script/workflows/linux/badge.svg) ![macos](https://github.com/uperl/Test-Script/workflows/macos/badge.svg) ![windows](https://github.com/uperl/Test-Script/workflows/windows/badge.svg) ![cygwin](https://github.com/uperl/Test-Script/workflows/cygwin/badge.svg) ![msys2-mingw](https://github.com/uperl/Test-Script/workflows/msys2-mingw/badge.svg)
+# Test::Script ![linux](https://github.com/uperl/Test-Script/workflows/linux/badge.svg) ![macos](https://github.com/uperl/Test-Script/workflows/macos/badge.svg) ![windows](https://github.com/uperl/Test-Script/workflows/windows/badge.svg) ![msys2-mingw](https://github.com/uperl/Test-Script/workflows/msys2-mingw/badge.svg)
 
 Basic cross-platform tests for scripts
 
@@ -396,7 +396,7 @@ John Karr (BRAINBUZ)
 
 # COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2006-2022 by Adam Kennedy.
+This software is copyright (c) 2006-2024 by Adam Kennedy.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
