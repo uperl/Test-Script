@@ -2,4 +2,5 @@
 /.build
 *.swp
 *.tmp
-*.html
+*.html*.old
+*.orig
