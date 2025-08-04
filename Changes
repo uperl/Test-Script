@@ -1,6 +1,8 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
+
+1.30      2025-08-04 14:01:25 -0600
   - Documentation improvements (#42)
   - Fix bug where implicit function export would happen regardless of which
     functions were explicitly exported (gh#45, gh#46)
