@@ -82,7 +82,7 @@ our @EXPORT  = qw{
 };
 
 sub import {
-  my $self = shift;
+  my $class = shift;
   my $pack = caller;
   if(defined $_[0] && $_[0] =~ /^(?:no_plan|skip_all|tests)$/)
   {
@@ -104,7 +104,7 @@ sub import {
     $ctx->release;
   }
   foreach ( @EXPORT ) {
-    $self->export_to_level(1, $self, $_);
+    $class->export_to_level(1, $class, $_);
   }
 }
 
