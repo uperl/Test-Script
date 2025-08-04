@@ -1,4 +1,4 @@
-# Test::Script ![linux](https://github.com/uperl/Test-Script/workflows/linux/badge.svg) ![macos](https://github.com/uperl/Test-Script/workflows/macos/badge.svg) ![windows](https://github.com/uperl/Test-Script/workflows/windows/badge.svg)
+# Test::Script ![linux](https://github.com/uperl/Test-Script/workflows/linux/badge.svg)
 
 Basic cross-platform tests for scripts
 
