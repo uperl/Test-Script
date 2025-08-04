@@ -46,7 +46,7 @@ use 5.008001;
 use strict;
 use warnings;
 use Carp qw( croak );
-use Exporter;
+use Exporter ();
 use File::Spec;
 use File::Spec::Unix;
 use Probe::Perl;
@@ -103,8 +103,10 @@ sub import {
     }
     $ctx->release;
   }
-  foreach ( @EXPORT ) {
-    $class->export_to_level(1, $class, $_);
+  else
+  {
+    unshift @_, $class;
+    goto &Exporter::import;
   }
 }
 
