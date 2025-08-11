@@ -1,6 +1,8 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
+
+1.31      2025-08-11 12:07:41 -0600
   - Fix bug introduced in 1.30 where exports were not happening correctly
     in legacy mode (gh#47)
 
