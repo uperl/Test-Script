@@ -102,6 +102,9 @@ sub import {
       $ctx->hub->plan('NO PLAN');
     }
     $ctx->release;
+    foreach ( @EXPORT ) {
+      $class->export_to_level(1, $class, $_);
+    }
   }
   else
   {
